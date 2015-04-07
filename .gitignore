@@ -1,0 +1,39 @@
+# Numerous always-ignore extensions
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.vi
+*~
+*.sass-cache
+*.css.map
+*.js.map
+
+# OS or Editor folders
+.DS_Store
+.cache
+.project
+.settings
+.tmproj
+nbproject
+Thumbs.db
+
+# Packages folder.
+node_modules/
+
+# Brunch folder for temporary files.
+tmp/
+
+# The dist folder
+dist/
+
+# the dev folder
+dev/
+
+# except jspm config
+building-models.sublime-workspace
+*.sublime-project
+*.sublime-workspace
