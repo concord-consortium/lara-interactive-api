@@ -17,6 +17,19 @@ gulp.task('browserify-app', function(){
     .pipe(gulp.dest(config.app.dest));
 });
 
+gulp.task('browserify-iframe', function(){
+  var b = browserify({
+    debug: !production,
+    extensions: ['.coffee']
+  });
+  b.transform(coffeeify);
+  b.add(config.iframe.src);
+  return b.bundle()
+    .pipe(source('iframe.js'))
+    .pipe(gulp.dest(config.app.dest));
+});
+
+
 gulp.task('browserify-globals', function(){
   var b = browserify({
     debug: !production
@@ -28,4 +41,4 @@ gulp.task('browserify-globals', function(){
     .pipe(gulp.dest(config.globals.dest));
 });
 
-gulp.task('browserify', ['browserify-app', 'browserify-globals']);
+gulp.task('browserify', ['browserify-app', 'browserify-globals', 'browserify-iframe']);
