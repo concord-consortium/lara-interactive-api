@@ -24,8 +24,8 @@ module.exports = DummyInteractive = (function() {
     "getInteractiveState": {
       "message": 'interactiveState',
       "data": {
-        "some": 'fake',
-        "data": 'boo'
+        "some": "fake",
+        "data": "boo"
       }
     },
     "loadInteractive": false,
@@ -35,6 +35,7 @@ module.exports = DummyInteractive = (function() {
         "opts": "none"
       }
     },
+    "globalLoadState": false,
     "authInfo": false
   };
 
@@ -75,6 +76,18 @@ module.exports = DummyInteractive = (function() {
       return function() {
         l.info('posting getAuthInfo');
         return _this.iframePhone.post("getAuthInfo");
+      };
+    })(this));
+    $('#globalSaveState').click((function(_this) {
+      return function() {
+        var data;
+        l.info('posting globalSaveState');
+        data = {
+          "myGlobal": "state",
+          "being": "saved",
+          "to": "theParent"
+        };
+        return _this.iframePhone.post("globalSaveState", data);
       };
     })(this));
   }

@@ -51,8 +51,11 @@ App = (function() {
       })(this),
       "loadInteractive": (function(_this) {
         return function(e) {
-          l.warn("loadInteractive called");
-          return _this.post("loadInteractive", $('dataOut').val());
+          var obj, value;
+          value = $('#dataOut').val();
+          obj = JSON.parse(value);
+          l.warn("loadInteractive " + value + " called");
+          return _this.post("loadInteractive", obj);
         };
       })(this),
       "getLearnerUrl": (function(_this) {
@@ -65,6 +68,23 @@ App = (function() {
         return function(e) {
           l.warn("getExtendedSupport called");
           return _this.post("getExtendedSupport");
+        };
+      })(this),
+      "getExtendedSupport": (function(_this) {
+        return function(e) {
+          l.warn("getExtendedSupport called");
+          return _this.post("getExtendedSupport");
+        };
+      })(this),
+      "globalLoadState": (function(_this) {
+        return function(e) {
+          var value;
+          value = $('#dataOut').val();
+          if (value.length < 1) {
+            value = "{'fake': 'data', 'for': 'you'}";
+          }
+          l.warn("globalLoadState " + value + " called");
+          return _this.post("globalLoadState", value);
         };
       })(this)
     };
@@ -127,7 +147,8 @@ App = (function() {
         data: "knowuh@gmail.com"
       },
       "extendedSupport": false,
-      "htmlFragResponse": false
+      "htmlFragResponse": false,
+      "globalSaveState": false
     };
     for (inboundMessage in messageHandlers) {
       response = messageHandlers[inboundMessage];
@@ -145,10 +166,10 @@ App = (function() {
 
   App.prototype.post = function(msg, data) {
     if (this.already_setup) {
-      l.info("posting message " + msg);
+      l.info("posting message " + msg + " " + data);
       return this.iframePhone.post(msg, data);
     } else {
-      l.info("queueing message " + msg);
+      l.info("queueing message " + msg + " " + data);
       return this.queue.push({
         'msg': msg,
         'data': data
