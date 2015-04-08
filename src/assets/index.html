@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <title>interactive-api</title>
@@ -7,7 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="build-info" content="__BUILD_INFO__" >
   <link rel="stylesheet" href="css/app.css">
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body>
   <div id='app' class="app">
@@ -22,29 +22,45 @@
         <br/>
         <textarea name='dataIn' id="dataIn"></textarea>
       </div>
-      <div class="field-row">
+
+      <div class="field-row buttons">
         <button class="button" type="button"
                 id="saveInteractive"
-                name="saveInteractive"> Save Interactive State </button>
+                name="saveInteractive">
+        Save Interactive State 
+        </button>
+        
         <button class="button" type="button"
                 id="loadInteractive"
-                name="loadInteractive"> Load Interactive State </button>
+                name="loadInteractive"> 
+        Load Interactive State 
+        </button>
+
         <button class="button" type="button"
                 id="htmlFragRequest"
-                name="htmlFragRequest">Request HTML Fragment</button>
+                name="htmlFragRequest">
+        Request HTML Fragment
+        </button>
+        
         <button class="button" type="button"
                 id="takeSnapshot"
-                name="takeSnapshot">take snapshot</button>
+                name="takeSnapshot">
+        take snapshot
+        </button>
+        
         <button class="button" type="button"
                 id="getLearnerUrl"
-                name="getLearnerUrl">get Learner Url</button>
+                name="getLearnerUrl">
+        get Learner Url
+        </button>
+        
         <button class="button" type="button"
                 id="getExtendedSupport"
-                name="getExtendedSupport">get Extended Support</button>
-        <button class="button" type="button"
-                id="sendAuthInfo"
-                name="sendAuthInfo">Send Auth Info</button>
+                name="getExtendedSupport">
+        Get Extended Support
+        </button>
       </div>
+      
     </div>
     <div class="insert">
       <div class="field-row">
@@ -54,19 +70,17 @@
                 value= "http://lab.concord.org/embeddable.html#interactives/interactions/charge-table-U1-Inv1.json" />
       </div>
       <iframe id="interactive-iframe"
-        width="500px"
-        height="400px"
-        frameborder="no"
-        scrolling="no"
+        width="500"
+        height="400"
         allowfullscreen="true"
-        webkitallowfullscreen="true"
-        mozallowfullscreen="true"
-        src="http://lab.concord.org/embeddable.html#interactives/interactions/charge-table-U1-Inv1.json">
+        scrolling="no"
+        src="iframe.html">
       </iframe>
     </div>
     <div class="bottomTools">
-      <div id='logger'
-      Tools go here yup. Aha fooey
+      <div id='logger'>
+        Log messages go here.
+      </div>
     </div>
   </div>
   <script src="js/globals.js"></script>
