@@ -8,8 +8,37 @@ iframePhone = require('iframe-phone');
 App = (function() {
   function App() {
     this.setUpButtons();
+    this.setupInputWatchers();
     this.restartPhone($("#interactive-iframe"));
   }
+
+  App.prototype.setSource = function(src) {
+    var $iframe, $src;
+    $src = $("#interactiveSource");
+    $iframe = $("#interactive-iframe");
+    this.src = src;
+    $src[0].value = this.src;
+    $iframe.attr('src', this.src);
+    return this.restartPhone($("#interactive-iframe"));
+  };
+
+  App.prototype.setupInputWatchers = function() {
+    var $iframe, $src;
+    $src = $("#interactiveSource");
+    $iframe = $("#interactive-iframe");
+    this.setSource($iframe.attr('src'));
+    $src.change((function(_this) {
+      return function(e) {
+        return _this.setSource(e.target.value);
+      };
+    })(this));
+    return $(".interactiveLink").click((function(_this) {
+      return function(e) {
+        e.preventDefault();
+        return _this.setSource($(e.target).attr('href'));
+      };
+    })(this));
+  };
 
   App.prototype.setUpButtons = function() {
     var action, bindButton, buttonname, buttons, results;
@@ -59,7 +88,8 @@ App = (function() {
 
   App.prototype.restartPhone = function($iframe) {
     if (this.iframePhone) {
-      this.iframePhone.hangup();
+      this.iframePhone.disconnect();
+      this.iframePhone = null;
     }
     this.queue = [];
     this.already_setup = false;
