@@ -16,14 +16,6 @@ class App
         l.warn "loadInteractive called"
         @post "loadInteractive",$('dataOut').val()
       
-      "htmlFragRequest": (e) =>
-        l.warn "htmlFragRequest called"
-        @post "htmlFragRequest"
-      
-      "takeSnapshot": (e) =>
-        l.warn "takeSnapshot called"
-        @post "takeSnapshot"
-      
       "getLearnerUrl": (e) =>
         l.warn "getLearnerUrl called"
         @post "getLearnerUrl"
@@ -31,6 +23,20 @@ class App
       "getExtendedSupport": (e) =>
         l.warn "getExtendedSupport called"
         @post "getExtendedSupport"
+
+      # TODO:      
+      # "htmlFragRequest": (e) =>
+      #   l.warn "htmlFragRequest called"
+      #   @post "htmlFragRequest"
+      
+      # "takeSnapshot": (e) =>
+      #   l.warn "takeSnapshot called"
+      #   @post "takeSnapshot"
+      
+      # TODO:
+      # "lara-logging-present": (e) =>
+      #   l.warn "getExtendedSupport called"
+      #   @iframePhoneRpc.call message: 'lara-logging-present'
     
     bindButton = (name,f) =>
       l.info "binding button: #{name}"
@@ -47,9 +53,11 @@ class App
     @queue = []
     @already_setup  = false
     @iframePhone    = new iframePhone.ParentEndpoint($iframe[0], @phoneAnswered.bind(@))
-    @iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint
-      phone: @iframePhone
-      namespace: 'lara-logging'
+    
+    # TODO: (rpc)
+    # @iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint
+    #   phone: @iframePhone
+    #   namespace: 'lara-logging'
   
   ##
   ##
@@ -95,7 +103,7 @@ class App
       l.info("queueing message #{msg}")
       @queue.push
         'msg': msg
-        'data': data   
+        'data': data
   
 m = new App()
 module.exports = App

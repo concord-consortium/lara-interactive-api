@@ -47,7 +47,7 @@ module.exports = class DummyInteractive
     @iframePhone.initialize()
     l.info("Phone ready")
 
-    # Not sure what to do RPC yet.
+    # TODO: (rpc)
     # @iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint
     #   phone: @iframePhone
     #   namespace: 'lara-logging'
