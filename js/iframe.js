@@ -1,154 +1,89 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var App, iframePhone, l, m;
+var DummyInteractive, iframePhone, l;
 
 l = (require('./log')).instance();
 
 iframePhone = require('iframe-phone');
 
-App = (function() {
-  function App() {
-    this.setUpButtons();
-    this.restartPhone($("#interactive-iframe"));
-  }
+module.exports = DummyInteractive = (function() {
+  DummyInteractive.instances = {};
 
-  App.prototype.setUpButtons = function() {
-    var action, bindButton, buttonname, buttons, results;
-    buttons = {
-      "saveInteractive": (function(_this) {
-        return function(e) {
-          l.warn("saveInteractive called");
-          return _this.post("getInteractiveState");
-        };
-      })(this),
-      "loadInteractive": (function(_this) {
-        return function(e) {
-          l.warn("loadInteractive called");
-          return _this.post("loadInteractive", $('dataOut').val());
-        };
-      })(this),
-      "htmlFragRequest": (function(_this) {
-        return function(e) {
-          l.warn("htmlFragRequest called");
-          return _this.post("htmlFragRequest");
-        };
-      })(this),
-      "takeSnapshot": (function(_this) {
-        return function(e) {
-          l.warn("takeSnapshot called");
-          return _this.post("takeSnapshot");
-        };
-      })(this),
-      "getLearnerUrl": (function(_this) {
-        return function(e) {
-          l.warn("getLearnerUrl called");
-          return _this.post("getLearnerUrl");
-        };
-      })(this),
-      "getExtendedSupport": (function(_this) {
-        return function(e) {
-          l.warn("getExtendedSupport called");
-          return _this.post("getExtendedSupport");
-        };
-      })(this)
-    };
-    bindButton = (function(_this) {
-      return function(name, f) {
-        var $elm;
-        l.info("binding button: " + name);
-        $elm = $("#" + name);
-        return $elm.on("click", function(e) {
-          return f(e);
-        });
-      };
-    })(this);
-    results = [];
-    for (buttonname in buttons) {
-      action = buttons[buttonname];
-      results.push(bindButton(buttonname, action));
+  DummyInteractive.instance = function($iframe) {
+    var base;
+    if ((base = this.instances)[$iframe] == null) {
+      base[$iframe] = new this($iframe);
     }
-    return results;
+    return this.instances[$iframe];
   };
 
-  App.prototype.restartPhone = function($iframe) {
+  DummyInteractive.MessageResponses = {
+    "getLearnerUrl": {
+      "message": 'setLearnerUrl',
+      "data": 'http://blahblah.com'
+    },
+    "getInteractiveState": {
+      "message": 'interactiveState',
+      "data": {
+        "some": 'fake',
+        "data": 'boo'
+      }
+    },
+    "loadInteractive": false,
+    "getExtendedSupport": {
+      "message": "extendedSupport",
+      "data": {
+        "opts": "none"
+      }
+    },
+    "authInfo": false
+  };
+
+  DummyInteractive.prototype.restartIframePhone = function($iframe) {
+    var addHandler, message, ref, response;
     if (this.iframePhone) {
       this.iframePhone.hangup();
+      this.iframePhone = null;
     }
-    this.queue = [];
-    this.already_setup = false;
-    this.iframePhone = new iframePhone.ParentEndpoint($iframe[0], this.phoneAnswered.bind(this));
-    return this.iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint({
-      phone: this.iframePhone,
-      namespace: 'lara-logging'
-    });
-  };
-
-  App.prototype.phoneAnswered = function() {
-    if (this.already_setup) {
-      return l.info("phone rang, but I already answerd");
-    } else {
-      l.info("phone answered");
-      this.already_setup = true;
-      return this.registerHandlers();
-    }
-  };
-
-  App.prototype.registerHandlers = function() {
-    var i, inboundMessage, len, messageHandlers, msg, ref, response, results, setupMessage;
-    setupMessage = (function(_this) {
-      return function(inboundMessage, response) {
-        return _this.iframePhone.addListener(inboundMessage, function(data) {
-          l.info(inboundMessage + " called with: " + data);
-          $('#dataIn').html(JSON.stringify(data, null, "  "));
+    this.iframePhone = new iframePhone.getIFrameEndpoint();
+    addHandler = (function(_this) {
+      return function(message, response) {
+        return _this.iframePhone.addListener(message, function(data) {
+          l.info("Phone call: " + message + ": " + data);
           if (response) {
-            return _this.iframePhone.post(response.message, response.data);
+            _this.iframePhone.post(response.message, response.data);
+            return l.info("Phone responded: " + response.message + " - " + response.data);
           }
         });
       };
     })(this);
-    messageHandlers = {
-      "setLearnerUrl": false,
-      "interactiveState": false,
-      "getAuthInfo": {
-        message: "authInfo",
-        data: "knowuh@gmail.com"
-      },
-      "extendedSupport": false,
-      "htmlFragResponse": false
-    };
-    for (inboundMessage in messageHandlers) {
-      response = messageHandlers[inboundMessage];
-      setupMessage(inboundMessage, response);
+    ref = DummyInteractive.MessageResponses;
+    for (message in ref) {
+      response = ref[message];
+      addHandler(message, response);
     }
-    this.already_setup = true;
-    ref = this.queue;
-    results = [];
-    for (i = 0, len = ref.length; i < len; i++) {
-      msg = ref[i];
-      results.push(this.post(msg.msg, msg.data));
-    }
-    return results;
+    this.iframePhone.initialize();
+    return l.info("Phone ready");
   };
 
-  App.prototype.post = function(msg, data) {
-    if (this.already_setup) {
-      l.info("posting message " + msg);
-      return this.iframePhone.post(msg, data);
-    } else {
-      l.info("queueing message " + msg);
-      return this.queue.push({
-        'msg': msg,
-        'data': data
-      });
-    }
-  };
+  function DummyInteractive() {
+    l.info("Starting the dummy iframe interactive");
+    this.restartIframePhone();
+    $('#clear').click(function() {
+      return $('#logger').html('');
+    });
+    $('#getAuthInfo').click((function(_this) {
+      return function() {
+        l.info('posting getAuthInfo');
+        return _this.iframePhone.post("getAuthInfo");
+      };
+    })(this));
+  }
 
-  return App;
+  return DummyInteractive;
 
 })();
 
-m = new App();
-
-module.exports = App;
+new DummyInteractive();
 
 
 
