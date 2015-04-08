@@ -7,44 +7,42 @@ module.exports = class PhoneHelper
     @instances[$iframe] ?= new @ $iframe
     @instances[$iframe]
 
-  @KNOWN_PARENT_MSGS = "setLearnerUrl interactiveState
-    getAuthInfo extendedSupport htmlFragResponse".split /\s+/
+  @MessagesFromInteractives =
+    "setLearnerUrl": false
+    "interactiveState": false
+    "getAuthInfo":
+      message: "authInfo"
+      data: "knowuh@gmail.com"
+    "extendedSupport": false
+    "htmlFragResponse": false
 
-  restart: ($iframe) ->
+  restartPhone: ($iframe) ->
     if @iframePhone
       @iframePhone.hangup()
-    @listeners = {}
     @queue = []
     @already_setup  = false
-    @iframePhone    = new iframePhone.ParentEndpoint($iframe[0], @phone_answered.bind(@))
+    @iframePhone    = new iframePhone.ParentEndpoint($iframe[0], @phoneAnswered.bind(@))
     @iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint
       phone: @iframePhone
       namespace: 'lara-logging'
 
   constructor: ($iframe) ->
-    @restart($iframe)
+    @restartPhone($iframe)
 
-  handlePhoneMessage: (msg, data, args)->
-    l.info "#{msg} called with: #{data}"
-    $('#dataIn').html JSON.stringify(data, null, "  ")
-    if @listeners[msg]
-      listener(msg, data) for listener in @listeners[msg]
-    
-  addListener: (msg, func) ->
-    @listeners[msg] ?= []
-    @listeners[msg].push func
-
-  phone_answered: ->
+  phoneAnswered: ->
     l.info("phone answered")
     if @already_setup
       return
     else
       @already_setup = true
-      setupMessage = (parentMessage) =>
-        @iframePhone.addListener parentMessage, (data) =>
-          @handlePhoneMessage(parentMessage, data, arguments)
+      setupMessage = (inboundMessage, response) =>
+        @iframePhone.addListener inboundMessage, (data) =>
+          l.info "#{inboundMessage} called with: #{data}"
+          $('#dataIn').html JSON.stringify(data, null, "  ")
+          if response
+            @iframePhone.post(response.message,response.data)
 
-      setupMessage(parentMessage) for parentMessage in PhoneHelper.KNOWN_PARENT_MSGS
+      setupMessage(inboundMessage,response) for inboundMessage,response of PhoneHelper.MessagesFromInteractives
       @already_setup = true
       @post(msg.msg, msg.data) for msg in @queue
 

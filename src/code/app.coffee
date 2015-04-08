@@ -10,27 +10,27 @@ class App
   setUpButtons: () ->
     buttons =
       "saveInteractive": (e) =>
-        l.warn "saveInteractive called in proxy"
+        l.warn "saveInteractive called"
         @phone.post "getInteractiveState"
 
       "loadInteractive": (e) =>
-        l.warn "loadInteractive called in proxy"
+        l.warn "loadInteractive called"
         @phone.post "loadInteractive",$('dataOut').val()
       
       "htmlFragRequest": (e) =>
-        l.warn "htmlFragRequest called in proxy"
+        l.warn "htmlFragRequest called"
         @phone.post "htmlFragRequest"
       
       "takeSnapshot": (e) =>
-        l.warn "takeSnapshot called in proxy"
+        l.warn "takeSnapshot called"
         @phone.post "takeSnapshot"
       
       "getLearnerUrl": (e) =>
-        l.warn "getLearnerUrl called in proxy"
+        l.warn "getLearnerUrl called"
         @phone.post "getLearnerUrl"
       
       "getExtendedSupport": (e) =>
-        l.warn "getExtendedSupport called in proxy"
+        l.warn "getExtendedSupport called"
         @phone.post "getExtendedSupport"
     
     bindButton = (name,f) =>

@@ -7,26 +7,25 @@ module.exports = class DummyInteractive
     @instances[$iframe] ?= new @ $iframe
     @instances[$iframe]
 
-  @MSGS_AND_RESPONSES =
+  @MessageResponses =
     "getLearnerUrl":
       "message": 'setLearnerUrl'
       "data": 'http://blahblah.com'
+    
     "getInteractiveState":
       "message": 'interactiveState'
       "data":
         "some": 'fake'
         "data": 'boo'
+    
     "loadInteractive": false
+
     "getExtendedSupport":
       "message": "extendedSupport"
       "data":
         "opts": "none"
-
-    # This goes the other way
-    # "getAuthInfo":
-    #   "message": "authInfo"
-    #   "data": "knowuh@gmail.com"
-
+    
+    "authInfo": false
     
   restartIframePhone: ($iframe) ->
     if @iframePhone
@@ -41,11 +40,12 @@ module.exports = class DummyInteractive
           @iframePhone.post(response.message, response.data)
           l.info "Phone responded: #{response.message} - #{response.data}"
     
-    for message, response of DummyInteractive.MSGS_AND_RESPONSES
+    for message, response of DummyInteractive.MessageResponses
       addHandler(message,response)
       
 
     @iframePhone.initialize()
+    l.info("Phone ready")
 
     # Not sure what to do RPC yet.
     # @iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint
@@ -57,17 +57,10 @@ module.exports = class DummyInteractive
     @restartIframePhone()
     $('#clear').click () ->
       $('#logger').html('')
+    $('#getAuthInfo').click () =>
+      l.info('posting getAuthInfo')
+      @iframePhone.post("getAuthInfo")
 
-  formatMsg: (msg) ->
-    message = ""
-    try
-      if typeof msg isnt "string"
-        message = JSON.stringify(msg, null, "  ")
-      else
-        message = msg
-      message = "Received message: #{message}"
-    catch error
-      message = "Error: #{error}"
-    message
+  
 
 new DummyInteractive()
