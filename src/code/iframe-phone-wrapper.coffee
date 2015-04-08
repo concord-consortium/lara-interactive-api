@@ -11,7 +11,7 @@ module.exports = class IFramePhoneWrapper
     "
       setLearnerUrl interactiveState getAuthInfo extendedSupport
       htmlFragResponse
-    ".split /\s+/  
+    ".split /\s+/
 
   restart: ($iframe) ->
     if @iframePhone
@@ -24,7 +24,7 @@ module.exports = class IFramePhoneWrapper
 
     @iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint
       phone: @iframePhone
-      namespace: 'lara-logging'  
+      namespace: 'lara-logging'
 
   constructor: ($iframe) ->
     @restart($iframe)
@@ -41,7 +41,7 @@ module.exports = class IFramePhoneWrapper
 
   phone_answered: ->
     l.info("phone answered")
-    return if @already_setup ?
+    return if @already_setup
       @already_setup = true
       setupMessage = (parentMessage) =>
         @iframePhone.addListener parentMessage, (data) =>
@@ -64,7 +64,7 @@ module.exports = class IFramePhoneWrapper
   formatMsg: (msg) ->
     message = ""
     try
-      if typeof msg != "string"
+      if typeof msg isnt "string"
         message = JSON.stringify(msg, null, "  ")
       else
         message = msg
