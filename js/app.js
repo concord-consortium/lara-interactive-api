@@ -26,18 +26,6 @@ App = (function() {
           return _this.post("loadInteractive", $('dataOut').val());
         };
       })(this),
-      "htmlFragRequest": (function(_this) {
-        return function(e) {
-          l.warn("htmlFragRequest called");
-          return _this.post("htmlFragRequest");
-        };
-      })(this),
-      "takeSnapshot": (function(_this) {
-        return function(e) {
-          l.warn("takeSnapshot called");
-          return _this.post("takeSnapshot");
-        };
-      })(this),
       "getLearnerUrl": (function(_this) {
         return function(e) {
           l.warn("getLearnerUrl called");
@@ -75,11 +63,7 @@ App = (function() {
     }
     this.queue = [];
     this.already_setup = false;
-    this.iframePhone = new iframePhone.ParentEndpoint($iframe[0], this.phoneAnswered.bind(this));
-    return this.iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint({
-      phone: this.iframePhone,
-      namespace: 'lara-logging'
-    });
+    return this.iframePhone = new iframePhone.ParentEndpoint($iframe[0], this.phoneAnswered.bind(this));
   };
 
   App.prototype.phoneAnswered = function() {
