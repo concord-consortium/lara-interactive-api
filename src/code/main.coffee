@@ -10,7 +10,7 @@ class Main
 
   setUpButtons: () ->
     buttons = "saveInteractive loadInteractive takeSnapshot
-      htmlFragRequest getLearnerUrl getExtendedSupport sendAuthInfo"
+      htmlFragRequest getLearnerUrl getExtendedSupport"
     .split /\s+/
     
     bindButton = ($$,name) =>
