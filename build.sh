@@ -26,7 +26,7 @@ then
 else
   echo "cloning building-models repo in $DISTDIR"
   rm -rf "$DISTDIR/*" &&\
-  git clone git@github.com:concord-consortium/building-models.git $DISTDIR &&\
+  git clone git@github.com:concord-consortium/lara-interactive-api.git $DISTDIR &&\
   cd $DISTDIR &&\
   echo "checking out gh-pages branch" &&\
   git checkout gh-pages
