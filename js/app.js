@@ -698,32 +698,32 @@ module.exports = IFramePhoneWrapper = (function() {
   };
 
   IFramePhoneWrapper.prototype.phone_answered = function() {
-    var i, j, len, len1, msg, parentMessage, ref, ref1, ref2, results, setupMessage;
+    var i, j, len, len1, msg, parentMessage, ref, ref1, results, setupMessage;
     l.info("phone answered");
-    if ((ref = this.already_setup) != null ? ref : this.already_setup = true) {
-      return;
+    if (this.already_setup) {
+      this.already_setup = true;
+      setupMessage = (function(_this) {
+        return function(parentMessage) {
+          return _this.iframePhone.addListener(parentMessage, function(data) {
+            return _this.handlePhoneMessage(parentMessage, data, arguments);
+          });
+        };
+      })(this);
+      ref = IFramePhoneWrapper.KNOWN_PARENT_MSGS;
+      for (i = 0, len = ref.length; i < len; i++) {
+        parentMessage = ref[i];
+        setupMessage(parentMessage);
+      }
+      this.addWindowListener();
+      this.already_setup = true;
+      ref1 = this.queue;
+      results = [];
+      for (j = 0, len1 = ref1.length; j < len1; j++) {
+        msg = ref1[j];
+        results.push(this.post(msg.msg, msg.data));
+      }
+      return results;
     }
-    setupMessage = (function(_this) {
-      return function(parentMessage) {
-        return _this.iframePhone.addListener(parentMessage, function(data) {
-          return _this.handlePhoneMessage(parentMessage, data, arguments);
-        });
-      };
-    })(this);
-    ref1 = IFramePhoneWrapper.KNOWN_PARENT_MSGS;
-    for (i = 0, len = ref1.length; i < len; i++) {
-      parentMessage = ref1[i];
-      setupMessage(parentMessage);
-    }
-    this.addWindowListener();
-    this.already_setup = true;
-    ref2 = this.queue;
-    results = [];
-    for (j = 0, len1 = ref2.length; j < len1; j++) {
-      msg = ref2[j];
-      results.push(this.post(msg.msg, msg.data));
-    }
-    return results;
   };
 
   IFramePhoneWrapper.prototype.post = function(msg, data) {
