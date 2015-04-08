@@ -4,7 +4,6 @@ Phone = require './iframe-phone-wrapper'
 
 class Main
   constructor: (@x) ->
-    l.info "built with #{@x}"
     @setUpButtons()
     @proxy  = new Proxy()
     @phone = Phone.instance($("#interactive-iframe"))
@@ -14,7 +13,6 @@ class Main
       htmlFragRequest getLearnerUrl getExtendedSupport sendAuthInfo"
     .split /\s+/
     
-    l.info "loading buttons"
     bindButton = ($$,name) =>
       $$.on "click", (e) =>
         @proxy[name](e)
