@@ -15,8 +15,8 @@ module.exports = class DummyInteractive
     "getInteractiveState":
       "message": 'interactiveState'
       "data":
-        "some": 'fake'
-        "data": 'boo'
+        "some": "fake"
+        "data": "boo"
     
     "loadInteractive": false
 
@@ -25,6 +25,8 @@ module.exports = class DummyInteractive
       "data":
         "opts": "none"
     
+    "globalLoadState": false
+
     "authInfo": false
     
   restartIframePhone: ($iframe) ->
@@ -57,10 +59,18 @@ module.exports = class DummyInteractive
     @restartIframePhone()
     $('#clear').click () ->
       $('#logger').html('')
+
     $('#getAuthInfo').click () =>
       l.info('posting getAuthInfo')
       @iframePhone.post("getAuthInfo")
-
+    
+    $('#globalSaveState').click () =>
+      l.info('posting globalSaveState')
+      data =
+        "myGlobal": "state"
+        "being": "saved"
+        "to": "theParent"
+      @iframePhone.post("globalSaveState", data)
   
 
 new DummyInteractive()

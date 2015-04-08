@@ -33,8 +33,10 @@ class App
         @post "getInteractiveState"
 
       "loadInteractive": (e) =>
-        l.warn "loadInteractive called"
-        @post "loadInteractive",$('dataOut').val()
+        value = $('#dataOut').val()
+        obj = JSON.parse(value) # TODO This has to be an object...
+        l.warn "loadInteractive #{value} called"
+        @post "loadInteractive", obj
       
       "getLearnerUrl": (e) =>
         l.warn "getLearnerUrl called"
@@ -43,6 +45,17 @@ class App
       "getExtendedSupport": (e) =>
         l.warn "getExtendedSupport called"
         @post "getExtendedSupport"
+
+      "getExtendedSupport": (e) =>
+        l.warn "getExtendedSupport called"
+        @post "getExtendedSupport"
+
+      "globalLoadState": (e) =>
+        value = $('#dataOut').val()
+        if value.length < 1
+          value = "{'fake': 'data', 'for': 'you'}"
+        l.warn "globalLoadState #{value} called"
+        @post "globalLoadState", value
 
       # TODO:
       # "htmlFragRequest": (e) =>
@@ -108,7 +121,7 @@ class App
         data: "knowuh@gmail.com"
       "extendedSupport": false
       "htmlFragResponse": false
-
+      "globalSaveState": false
     setupMessage(inboundMessage,response) for inboundMessage,response of messageHandlers
     @already_setup = true
     @post(msg.msg, msg.data) for msg in @queue
@@ -118,10 +131,10 @@ class App
   ##
   post: (msg,data) ->
     if @already_setup
-      l.info("posting message #{msg}")
+      l.info("posting message #{msg} #{data}")
       @iframePhone.post(msg,data)
     else
-      l.info("queueing message #{msg}")
+      l.info("queueing message #{msg} #{data}")
       @queue.push
         'msg': msg
         'data': data
