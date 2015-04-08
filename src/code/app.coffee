@@ -24,7 +24,7 @@ class App
         l.warn "getExtendedSupport called"
         @post "getExtendedSupport"
 
-      # TODO:      
+      # TODO:
       # "htmlFragRequest": (e) =>
       #   l.warn "htmlFragRequest called"
       #   @post "htmlFragRequest"
