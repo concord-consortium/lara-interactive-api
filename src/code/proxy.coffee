@@ -1,5 +1,5 @@
 l = (require './log').instance()
-Phone = require './iframe-phone-wrapper'
+Phone = require './phone-helper'
 
 module.exports =  class Proxy
   constructor: () ->

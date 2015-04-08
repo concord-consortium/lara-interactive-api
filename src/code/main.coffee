@@ -1,6 +1,6 @@
 l = (require './log').instance()
 Proxy = require './proxy'
-Phone = require './iframe-phone-wrapper'
+Phone = require './phone-helper'
 
 class Main
   constructor: (@x) ->
