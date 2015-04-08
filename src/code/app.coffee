@@ -4,7 +4,27 @@ iframePhone = require 'iframe-phone'
 class App
   constructor: () ->
     @setUpButtons()
+    @setupInputWatchers()
     @restartPhone($("#interactive-iframe"))
+    
+  setSource: (src) ->
+    $src    = $("#interactiveSource")
+    $iframe = $("#interactive-iframe")
+    @src = src
+    $src[0].value = @src
+    $iframe.attr('src', @src)
+    @restartPhone($("#interactive-iframe"))
+
+  setupInputWatchers: () ->
+    $src    = $("#interactiveSource")
+    $iframe = $("#interactive-iframe")
+    @setSource($iframe.attr('src'))
+    $src.change (e) =>
+      @setSource(e.target.value)
+    $(".interactiveLink").click (e) =>
+      e.preventDefault()
+      @setSource($(e.target).attr('href'))
+
 
   setUpButtons: () ->
     buttons =
@@ -49,10 +69,11 @@ class App
   ##
   restartPhone: ($iframe) ->
     if @iframePhone
-      @iframePhone.hangup()
+      @iframePhone.disconnect()
+      @iframePhone = null
     @queue = []
     @already_setup  = false
-    @iframePhone    = new iframePhone.ParentEndpoint($iframe[0], @phoneAnswered.bind(@))
+    @iframePhone = new iframePhone.ParentEndpoint($iframe[0], @phoneAnswered.bind(@))
     
     # TODO: (rpc)
     # @iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint
