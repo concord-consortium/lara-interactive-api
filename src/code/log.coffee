@@ -7,8 +7,10 @@ class Log
     @_instance
   constructor: (@log="#logger", @out="#dataOut", @in="#dataIn") ->
   warn: (message) ->
-    $(@log).prepend message
-    $(@log).prepend "<br/>"
+    $log = $(@log)
+    $msg = $ "<span class='logmsg'>#{message}</span><br/>"
+    $log.append($msg)
+    $log[0].scrollTop = $log[0].scrollHeight
     log.warn message
   info: (m) ->
     @warn(m)
