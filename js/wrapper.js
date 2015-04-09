@@ -1,102 +1,158 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var MockInteractive, iframePhone, l;
+var Wrapper, iframePhone, l;
 
 l = (require('./log')).instance();
 
 iframePhone = require('iframe-phone');
 
-module.exports = MockInteractive = (function() {
-  MockInteractive.instances = {};
+module.exports = Wrapper = (function() {
+  function Wrapper(id) {
+    this.runtimePhone = new iframePhone.getIFrameEndpoint();
+    this.registerHandlers(this.runtimePhone, this.runtimeHandlers());
+    this.updateRuntimeDataSchedule = false;
+    this.updateInterval = 500;
+    this.datasetName = 'prediction-dataset';
+    this.globalStateKey = "prediction-global-datast";
+    this.runtimePhone.initialize();
+    this.interactivePhone = new iframePhone.ParentEndpoint($(id)[0], (function(_this) {
+      return function() {
+        return _this.interactivePhoneAnswered();
+      };
+    })(this));
+    l.info("Runtime Phone ready");
+  }
 
-  MockInteractive.instance = function($iframe) {
-    var base;
-    if ((base = this.instances)[$iframe] == null) {
-      base[$iframe] = new this($iframe);
+  Wrapper.prototype.scheduleDataUpdate = function() {
+    var func;
+    if (this.updateRuntimeDataSchedule) {
+      clearTimeout(this.updateRuntimeDataSchedule);
     }
-    return this.instances[$iframe];
+    func = (function(_this) {
+      return function() {
+        _this.interactivePhone.post('getDataset', _this.datasetName);
+        return _this.updateRuntimeDataSchedule = false;
+      };
+    })(this);
+    return this.updateRuntimeDataSchedule = setTimeout(func, this.updateInterval);
   };
 
-  MockInteractive.MessageResponses = {
-    "getLearnerUrl": {
-      "message": 'setLearnerUrl',
-      "data": 'http://blahblah.com'
-    },
-    "getInteractiveState": {
-      "message": 'interactiveState',
-      "data": {
-        "some": "fake",
-        "data": "boo"
-      }
-    },
-    "loadInteractive": false,
-    "getExtendedSupport": {
-      "message": "extendedSupport",
-      "data": {
-        "opts": "none"
-      }
-    },
-    "globalLoadState": false,
-    "authInfo": false
+  Wrapper.prototype.runtimeHandlers = function() {
+    return {
+      "globalLoadState": (function(_this) {
+        return function(data) {
+          var key, myData;
+          key = _this.globalStateKey;
+          myData = JSON.parse(data)[key];
+          if (myData) {
+            return _this.interactivePhone.post('sendDatasetEvent', {
+              "eventName": 'dataReset',
+              "datasetName": 'prediction-dataset',
+              "data": myData.value.initialData
+            });
+          }
+        };
+      })(this),
+      "getLearnerUrl": (function(_this) {
+        return function(data) {
+          l.info("GetLearnerUrl heard");
+          return _this.runtimePhone.post("setLearnerUrl", "http://wrapper.com/fakeout");
+        };
+      })(this)
+    };
   };
 
-  MockInteractive.prototype.restartIframePhone = function($iframe) {
-    var addHandler, message, ref, response;
-    if (this.iframePhone) {
-      this.iframePhone.hangup();
-      this.iframePhone = null;
+  Wrapper.prototype.interactiveHandlers = function() {
+    var obj;
+    return (
+      obj = {},
+      obj[this.datasetName + "-sampleAdded"] = (function(_this) {
+        return function() {
+          return _this.scheduleDataUpdate();
+        };
+      })(this),
+      obj[this.datasetName + "-sampleRemoved"] = (function(_this) {
+        return function() {
+          return _this.scheduleDataUpdate();
+        };
+      })(this),
+      obj[this.datasetName + "-dataReset"] = (function(_this) {
+        return function() {
+          return _this.scheduleDataUpdate();
+        };
+      })(this),
+      obj["getDataset"] = (function(_this) {
+        return function() {
+          return l.info("getDataSet sent by interactive (what to do?)");
+        };
+      })(this),
+      obj["dataset"] = (function(_this) {
+        return function(data) {
+          var obj1;
+          return _this.runtimePhone.post('globalSaveState', (
+            obj1 = {},
+            obj1["" + _this.globalStateKey] = data,
+            obj1
+          ));
+        };
+      })(this),
+      obj
+    );
+  };
+
+  Wrapper.prototype.interactivePhoneAnswered = function() {
+    var events, evnt, i, len, reg, results;
+    if (this.alreadySetupInteractive) {
+      return l.info("interactive phone rang, and previously answerd");
+    } else {
+      l.info("interactive phone answered");
+      this.alreadySetupInteractive = true;
+      this.registerHandlers(this.interactivePhone, this.interactiveHandlers());
+      reg = (function(_this) {
+        return function(evt) {
+          l.info("wiring a request for " + evt);
+          return _this.interactivePhone.post("listenForDatasetEvent", {
+            eventName: evt,
+            datasetName: "prediction-dataset"
+          });
+        };
+      })(this);
+      events = "sampleAdded dataReset sampleRemoved".split(/\s+/);
+      results = [];
+      for (i = 0, len = events.length; i < len; i++) {
+        evnt = events[i];
+        results.push(reg(evnt));
+      }
+      return results;
     }
-    this.iframePhone = new iframePhone.getIFrameEndpoint();
-    addHandler = (function(_this) {
-      return function(message, response) {
-        return _this.iframePhone.addListener(message, function(data) {
-          l.info("Phone call: " + message + ": " + data);
+  };
+
+  Wrapper.prototype.registerHandlers = function(phone, handlers) {
+    var message, register, response, results;
+    register = (function(_this) {
+      return function(phone, message, response) {
+        return phone.addListener(message, function(data) {
+          l.info("handling phone: " + message);
           if (response) {
-            _this.iframePhone.post(response.message, response.data);
-            return l.info("Phone responded: " + response.message + " - " + response.data);
+            return response(data);
+          } else {
+            return l.info("no response defined for " + message);
           }
         });
       };
     })(this);
-    ref = MockInteractive.MessageResponses;
-    for (message in ref) {
-      response = ref[message];
-      addHandler(message, response);
+    results = [];
+    for (message in handlers) {
+      response = handlers[message];
+      results.push(register(phone, message, response));
     }
-    this.iframePhone.initialize();
-    return l.info("Phone ready");
+    return results;
   };
 
-  function MockInteractive() {
-    l.info("Starting the dummy iframe interactive");
-    this.restartIframePhone();
-    $('#clear').click(function() {
-      return $('#logger').html('');
-    });
-    $('#getAuthInfo').click((function(_this) {
-      return function() {
-        l.info('posting getAuthInfo');
-        return _this.iframePhone.post("getAuthInfo");
-      };
-    })(this));
-    $('#globalSaveState').click((function(_this) {
-      return function() {
-        var data;
-        l.info('posting globalSaveState');
-        data = {
-          "myGlobal": "state",
-          "being": "saved",
-          "to": "theParent"
-        };
-        return _this.iframePhone.post("globalSaveState", data);
-      };
-    })(this));
-  }
-
-  return MockInteractive;
+  return Wrapper;
 
 })();
 
-window.MockInteractive = MockInteractive;
+window.Wrapper = Wrapper;
 
 
 
