@@ -139,5 +139,5 @@ class App
         'msg': msg
         'data': data
   
-m = new App()
+window.App = App
 module.exports = App

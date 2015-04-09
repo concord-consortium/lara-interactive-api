@@ -1,7 +1,7 @@
 l = (require './log').instance()
 iframePhone = require 'iframe-phone'
 
-module.exports = class DummyInteractive
+module.exports = class MockInteractive
   @instances = {}
   @instance: ($iframe) ->
     @instances[$iframe] ?= new @ $iframe
@@ -42,7 +42,7 @@ module.exports = class DummyInteractive
           @iframePhone.post(response.message, response.data)
           l.info "Phone responded: #{response.message} - #{response.data}"
     
-    for message, response of DummyInteractive.MessageResponses
+    for message, response of MockInteractive.MessageResponses
       addHandler(message,response)
       
 
@@ -72,5 +72,4 @@ module.exports = class DummyInteractive
         "to": "theParent"
       @iframePhone.post("globalSaveState", data)
   
-
-new DummyInteractive()
+window.MockInteractive = MockInteractive

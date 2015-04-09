@@ -26,8 +26,21 @@ gulp.task('browserify-iframe', function(){
   b.add(config.iframe.src);
   return b.bundle()
     .pipe(source('iframe.js'))
-    .pipe(gulp.dest(config.app.dest));
+    .pipe(gulp.dest(config.iframe.dest));
 });
+
+gulp.task('browserify-wrapper', function(){
+  var b = browserify({
+    debug: !production,
+    extensions: ['.coffee']
+  });
+  b.transform(coffeeify);
+  b.add(config.wrapper.src);
+  return b.bundle()
+    .pipe(source('wrapper.js'))
+    .pipe(gulp.dest(config.wrapper.dest));
+});
+
 
 
 gulp.task('browserify-globals', function(){
