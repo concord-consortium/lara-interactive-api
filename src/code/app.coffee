@@ -1,4 +1,5 @@
 l    = (require './log').instance()
+_    = (require 'lodash')
 iframePhone = require 'iframe-phone'
 
 class App
@@ -6,6 +7,7 @@ class App
     @setUpButtons()
     @setupInputWatchers()
     @restartPhone($("#interactive-iframe"))
+    @globalState = {}
     
   setSource: (src) ->
     $src    = $("#interactiveSource")
@@ -110,8 +112,10 @@ class App
       @iframePhone.addListener inboundMessage, (data) =>
         l.info "#{inboundMessage} called with: #{data}"
         $('#dataIn').html JSON.stringify(data, null, "  ")
-        if response
+        if response and response.message
           @iframePhone.post(response.message,response.data)
+        if response and response.handler
+          response.handler(data)
 
     messageHandlers =
       "setLearnerUrl": false
@@ -121,7 +125,10 @@ class App
         data: "knowuh@gmail.com"
       "extendedSupport": false
       "htmlFragResponse": false
-      "globalSaveState": false
+      "globalSaveState":
+        handler: (data) =>
+          @globalState = _.extend(@globalState,data)
+
     setupMessage(inboundMessage,response) for inboundMessage,response of messageHandlers
     @already_setup = true
     @post(msg.msg, msg.data) for msg in @queue
