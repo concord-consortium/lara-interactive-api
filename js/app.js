@@ -10,6 +10,7 @@ iframePhone = require('iframe-phone');
 App = (function() {
   function App() {
     this.setUpButtons();
+    this.bindShutterbug();
     this.setupInputWatchers();
     this.restartPhone($("#interactive-iframe"));
     this.globalState = {};
@@ -107,6 +108,30 @@ App = (function() {
       results.push(bindButton(buttonname, action));
     }
     return results;
+  };
+
+  App.prototype.bindShutterbug = function() {
+    var $button, dest, source;
+    source = "#interactive-iframe";
+    dest = "#snapshot";
+    $button = $("#takeSnapshot");
+    return $button.click(function() {
+      if (window.Shutterbug) {
+        return Shutterbug.snapshot({
+          selector: source,
+          dstSelector: dest,
+          done: function() {
+            return l.info("snapshot taken");
+          },
+          fail: function() {
+            return l.info("snapshot fail");
+          },
+          server: "//snapshot.concord.org/shutterbug"
+        });
+      } else {
+        return alert("shutterbug.js must be installed on the page");
+      }
+    });
   };
 
   App.prototype.restartPhone = function($iframe) {
