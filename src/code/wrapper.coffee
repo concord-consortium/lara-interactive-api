@@ -14,7 +14,10 @@ module.exports = class Wrapper
     @updateRuntimeDataSchedule = false
     @updateInterval = 500 # 0.5s
     @loadConfiguration()
-    @registerPhones(id)
+    $(id).attr('src', @interactiveUrl)
+    $(id).load () =>
+      l.info "loaded interactive #{@interactiveUrl}"
+      @registerPhones(id)
 
   loadConfiguration: () ->
     @datasetName = getParameterByName "datasetName", "prediction-dataset"
@@ -23,7 +26,18 @@ module.exports = class Wrapper
     @globalStateKey = getParameterByName "globalStateKey", "gstate-prediction-dataset"
     l.info "Global key #{@globalStateKey}"
 
+    @interactiveUrl = getParameterByName "interactive", "http://lab.concord.org/embeddable.html#interactives/itsi/sensor/prediction-prediction.json"
+    l.info "Interactive #{@interactiveUrl}"
+
   registerPhones: (id) ->
+    if @interactivePhone
+      @interactivePhone.hangup()
+      @interactivePhone = null
+
+    if @runtimePhone
+      @runtimePhone.hangup()
+      @runtimePhone = null
+
     @runtimePhone = new iframePhone.getIFrameEndpoint()
     @registerHandlers(@runtimePhone, @runtimeHandlers())
     @interactivePhone = new iframePhone.ParentEndpoint $(id)[0], =>
@@ -79,8 +93,8 @@ module.exports = class Wrapper
       reg = (evt) =>
         l.info("wiring a request for #{evt}")
         @interactivePhone.post "listenForDatasetEvent",
-        eventName: evt
-        datasetName: "prediction-dataset"
+          eventName: evt
+          datasetName: "prediction-dataset"
       events = "sampleAdded dataReset sampleRemoved".split /\s+/
       reg(evnt) for evnt in events
       
