@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>interactive-api</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="build-info" content="__BUILD_INFO__" >
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="wrapper">
+    <iframe 
+      allowfullscreen="true"
+      src="http://lab.concord.org/embeddable.html#interactives/itsi/sensor/prediction-prediction.json"
+      class="interactive"
+      frameborder="no"
+      id="a" 
+      mozallowfullscreen="true" 
+      webkitallowfullscreen="true">
+    </iframe>
+    <div id="logger">
+      blah
+    </div>
+  </div>
+
+  <script src="js/globals.js"></script>
+  <script src="js/wrapper.js"></script>
+  <script type="text/javascript">
+    window.w = new Wrapper("#interactive");
+  </script>
+</body>
+</html>
