@@ -144,7 +144,6 @@ class App
         message: "authInfo"
         data: "knowuh@gmail.com"
       "extendedSupport": false
-      "htmlFragResponse": false
       "interactiveStateGlobal":
         handler: (data) =>
           @globalState = _.extend(@globalState,data)
