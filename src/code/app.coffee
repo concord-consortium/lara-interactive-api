@@ -95,7 +95,7 @@ class App
           done: () ->
             l.info("snapshot taken")
           fail: () ->
-            l.info("snapshot fail") 
+            l.info("snapshot fail")
           server: "//snapshot.concord.org/shutterbug"
       else
         alert "shutterbug.js must be installed on the page"
