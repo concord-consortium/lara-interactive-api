@@ -12,81 +12,87 @@
 <body>
 
   <div id='app' class="app">
+  <div class="flex">
+      <div class="inspector flex border">
+        <div class="links flex border">
+          <a href="lara-iframe-apis.html" target="_blank">
+            API Documentation
+          </a>
+          <a href="https://github.com/concord-consortium/lara-interactive-api" target="_blank">
+            github repo
+          </a>
+        </div>
+        <div class="field-row">
+          <label>Outbound Data</label>
+          <br/>
+          <textarea name='dataOut' id="dataOut">{"fake": "data", "for": "you"}</textarea>
+       </div>
+       <div class="field-row">
+          <label>Inbound Data</label>
+          <br/>
+          <textarea name='dataIn' id="dataIn"></textarea>
+        </div>
 
-    <div class="insert">
-      <div class="links">
-        <a href="lara-iframe-apis.html" target="_blank">
-          API Documentation
-        </a>
-        <a href="https://github.com/concord-consortium/lara-interactive-api" target="_blank">
-          github repo
-        </a>
-      </div>
-      <div class="field-row">
-        <label>Outbound Data</label>
-        <br/>
-        <textarea name='dataOut' id="dataOut">{"fake": "data", "for": "you"}</textarea>
-     </div>
-     <div class="field-row">
-        <label>Inbound Data</label>
-        <br/>
-        <textarea name='dataIn' id="dataIn"></textarea>
-      </div>
+        <div class="field-row buttons">
+          <button class="button" type="button"
+                  id="saveInteractive"
+                  name="saveInteractive">
+          saveInteractive 
+          </button>
+          
+          <button class="button" type="button"
+                  id="loadInteractive"
+                  name="loadInteractive"> 
+          loadInteractive 
+          </button>
 
-      <div class="field-row buttons">
-        <button class="button" type="button"
-                id="saveInteractive"
-                name="saveInteractive">
-        saveInteractive 
-        </button>
-        
-        <button class="button" type="button"
-                id="loadInteractive"
-                name="loadInteractive"> 
-        loadInteractive 
-        </button>
+          <button class="button" type="button"
+                  id="getLearnerUrl"
+                  name="getLearnerUrl">
+          getLearnerUrl
+          </button>
+          
+          <button class="button" type="button"
+                  id="getExtendedSupport"
+                  name="getExtendedSupport">
+          getExtendedSupport
+          </button>
+          <button class="button" type="button"
+                  id="loadInteractiveGlobal"
+                  name="loadInteractiveGlobal">
+          loadInteractiveGlobal
+          </button>
 
-        <button class="button" type="button"
-                id="getLearnerUrl"
-                name="getLearnerUrl">
-        getLearnerUrl
-        </button>
-        
-        <button class="button" type="button"
-                id="getExtendedSupport"
-                name="getExtendedSupport">
-        getExtendedSupport
-        </button>
-        <button class="button" type="button"
-                id="loadInteractiveGlobal"
-                name="loadInteractiveGlobal">
-        loadInteractiveGlobal
-        </button>
-
-        <!--  TODO: more actions
-        <button class="button" type="button"
-                id="htmlFragRequest"
-                name="htmlFragRequest">
-        htmlFragRequest
-        </button>
-        
-        <button class="button" type="button"
-                id="takeSnapshot"
-                name="takeSnapshot">
-        takeSnapshot
-        </button>
-        
-        <button class="button" type="button"
-                id="lara-logging-present"
-                name="lara-logging-present">
-        lara-logging-present
-        </button>
-        -->
-      </div>
+          <button class="button" type="button"
+                  id="takeSnapshot"
+                  name="takeSnapshot">
+          takeSnapshot
+          </button>
       
+          <!--  TODO: more actions
+          <button class="button" type="button"
+                  id="htmlFragRequest"
+                  name="htmlFragRequest">
+          htmlFragRequest
+          </button>
+          
+
+          <button class="button" type="button"
+                  id="lara-logging-present"
+                  name="lara-logging-present">
+          lara-logging-present
+          </button>
+          -->
+        </div>
+        
+      </div>
+      <div class='flex border inspector'>
+        Snapshot:
+        <div  class='inspector' id="snapshot"></div>
+      </div>
     </div>
-    <div class="insert">
-      <div class="field-row">
+    <div class="flex border">
+      <div class="flex field-row">
         <label> Interactive Source </label>
         <div class="links">
           <a class="interactiveLink" href="http://lab.concord.org/embeddable.html#interactives/interactions/charge-table-U1-Inv1.json">charge-table-U1-Inv1</a>
@@ -107,7 +113,8 @@
         src="wrapper.html">
       </iframe>
     </div>
-    <div class="bottomTools">
+
+    <div class="bottomTools flex border">
       <div id='logger'>
         Log messages go here.
       </div>

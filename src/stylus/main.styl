@@ -19,22 +19,28 @@ body
   display flex
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: stretch;
   align-content: flex-end;
   align-items: flex-start;
   label
    margin-top 10px
-  div
-    flex 1 0 100
-    padding 1em
-    min-width: 100px
-    min-height: 10px
-    background-color: #ddd
-    border-radius: 5px
-    margin 1em
-    border 1px solid black
-    display flex
-    flex-direction column
+   
+.border
+  background-color: #ddd
+  border-radius: 5px
+  margin 1em
+  padding 1em
+  border 1px solid black
+.inspector
+  max-width 300px
+  img
+    width 100%
+.flex
+  flex 1 1 100
+  min-width: 100px
+  min-height: 10px
+  display flex
+  flex-direction column
   .links
     border none
     flex-direction row
@@ -43,29 +49,32 @@ body
     padding-left 0em
     a
       padding-right 1em
-  button
-    margin 0.2em
-  label
-    font-weight bold
-    margin 0.2em
-  textArea
-    min-width 200px
-    min-height 100px
-    width 100%
-  .field-row
-    min-height: 10px
-    margin: 0px
-    border: none
-  .bottomTools
-    min-width 90%
-    display flex
-    flex 100 0 1000
-    flex-direction row
-    flex-wrap nowrap
-    justify-content stretch
-    align-self flex-end
-    align-content stetch
-    align-items space-between
+.row
+  flex-direction row
+  
+button
+  margin 0.2em
+label
+  font-weight bold
+  margin 0.2em
+textArea
+  min-width 200px
+  min-height 100px
+  width 100%
+.field-row
+  min-height: 10px
+  margin: 0px
+  border: none
+.bottomTools
+  min-width 90%
+  display flex
+  flex 100 0 1000
+  flex-direction row
+  flex-wrap nowrap
+  justify-content stretch
+  align-self flex-end
+  align-content stetch
+  align-items space-between
     
 div#logger
   width 100%

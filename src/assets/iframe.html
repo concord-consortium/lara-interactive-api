@@ -11,18 +11,20 @@
 <body>
 
   <div class="iframe">
-    <div id="app">
-      <div>
+    <div class='border' id="app">
+      <div class='flex row'>
         <h4> Mock Interactive: </h4>
         <button class='button' id='getAuthInfo'>getAuthInfo</button>
         <button class='button' id='globalSaveState'>globalSaveState</button>
       </div>
       
-      <div id='logger'>
-        Log messages will go here.
+      <div class='border' id='logger'>
+        (log messages show up here)
       </div>
-      <button class='button' id='clear'>clear log</button>
-      <a href="lara-iframe-apis.html" target="_blank">API Documentation</a>
+      <div class='flex'>
+        <button class='button' id='clear'>clear log</button>
+        <a href="lara-iframe-apis.html" target="_blank">API Documentation</a>
+      </div>
     </div>
   </div>
   <script src="js/globals.js"></script>
