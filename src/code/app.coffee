@@ -52,12 +52,12 @@ class App
         l.warn "getExtendedSupport called"
         @post "getExtendedSupport"
 
-      "globalLoadState": (e) =>
+      "loadInteractiveGlobal": (e) =>
         value = $('#dataOut').val()
         if value.length < 1
           value = "{'fake': 'data', 'for': 'you'}"
-        l.warn "globalLoadState #{value} called"
-        @post "globalLoadState", value
+        l.warn "loadInteractiveGlobal #{value} called"
+        @post "loadInteractiveGlobal", value
 
       # TODO:
       # "htmlFragRequest": (e) =>
@@ -125,7 +125,7 @@ class App
         data: "knowuh@gmail.com"
       "extendedSupport": false
       "htmlFragResponse": false
-      "globalSaveState":
+      "interactiveStateGlobal":
         handler: (data) =>
           @globalState = _.extend(@globalState,data)
 

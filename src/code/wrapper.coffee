@@ -44,7 +44,7 @@ module.exports = class Wrapper
     @updateRuntimeDataSchedule = setTimeout func, @updateInterval
 
   runtimeHandlers: ->
-    "globalLoadState": (data) =>
+    "loadInteractiveGlobal": (data) =>
       key = @globalStateKey
       myData = JSON.parse(data)[key]
       if myData
@@ -67,7 +67,7 @@ module.exports = class Wrapper
     "getDataset": () =>
       l.info("getDataSet sent by interactive (what to do?)")
     "dataset": (data)=>
-      @runtimePhone.post('globalSaveState', {"#{@globalStateKey}": data})
+      @runtimePhone.post('interactiveStateGlobal', {"#{@globalStateKey}": data})
 
   interactivePhoneAnswered: ()->
     if @alreadySetupInteractive
