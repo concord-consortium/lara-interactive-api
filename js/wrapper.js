@@ -24,17 +24,33 @@ module.exports = Wrapper = (function() {
     this.updateRuntimeDataSchedule = false;
     this.updateInterval = 500;
     this.loadConfiguration();
-    this.registerPhones(id);
+    $(id).attr('src', this.interactiveUrl);
+    $(id).load((function(_this) {
+      return function() {
+        l.info("loaded interactive " + _this.interactiveUrl);
+        return _this.registerPhones(id);
+      };
+    })(this));
   }
 
   Wrapper.prototype.loadConfiguration = function() {
     this.datasetName = getParameterByName("datasetName", "prediction-dataset");
     l.info("Using dataset " + this.datasetName);
     this.globalStateKey = getParameterByName("globalStateKey", "gstate-prediction-dataset");
-    return l.info("Global key " + this.globalStateKey);
+    l.info("Global key " + this.globalStateKey);
+    this.interactiveUrl = getParameterByName("interactive", "http://lab.concord.org/embeddable.html#interactives/itsi/sensor/prediction-prediction.json");
+    return l.info("Interactive " + this.interactiveUrl);
   };
 
   Wrapper.prototype.registerPhones = function(id) {
+    if (this.interactivePhone) {
+      this.interactivePhone.hangup();
+      this.interactivePhone = null;
+    }
+    if (this.runtimePhone) {
+      this.runtimePhone.hangup();
+      this.runtimePhone = null;
+    }
     this.runtimePhone = new iframePhone.getIFrameEndpoint();
     this.registerHandlers(this.runtimePhone, this.runtimeHandlers());
     this.interactivePhone = new iframePhone.ParentEndpoint($(id)[0], (function(_this) {
@@ -63,7 +79,7 @@ module.exports = Wrapper = (function() {
 
   Wrapper.prototype.runtimeHandlers = function() {
     return {
-      "globalLoadState": (function(_this) {
+      "loadInteractiveGlobal": (function(_this) {
         return function(data) {
           var key, myData;
           key = _this.globalStateKey;
@@ -113,7 +129,7 @@ module.exports = Wrapper = (function() {
       obj["dataset"] = (function(_this) {
         return function(data) {
           var obj1;
-          return _this.runtimePhone.post('globalSaveState', (
+          return _this.runtimePhone.post('interactiveStateGlobal', (
             obj1 = {},
             obj1["" + _this.globalStateKey] = data,
             obj1

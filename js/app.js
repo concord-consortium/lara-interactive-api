@@ -79,15 +79,15 @@ App = (function() {
           return _this.post("getExtendedSupport");
         };
       })(this),
-      "globalLoadState": (function(_this) {
+      "loadInteractiveGlobal": (function(_this) {
         return function(e) {
           var value;
           value = $('#dataOut').val();
           if (value.length < 1) {
             value = "{'fake': 'data', 'for': 'you'}";
           }
-          l.warn("globalLoadState " + value + " called");
-          return _this.post("globalLoadState", value);
+          l.warn("loadInteractiveGlobal " + value + " called");
+          return _this.post("loadInteractiveGlobal", value);
         };
       })(this)
     };
@@ -154,7 +154,7 @@ App = (function() {
       },
       "extendedSupport": false,
       "htmlFragResponse": false,
-      "globalSaveState": {
+      "interactiveStateGlobal": {
         handler: (function(_this) {
           return function(data) {
             return _this.globalState = _.extend(_this.globalState, data);
