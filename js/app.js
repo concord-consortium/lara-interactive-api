@@ -178,7 +178,6 @@ App = (function() {
         data: "knowuh@gmail.com"
       },
       "extendedSupport": false,
-      "htmlFragResponse": false,
       "interactiveStateGlobal": {
         handler: (function(_this) {
           return function(data) {
