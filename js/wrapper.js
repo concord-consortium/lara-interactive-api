@@ -1,26 +1,51 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var Wrapper, iframePhone, l;
+var Wrapper, getParameterByName, iframePhone, l;
 
 l = (require('./log')).instance();
 
 iframePhone = require('iframe-phone');
 
+getParameterByName = function(name, defaultValue) {
+  var regex, results;
+  if (defaultValue == null) {
+    defaultValue = "";
+  }
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+  results = regex.exec(location.search);
+  if (results === null) {
+    return defaultValue;
+  }
+  return decodeURIComponent(results[1].replace(/\+/g, " "));
+};
+
 module.exports = Wrapper = (function() {
   function Wrapper(id) {
-    this.runtimePhone = new iframePhone.getIFrameEndpoint();
-    this.registerHandlers(this.runtimePhone, this.runtimeHandlers());
     this.updateRuntimeDataSchedule = false;
     this.updateInterval = 500;
-    this.datasetName = 'prediction-dataset';
-    this.globalStateKey = "prediction-global-datast";
-    this.runtimePhone.initialize();
+    this.loadConfiguration();
+    this.registerPhones(id);
+  }
+
+  Wrapper.prototype.loadConfiguration = function() {
+    this.datasetName = getParameterByName("datasetName", "prediction-dataset");
+    l.info("Using dataset " + this.datasetName);
+    this.globalStateKey = getParameterByName("globalStateKey", "gstate-prediction-dataset");
+    return l.info("Global key " + this.globalStateKey);
+  };
+
+  Wrapper.prototype.registerPhones = function(id) {
+    this.runtimePhone = new iframePhone.getIFrameEndpoint();
+    this.registerHandlers(this.runtimePhone, this.runtimeHandlers());
     this.interactivePhone = new iframePhone.ParentEndpoint($(id)[0], (function(_this) {
       return function() {
-        return _this.interactivePhoneAnswered();
+        _this.interactivePhoneAnswered();
+        return l.info("Interactive Phone ready");
       };
     })(this));
     l.info("Runtime Phone ready");
-  }
+    return this.runtimePhone.initialize();
+  };
 
   Wrapper.prototype.scheduleDataUpdate = function() {
     var func;
@@ -100,7 +125,7 @@ module.exports = Wrapper = (function() {
   };
 
   Wrapper.prototype.interactivePhoneAnswered = function() {
-    var events, evnt, i, len, reg, results;
+    var events, evnt, i, len, reg, results1;
     if (this.alreadySetupInteractive) {
       return l.info("interactive phone rang, and previously answerd");
     } else {
@@ -117,17 +142,17 @@ module.exports = Wrapper = (function() {
         };
       })(this);
       events = "sampleAdded dataReset sampleRemoved".split(/\s+/);
-      results = [];
+      results1 = [];
       for (i = 0, len = events.length; i < len; i++) {
         evnt = events[i];
-        results.push(reg(evnt));
+        results1.push(reg(evnt));
       }
-      return results;
+      return results1;
     }
   };
 
   Wrapper.prototype.registerHandlers = function(phone, handlers) {
-    var message, register, response, results;
+    var message, register, response, results1;
     register = (function(_this) {
       return function(phone, message, response) {
         return phone.addListener(message, function(data) {
@@ -140,12 +165,12 @@ module.exports = Wrapper = (function() {
         });
       };
     })(this);
-    results = [];
+    results1 = [];
     for (message in handlers) {
       response = handlers[message];
-      results.push(register(phone, message, response));
+      results1.push(register(phone, message, response));
     }
-    return results;
+    return results1;
   };
 
   return Wrapper;
