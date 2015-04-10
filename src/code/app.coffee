@@ -5,6 +5,7 @@ iframePhone = require 'iframe-phone'
 class App
   constructor: () ->
     @setUpButtons()
+    @bindShutterbug()
     @setupInputWatchers()
     @restartPhone($("#interactive-iframe"))
     @globalState = {}
@@ -82,6 +83,25 @@ class App
 
   ##
   ##
+  bindShutterbug: ->
+    source = "#interactive-iframe"
+    dest   = "#snapshot"
+    $button = $("#takeSnapshot")
+    $button.click () ->
+      if window.Shutterbug
+        Shutterbug.snapshot
+          selector: source
+          dstSelector: dest
+          done: () ->
+            l.info("snapshot taken")
+          fail: () ->
+            l.info("snapshot fail") 
+          server: "//snapshot.concord.org/shutterbug"
+      else
+        alert "shutterbug.js must be installed on the page"
+    
+  ##
+  ##
   restartPhone: ($iframe) ->
     if @iframePhone
       @iframePhone.disconnect()
@@ -145,6 +165,7 @@ class App
       @queue.push
         'msg': msg
         'data': data
-  
+
+
 window.App = App
 module.exports = App

@@ -26,9 +26,13 @@
     </div>
   </div>
   <script src="js/globals.js"></script>
+  <script src="shutterbug.js"></script>
   <script src="js/iframe.js"></script>
   <script type="text/javascript">
     dummy = new window.MockInteractive();
+    $(document).ready(function() {
+      Shutterbug.enable('body');
+    });
   </script>
 </body>
 </html>

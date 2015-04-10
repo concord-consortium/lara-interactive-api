@@ -14,21 +14,25 @@
     <iframe 
       allowfullscreen="true"
       src="http://lab.concord.org/embeddable.html#interactives/itsi/sensor/prediction-prediction.json"
-      class="interactive"
+      class="interactive test"
       frameborder="no"
       id="interactive" 
       mozallowfullscreen="true" 
       webkitallowfullscreen="true">
     </iframe>
     <div id="logger">
-      blah
+      Logger
     </div>
   </div>
 
   <script src="js/globals.js"></script>
+  <script src="shutterbug.js"></script>
   <script src="js/wrapper.js"></script>
   <script type="text/javascript">
     window.w = new Wrapper("#interactive");
+    $('#interactive').load(function() {
+      Shutterbug.enable('#interactive');
+    });
   </script>
 </body>
 </html>
