@@ -1,21 +1,39 @@
 l = (require './log').instance()
 iframePhone = require 'iframe-phone'
 
+getParameterByName = (name, defaultValue="") ->
+  name    = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]")
+  regex   = new RegExp("[\\?&]#{name}=([^&#]*)")
+  results = regex.exec(location.search)
+  if results == null
+    return defaultValue
+  return decodeURIComponent(results[1].replace(/\+/g, " "))
+
 module.exports = class Wrapper
   constructor: (id) ->
-    @runtimePhone = new iframePhone.getIFrameEndpoint()
-    @registerHandlers(@runtimePhone, @runtimeHandlers())
     @updateRuntimeDataSchedule = false
     @updateInterval = 500 # 0.5s
-    @datasetName = 'prediction-dataset' # TODO: Pull this from the URL. 
-    @globalStateKey = "prediction-global-datast" # TODO
-    @runtimePhone.initialize()
+    @loadConfiguration()
+    @registerPhones(id)
+
+  loadConfiguration: () ->
+    @datasetName = getParameterByName "datasetName", "prediction-dataset"
+    l.info "Using dataset #{@datasetName}"
+
+    @globalStateKey = getParameterByName "globalStateKey", "gstate-prediction-dataset"
+    l.info "Global key #{@globalStateKey}"
+
+  registerPhones: (id) ->
+    @runtimePhone = new iframePhone.getIFrameEndpoint()
+    @registerHandlers(@runtimePhone, @runtimeHandlers())
     @interactivePhone = new iframePhone.ParentEndpoint $(id)[0], =>
       @interactivePhoneAnswered()
+      l.info "Interactive Phone ready"
     l.info "Runtime Phone ready"
-
+    @runtimePhone.initialize()
+    
   # Batch-up changes by starting a timer when data changes.
-  # Notify change when timer runs out. 
+  # Notify change when timer runs out.
   # delay if new data is continuing to come in.
   scheduleDataUpdate: ->
     if @updateRuntimeDataSchedule
