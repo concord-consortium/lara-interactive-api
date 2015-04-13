@@ -52,16 +52,16 @@ module.exports = Wrapper = (function() {
       this.runtimePhone.hangup();
       this.runtimePhone = null;
     }
-    this.runtimePhone = new iframePhone.getIFrameEndpoint();
-    this.registerHandlers(this.runtimePhone, this.runtimeHandlers());
-    this.interactivePhone = new iframePhone.ParentEndpoint($(id)[0], (function(_this) {
+    return this.interactivePhone = new iframePhone.ParentEndpoint($(id)[0], (function(_this) {
       return function() {
         _this.interactivePhoneAnswered();
-        return l.info("Interactive Phone ready");
+        l.info("Interactive Phone ready");
+        _this.runtimePhone = new iframePhone.getIFrameEndpoint();
+        _this.registerHandlers(_this.runtimePhone, _this.runtimeHandlers());
+        l.info("Runtime Phone ready");
+        return _this.runtimePhone.initialize();
       };
     })(this));
-    l.info("Runtime Phone ready");
-    return this.runtimePhone.initialize();
   };
 
   Wrapper.prototype.scheduleDataUpdate = function() {
@@ -90,7 +90,7 @@ module.exports = Wrapper = (function() {
           if (myData) {
             return _this.interactivePhone.post('sendDatasetEvent', {
               "eventName": 'dataReset',
-              "datasetName": 'prediction-dataset',
+              "datasetName": _this.datasetName,
               "data": myData.value.initialData
             });
           }
@@ -124,9 +124,10 @@ module.exports = Wrapper = (function() {
           return _this.scheduleDataUpdate();
         };
       })(this),
-      obj["getDataset"] = (function(_this) {
+      obj["modelLoaded"] = (function(_this) {
         return function() {
-          return l.info("getDataSet sent by interactive (what to do?)");
+          l.info("Model loaded called");
+          return _this.runtimePhone.post('interactiveStateGlobal', _this.globalState);
         };
       })(this),
       obj["dataset"] = (function(_this) {
@@ -152,7 +153,7 @@ module.exports = Wrapper = (function() {
           l.info("wiring a request for " + evt);
           return _this.interactivePhone.post("listenForDatasetEvent", {
             eventName: evt,
-            datasetName: "prediction-dataset"
+            datasetName: _this.datasetName
           });
         };
       })(this);
