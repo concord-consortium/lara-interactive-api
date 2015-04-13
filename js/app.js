@@ -85,10 +85,10 @@ App = (function() {
           var value;
           value = $('#dataOut').val();
           if (value.length < 1) {
-            value = "{'fake': 'data', 'for': 'you'}";
+            value = '{"fake": "data", "for": "you"}';
           }
           l.warn("loadInteractiveGlobal " + value + " called");
-          return _this.post("loadInteractiveGlobal", value);
+          return _this.post("loadInteractiveGlobal", JSON.parse(value));
         };
       })(this)
     };
