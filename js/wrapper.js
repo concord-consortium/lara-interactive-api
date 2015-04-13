@@ -21,6 +21,7 @@ getParameterByName = function(name, defaultValue) {
 
 module.exports = Wrapper = (function() {
   function Wrapper(id) {
+    this.globalState = {};
     this.updateRuntimeDataSchedule = false;
     this.updateInterval = 500;
     this.loadConfiguration();
@@ -81,12 +82,11 @@ module.exports = Wrapper = (function() {
     return {
       "loadInteractiveGlobal": (function(_this) {
         return function(data) {
-          var key, myData;
-          key = _this.globalStateKey;
+          var myData;
           if (typeof data === 'string') {
-            data = JSON.parse(data);
+            _this.globalState = JSON.parse(data);
           }
-          myData = data[key];
+          myData = _this.globalState[_this.globalStateKey];
           if (myData) {
             return _this.interactivePhone.post('sendDatasetEvent', {
               "eventName": 'dataReset',
@@ -131,12 +131,8 @@ module.exports = Wrapper = (function() {
       })(this),
       obj["dataset"] = (function(_this) {
         return function(data) {
-          var obj1;
-          return _this.runtimePhone.post('interactiveStateGlobal', (
-            obj1 = {},
-            obj1["" + _this.globalStateKey] = data,
-            obj1
-          ));
+          _this.globalState[_this.globalStateKey] = data;
+          return _this.runtimePhone.post('interactiveStateGlobal', _this.globalState);
         };
       })(this),
       obj
