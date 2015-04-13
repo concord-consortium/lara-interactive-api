@@ -41,6 +41,18 @@ gulp.task('browserify-wrapper', function(){
     .pipe(gulp.dest(config.wrapper.dest));
 });
 
+gulp.task('browserify-saver', function(){
+  var b = browserify({
+    debug: !production,
+    extensions: ['.coffee']
+  });
+  b.transform(coffeeify);
+  b.add(config.saver.src);
+  return b.bundle()
+    .pipe(source('global-saver.js'))
+    .pipe(gulp.dest(config.saver.dest));
+});
+
 
 
 gulp.task('browserify-globals', function(){

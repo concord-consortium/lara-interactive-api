@@ -1,54 +1,42 @@
+# This is mostly a copy of the system in use on LARA as of April 13, 2015
+# (on github) → http://bit.ly/1JE4phw 
 # This class implements two main functionalities:
- 
 # 1. Checks if global interactive state is availble on page load and if so,
 #    it posts 'interactiveLoadGlobal' to all interactives (iframes).
 # 2. When 'interactiveStateGlobal' message is received from any iframe, it:
-#   2.1. sends the state to LARA server
-#   2.2. posts 'interactiveLoadGlobal' message with a new state to all interactives
+#   2.1. posts 'interactiveLoadGlobal' message with a new state to all interactives
 #        (except from sender of save message).
- 
-class GlobalIframeSaver
+l = require 'loglevel'
+iframePhone = require 'iframe-phone'
+
+module.exports = class GlobalIframeSaver
   INTERACTIVES_SEL = 'iframe.interactive'
- 
+
   constructor: (config) ->
-    @_saveUrl = config.save_url
     @_globalState = if config.raw_data then JSON.parse(config.raw_data) else null
- 
+
     @_iframePhones = []
     $(INTERACTIVES_SEL).each (idx, iframeEl) =>
-      phone = IframePhoneManager.getPhone iframeEl
-      @addNewPhone phone
- 
+      phone = new iframePhone.ParentEndpoint $(iframeEl)[0], =>
+        @addNewPhone phone
+
   addNewPhone: (phone) ->
     @_iframePhones.push phone
     @_setupPhoneListeners phone
     if @_globalState
       @_loadGlobalState phone
- 
+
   _setupPhoneListeners: (phone) ->
     phone.addListener 'interactiveStateGlobal', (state) =>
       @_globalState = state
-      @_saveGlobalState()
       @_broadcastGlobalState phone
- 
+
   _loadGlobalState: (phone) ->
     phone.post 'loadInteractiveGlobal', @_globalState
- 
+
   _broadcastGlobalState: (sender) ->
     @_iframePhones.forEach (phone) =>
       # Do not send state again to the same iframe that posted global state.
       @_loadGlobalState phone if phone != sender
- 
-  _saveGlobalState: ->
-    $.ajax
-      type: 'POST'
-      contentType: 'application/json'
-      url: @_saveUrl
-      data: JSON.stringify 'raw_data': @_globalState
-      success: (response) =>
-        console.log 'Global interactive save success.'
-      error: (jqxhr, status, error) =>
-        console.error 'Global interactive save failed.'
- 
-if gon.globalInteractiveState != null
-  window.globalIframeSaver = new GlobalIframeSaver gon.globalInteractiveState
+
+window.GlobalIframeSaver = GlobalIframeSaver

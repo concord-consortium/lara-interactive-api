@@ -10,25 +10,36 @@
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-  <div class="wrapper">
+  <div class="prediction">
     <iframe 
+      width=600
+      height=400
       allowfullscreen="true"
-      src="http://lab.concord.org/embeddable.html#interactives/itsi/sensor/prediction-prediction.json"
       class="interactive"
+      src="wrapper.html?interactive=http%3A%2F%2Flab.concord.org%2Fembeddable.html%23interactives%2Fitsi%2Fsensor%2Fprediction-prediction.json"
       frameborder="no"
       id="a" 
       mozallowfullscreen="true" 
       webkitallowfullscreen="true">
     </iframe>
-    <div id="logger">
-      blah
     </div>
+    <iframe
+      width=600
+      height=400
+      allowfullscreen="true"
+      class="interactive"
+      src="wrapper.html?datasetName=sensor-dataset&interactive=http%3A%2F%2Flab.concord.org%2Fembeddable-dev.html%23interactives%2Fitsi%2Fsensor%2Fsensor-connector.json"
+      frameborder="no"
+      id="b" 
+      mozallowfullscreen="true" 
+      webkitallowfullscreen="true">
+    </iframe>
   </div>
 
   <script src="js/globals.js"></script>
-  <script src="js/wrapper.js"></script>
+  <script src="js/global-saver.js"></script>
   <script type="text/javascript">
-    window.w = new Wrapper("#interactive");
+    window.globalIframeSaver = new GlobalIframeSaver({});
   </script>
 </body>
 </html>

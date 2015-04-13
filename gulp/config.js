@@ -28,6 +28,11 @@ module.exports = {
       src: src + '/code/wrapper.coffee',
       dest: dest + '/js/'
     },
+    saver: {
+      watch: [src + '/code/**/*.*', '!' + src + '/code/globals.coffee'],
+      src: src + '/code/global-saver.coffee',
+      dest: dest + '/js/'
+    },
     globals: {
       watch: src + '/code/globals.coffee',
       src: src + '/code/globals.coffee',
