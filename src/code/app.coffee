@@ -9,7 +9,7 @@ class App
     @setupInputWatchers()
     @restartPhone($("#interactive-iframe"))
     @globalState = {}
-    
+
   setSource: (src) ->
     $src    = $("#interactiveSource")
     $iframe = $("#interactive-iframe")
@@ -40,11 +40,11 @@ class App
         obj = JSON.parse(value) # TODO This has to be an object...
         l.warn "loadInteractive #{value} called"
         @post "loadInteractive", obj
-      
+
       "getLearnerUrl": (e) =>
         l.warn "getLearnerUrl called"
         @post "getLearnerUrl"
-      
+
       "getExtendedSupport": (e) =>
         l.warn "getExtendedSupport called"
         @post "getExtendedSupport"
@@ -56,29 +56,29 @@ class App
       "loadInteractiveGlobal": (e) =>
         value = $('#dataOut').val()
         if value.length < 1
-          value = "{'fake': 'data', 'for': 'you'}"
+          value = '{"fake": "data", "for": "you"}'
         l.warn "loadInteractiveGlobal #{value} called"
-        @post "loadInteractiveGlobal", value
+        @post "loadInteractiveGlobal", JSON.parse(value)
 
       # TODO:
       # "htmlFragRequest": (e) =>
       #   l.warn "htmlFragRequest called"
       #   @post "htmlFragRequest"
-      
+
       # "takeSnapshot": (e) =>
       #   l.warn "takeSnapshot called"
       #   @post "takeSnapshot"
-      
+
       # TODO:
       # "lara-logging-present": (e) =>
       #   l.warn "getExtendedSupport called"
       #   @iframePhoneRpc.call message: 'lara-logging-present'
-    
+
     bindButton = (name,f) =>
       l.info "binding button: #{name}"
       $elm = $ "##{name}"
       $elm.on "click", (e) => f(e)
-  
+
     bindButton(buttonname, action) for buttonname, action of buttons
 
   ##
@@ -99,7 +99,7 @@ class App
           server: "//snapshot.concord.org/shutterbug"
       else
         alert "shutterbug.js must be installed on the page"
-    
+
   ##
   ##
   restartPhone: ($iframe) ->
@@ -109,12 +109,12 @@ class App
     @queue = []
     @already_setup  = false
     @iframePhone = new iframePhone.ParentEndpoint($iframe[0], @phoneAnswered.bind(@))
-    
+
     # TODO: (rpc)
     # @iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint
     #   phone: @iframePhone
     #   namespace: 'lara-logging'
-  
+
   ##
   ##
   phoneAnswered: ->
