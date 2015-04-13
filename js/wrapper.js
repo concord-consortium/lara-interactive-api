@@ -84,8 +84,9 @@ module.exports = Wrapper = (function() {
         return function(data) {
           var myData;
           if (typeof data === 'string') {
-            _this.globalState = JSON.parse(data);
+            data = JSON.parse(data);
           }
+          _this.globalState = data;
           myData = _this.globalState[_this.globalStateKey];
           if (myData) {
             return _this.interactivePhone.post('sendDatasetEvent', {
