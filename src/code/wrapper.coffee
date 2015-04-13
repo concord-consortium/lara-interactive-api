@@ -11,6 +11,7 @@ getParameterByName = (name, defaultValue="") ->
 
 module.exports = class Wrapper
   constructor: (id) ->
+    @globalState = {}
     @updateRuntimeDataSchedule = false
     @updateInterval = 500 # 0.5s
     @loadConfiguration()
@@ -59,9 +60,8 @@ module.exports = class Wrapper
 
   runtimeHandlers: ->
     "loadInteractiveGlobal": (data) =>
-      key = @globalStateKey
-      data = JSON.parse(data) if typeof data is 'string'
-      myData = data[key]
+      @globalState = JSON.parse(data) if typeof data is 'string'
+      myData = @globalState[@globalStateKey]
       if myData
         @interactivePhone.post 'sendDatasetEvent',
           "eventName": 'dataReset'
@@ -82,7 +82,8 @@ module.exports = class Wrapper
     "getDataset": () =>
       l.info("getDataSet sent by interactive (what to do?)")
     "dataset": (data)=>
-      @runtimePhone.post('interactiveStateGlobal', {"#{@globalStateKey}": data})
+      @globalState[@globalStateKey] = data
+      @runtimePhone.post('interactiveStateGlobal', @globalState)
 
   interactivePhoneAnswered: ()->
     if @alreadySetupInteractive
