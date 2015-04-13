@@ -65,7 +65,7 @@ module.exports = class Wrapper
       if myData
         @interactivePhone.post 'sendDatasetEvent',
           "eventName": 'dataReset'
-          "datasetName": 'prediction-dataset'
+          "datasetName": @datasetName
           "data": myData.value.initialData
 
     "getLearnerUrl": (data) =>
@@ -96,7 +96,7 @@ module.exports = class Wrapper
         l.info("wiring a request for #{evt}")
         @interactivePhone.post "listenForDatasetEvent",
           eventName: evt
-          datasetName: "prediction-dataset"
+          datasetName: @datasetName
       events = "sampleAdded dataReset sampleRemoved".split /\s+/
       reg(evnt) for evnt in events
 
