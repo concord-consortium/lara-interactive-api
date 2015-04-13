@@ -1,4 +1,4 @@
-l = (require './log').instance()
+l = require 'loglevel'
 iframePhone = require 'iframe-phone'
 
 getParameterByName = (name, defaultValue="") ->
@@ -17,18 +17,17 @@ module.exports = class Wrapper
     @loadConfiguration()
     $(id).attr('src', @interactiveUrl)
     $(id).load () =>
-      l.info "loaded interactive #{@interactiveUrl}"
       @registerPhones(id)
 
   loadConfiguration: () ->
     @datasetName = getParameterByName "datasetName", "prediction-dataset"
-    l.info "Using dataset #{@datasetName}"
+    l.info "Wrapper: Using dataset #{@datasetName}"
 
     @globalStateKey = getParameterByName "globalStateKey", "gstate-prediction-dataset"
-    l.info "Global key #{@globalStateKey}"
+    l.info "Wrapper: Global key #{@globalStateKey}"
 
     @interactiveUrl = getParameterByName "interactive", "http://lab.concord.org/embeddable.html#interactives/itsi/sensor/prediction-prediction.json"
-    l.info "Interactive #{@interactiveUrl}"
+    l.info "Wrapper: Interactive #{@interactiveUrl}"
 
   registerPhones: (id) ->
     if @interactivePhone
@@ -72,10 +71,6 @@ module.exports = class Wrapper
           "datasetName": @datasetName
           "data": myData.value.initialData
 
-    "getLearnerUrl": (data) =>
-      l.info "GetLearnerUrl heard"
-      @runtimePhone.post "setLearnerUrl", "http://wrapper.com/fakeout"
-
   interactiveHandlers: ->
     "#{@datasetName}-sampleAdded": =>
       @scheduleDataUpdate()
@@ -84,7 +79,7 @@ module.exports = class Wrapper
     "#{@datasetName}-dataReset":=>
       @scheduleDataUpdate()
     "modelLoaded": () =>
-      l.info("Model loaded called")
+      l.info("Wrapper: Model loaded called")
       @runtimePhone.post('interactiveStateGlobal', @globalState)
     "dataset": (data)=>
       @globalState[@globalStateKey] = data
@@ -92,13 +87,12 @@ module.exports = class Wrapper
 
   interactivePhoneAnswered: ()->
     if @alreadySetupInteractive
-      l.info "interactive phone rang, and previously answerd"
+      l.info "Wrapper: interactive phone rang, and previously answerd"
     else
-      l.info "interactive phone answered"
+      l.info "Wrapper: interactive phone answered"
       @alreadySetupInteractive = true
       @registerHandlers(@interactivePhone, @interactiveHandlers())
       reg = (evt) =>
-        l.info("wiring a request for #{evt}")
         @interactivePhone.post "listenForDatasetEvent",
           eventName: evt
           datasetName: @datasetName
@@ -109,11 +103,11 @@ module.exports = class Wrapper
   registerHandlers: (phone, handlers) ->
     register = (phone, message, response) =>
       phone.addListener message, (data) =>
-        l.info "handling phone: #{message}"
+        l.info "Wrapper: handling phone: #{message}"
         if response
           response(data)
         else
-          l.info "no response defined for #{message}"
+          l.info "Wrapper: no response defined for #{message}"
     register(phone,message, response) for message, response of handlers
 
 

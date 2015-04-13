@@ -32,50 +32,34 @@ class App
   setUpButtons: () ->
     buttons =
       "saveInteractive": (e) =>
-        l.warn "saveInteractive called"
         @post "getInteractiveState"
 
       "loadInteractive": (e) =>
         value = $('#dataOut').val()
         obj = JSON.parse(value) # TODO This has to be an object...
-        l.warn "loadInteractive #{value} called"
         @post "loadInteractive", obj
 
       "getLearnerUrl": (e) =>
-        l.warn "getLearnerUrl called"
         @post "getLearnerUrl"
 
       "getExtendedSupport": (e) =>
-        l.warn "getExtendedSupport called"
         @post "getExtendedSupport"
 
       "getExtendedSupport": (e) =>
-        l.warn "getExtendedSupport called"
         @post "getExtendedSupport"
 
       "loadInteractiveGlobal": (e) =>
         value = $('#dataOut').val()
         if value.length < 1
           value = '{"fake": "data", "for": "you"}'
-        l.warn "loadInteractiveGlobal #{value} called"
         @post "loadInteractiveGlobal", JSON.parse(value)
 
       # TODO:
-      # "htmlFragRequest": (e) =>
-      #   l.warn "htmlFragRequest called"
-      #   @post "htmlFragRequest"
-
-      # "takeSnapshot": (e) =>
-      #   l.warn "takeSnapshot called"
-      #   @post "takeSnapshot"
-
-      # TODO:
       # "lara-logging-present": (e) =>
-      #   l.warn "getExtendedSupport called"
+      #   l.info "getExtendedSupport called"
       #   @iframePhoneRpc.call message: 'lara-logging-present'
 
     bindButton = (name,f) =>
-      l.info "binding button: #{name}"
       $elm = $ "##{name}"
       $elm.on "click", (e) => f(e)
 
@@ -92,10 +76,8 @@ class App
         Shutterbug.snapshot
           selector: source
           dstSelector: dest
-          done: () ->
-            l.info("snapshot taken")
           fail: () ->
-            l.info("snapshot fail")
+            l.info("App: snapshot fail")
           server: "//snapshot.concord.org/shutterbug"
       else
         alert "shutterbug.js must be installed on the page"
@@ -119,9 +101,9 @@ class App
   ##
   phoneAnswered: ->
     if @already_setup
-      l.info("phone rang, but I already answerd")
+      l.info("App: phone rang, but I already answerd")
     else
-      l.info("phone answered")
+      l.info("App: phone answered")
       @already_setup = true
       @registerHandlers()
 
@@ -130,7 +112,7 @@ class App
   registerHandlers: ->
     setupMessage = (inboundMessage, response) =>
       @iframePhone.addListener inboundMessage, (data) =>
-        l.info "#{inboundMessage} called with: #{data}"
+        l.info "App: #{inboundMessage} called with: #{JSON.stringify(data)}"
         $('#dataIn').html JSON.stringify(data, null, "  ")
         if response and response.message
           @iframePhone.post(response.message,response.data)
@@ -157,10 +139,10 @@ class App
   ##
   post: (msg,data) ->
     if @already_setup
-      l.info("posting message #{msg} #{data}")
+      l.info("App: posting message #{msg} #{data}")
       @iframePhone.post(msg,data)
     else
-      l.info("queueing message #{msg} #{data}")
+      l.info("App: queueing message #{msg} #{data}")
       @queue.push
         'msg': msg
         'data': data
