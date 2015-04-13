@@ -49,7 +49,6 @@ App = (function() {
     buttons = {
       "saveInteractive": (function(_this) {
         return function(e) {
-          l.warn("saveInteractive called");
           return _this.post("getInteractiveState");
         };
       })(this),
@@ -58,25 +57,21 @@ App = (function() {
           var obj, value;
           value = $('#dataOut').val();
           obj = JSON.parse(value);
-          l.warn("loadInteractive " + value + " called");
           return _this.post("loadInteractive", obj);
         };
       })(this),
       "getLearnerUrl": (function(_this) {
         return function(e) {
-          l.warn("getLearnerUrl called");
           return _this.post("getLearnerUrl");
         };
       })(this),
       "getExtendedSupport": (function(_this) {
         return function(e) {
-          l.warn("getExtendedSupport called");
           return _this.post("getExtendedSupport");
         };
       })(this),
       "getExtendedSupport": (function(_this) {
         return function(e) {
-          l.warn("getExtendedSupport called");
           return _this.post("getExtendedSupport");
         };
       })(this),
@@ -87,7 +82,6 @@ App = (function() {
           if (value.length < 1) {
             value = '{"fake": "data", "for": "you"}';
           }
-          l.warn("loadInteractiveGlobal " + value + " called");
           return _this.post("loadInteractiveGlobal", JSON.parse(value));
         };
       })(this)
@@ -95,7 +89,6 @@ App = (function() {
     bindButton = (function(_this) {
       return function(name, f) {
         var $elm;
-        l.info("binding button: " + name);
         $elm = $("#" + name);
         return $elm.on("click", function(e) {
           return f(e);
@@ -120,11 +113,8 @@ App = (function() {
         return Shutterbug.snapshot({
           selector: source,
           dstSelector: dest,
-          done: function() {
-            return l.info("snapshot taken");
-          },
           fail: function() {
-            return l.info("snapshot fail");
+            return l.info("App: snapshot fail");
           },
           server: "//snapshot.concord.org/shutterbug"
         });
@@ -146,9 +136,9 @@ App = (function() {
 
   App.prototype.phoneAnswered = function() {
     if (this.already_setup) {
-      return l.info("phone rang, but I already answerd");
+      return l.info("App: phone rang, but I already answerd");
     } else {
-      l.info("phone answered");
+      l.info("App: phone answered");
       this.already_setup = true;
       return this.registerHandlers();
     }
@@ -159,7 +149,7 @@ App = (function() {
     setupMessage = (function(_this) {
       return function(inboundMessage, response) {
         return _this.iframePhone.addListener(inboundMessage, function(data) {
-          l.info(inboundMessage + " called with: " + data);
+          l.info("App: " + inboundMessage + " called with: " + (JSON.stringify(data)));
           $('#dataIn').html(JSON.stringify(data, null, "  "));
           if (response && response.message) {
             _this.iframePhone.post(response.message, response.data);
@@ -202,10 +192,10 @@ App = (function() {
 
   App.prototype.post = function(msg, data) {
     if (this.already_setup) {
-      l.info("posting message " + msg + " " + data);
+      l.info("App: posting message " + msg + " " + data);
       return this.iframePhone.post(msg, data);
     } else {
-      l.info("queueing message " + msg + " " + data);
+      l.info("App: queueing message " + msg + " " + data);
       return this.queue.push({
         'msg': msg,
         'data': data
@@ -12674,27 +12664,38 @@ Log = (function() {
     return this._instance;
   };
 
-  function Log(log1, out, _in) {
-    this.log = log1 != null ? log1 : "#logger";
+  function Log(logDiv, out, _in) {
+    this.logDiv = logDiv != null ? logDiv : "#logger";
     this.out = out != null ? out : "#dataOut";
     this["in"] = _in != null ? _in : "#dataIn";
   }
 
-  Log.prototype.warn = function(message) {
+  Log.prototype.writeCustomLogDom = function(message, severity) {
     var $log, $msg;
-    $log = $(this.log);
-    $msg = $("<span class='logmsg'>" + message + "</span><br/>");
-    $log.append($msg);
-    $log[0].scrollTop = $log[0].scrollHeight;
-    return log.warn(message);
+    if (severity == null) {
+      severity = "warn";
+    }
+    $log = $(this.logDiv);
+    if ($log && $log.size > 0) {
+      $msg = $("<span class='" + severity + " logmsg'>" + message + "</span><br/>");
+      $log.append($msg);
+      return $log[0].scrollTop = $log[0].scrollHeight;
+    }
+  };
+
+  Log.prototype.warn = function(m) {
+    this.writeCustomLogDom(m, "warn");
+    return log.warn(m);
   };
 
   Log.prototype.info = function(m) {
-    return this.warn(m);
+    this.writeCustomLogDom(m, "info");
+    return log.info(m);
   };
 
-  Log.prototype.message = function(m) {
-    return this.warn(m);
+  Log.prototype.error = function(m) {
+    this.writeCustomLogDom(m, "error");
+    return log.error(m);
   };
 
   Log.prototype.dataIn = function(message) {

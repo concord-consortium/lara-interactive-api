@@ -744,27 +744,38 @@ Log = (function() {
     return this._instance;
   };
 
-  function Log(log1, out, _in) {
-    this.log = log1 != null ? log1 : "#logger";
+  function Log(logDiv, out, _in) {
+    this.logDiv = logDiv != null ? logDiv : "#logger";
     this.out = out != null ? out : "#dataOut";
     this["in"] = _in != null ? _in : "#dataIn";
   }
 
-  Log.prototype.warn = function(message) {
+  Log.prototype.writeCustomLogDom = function(message, severity) {
     var $log, $msg;
-    $log = $(this.log);
-    $msg = $("<span class='logmsg'>" + message + "</span><br/>");
-    $log.append($msg);
-    $log[0].scrollTop = $log[0].scrollHeight;
-    return log.warn(message);
+    if (severity == null) {
+      severity = "warn";
+    }
+    $log = $(this.logDiv);
+    if ($log && $log.size > 0) {
+      $msg = $("<span class='" + severity + " logmsg'>" + message + "</span><br/>");
+      $log.append($msg);
+      return $log[0].scrollTop = $log[0].scrollHeight;
+    }
+  };
+
+  Log.prototype.warn = function(m) {
+    this.writeCustomLogDom(m, "warn");
+    return log.warn(m);
   };
 
   Log.prototype.info = function(m) {
-    return this.warn(m);
+    this.writeCustomLogDom(m, "info");
+    return log.info(m);
   };
 
-  Log.prototype.message = function(m) {
-    return this.warn(m);
+  Log.prototype.error = function(m) {
+    this.writeCustomLogDom(m, "error");
+    return log.error(m);
   };
 
   Log.prototype.dataIn = function(message) {

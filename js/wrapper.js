@@ -1,7 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Wrapper, getParameterByName, iframePhone, l;
 
-l = (require('./log')).instance();
+l = require('loglevel');
 
 iframePhone = require('iframe-phone');
 
@@ -28,7 +28,6 @@ module.exports = Wrapper = (function() {
     $(id).attr('src', this.interactiveUrl);
     $(id).load((function(_this) {
       return function() {
-        l.info("loaded interactive " + _this.interactiveUrl);
         return _this.registerPhones(id);
       };
     })(this));
@@ -36,11 +35,11 @@ module.exports = Wrapper = (function() {
 
   Wrapper.prototype.loadConfiguration = function() {
     this.datasetName = getParameterByName("datasetName", "prediction-dataset");
-    l.info("Using dataset " + this.datasetName);
+    l.info("Wrapper: Using dataset " + this.datasetName);
     this.globalStateKey = getParameterByName("globalStateKey", "gstate-prediction-dataset");
-    l.info("Global key " + this.globalStateKey);
+    l.info("Wrapper: Global key " + this.globalStateKey);
     this.interactiveUrl = getParameterByName("interactive", "http://lab.concord.org/embeddable.html#interactives/itsi/sensor/prediction-prediction.json");
-    return l.info("Interactive " + this.interactiveUrl);
+    return l.info("Wrapper: Interactive " + this.interactiveUrl);
   };
 
   Wrapper.prototype.registerPhones = function(id) {
@@ -96,12 +95,6 @@ module.exports = Wrapper = (function() {
             });
           }
         };
-      })(this),
-      "getLearnerUrl": (function(_this) {
-        return function(data) {
-          l.info("GetLearnerUrl heard");
-          return _this.runtimePhone.post("setLearnerUrl", "http://wrapper.com/fakeout");
-        };
       })(this)
     };
   };
@@ -127,7 +120,7 @@ module.exports = Wrapper = (function() {
       })(this),
       obj["modelLoaded"] = (function(_this) {
         return function() {
-          l.info("Model loaded called");
+          l.info("Wrapper: Model loaded called");
           return _this.runtimePhone.post('interactiveStateGlobal', _this.globalState);
         };
       })(this),
@@ -144,14 +137,13 @@ module.exports = Wrapper = (function() {
   Wrapper.prototype.interactivePhoneAnswered = function() {
     var events, evnt, i, len, reg, results1;
     if (this.alreadySetupInteractive) {
-      return l.info("interactive phone rang, and previously answerd");
+      return l.info("Wrapper: interactive phone rang, and previously answerd");
     } else {
-      l.info("interactive phone answered");
+      l.info("Wrapper: interactive phone answered");
       this.alreadySetupInteractive = true;
       this.registerHandlers(this.interactivePhone, this.interactiveHandlers());
       reg = (function(_this) {
         return function(evt) {
-          l.info("wiring a request for " + evt);
           return _this.interactivePhone.post("listenForDatasetEvent", {
             eventName: evt,
             datasetName: _this.datasetName
@@ -173,11 +165,11 @@ module.exports = Wrapper = (function() {
     register = (function(_this) {
       return function(phone, message, response) {
         return phone.addListener(message, function(data) {
-          l.info("handling phone: " + message);
+          l.info("Wrapper: handling phone: " + message);
           if (response) {
             return response(data);
           } else {
-            return l.info("no response defined for " + message);
+            return l.info("Wrapper: no response defined for " + message);
           }
         });
       };
@@ -198,7 +190,7 @@ window.Wrapper = Wrapper;
 
 
 
-},{"./log":8,"iframe-phone":6}],2:[function(require,module,exports){
+},{"iframe-phone":6,"loglevel":7}],2:[function(require,module,exports){
 var structuredClone = require('./structured-clone');
 var HELLO_INTERVAL_LENGTH = 200;
 var HELLO_TIMEOUT_LENGTH = 60000;
@@ -827,58 +819,4 @@ module.exports = {
     return self;
 }));
 
-},{}],8:[function(require,module,exports){
-var Log, log;
-
-log = require('loglevel');
-
-Log = (function() {
-  Log._instance = null;
-
-  Log.instance = function() {
-    if (this._instance == null) {
-      this._instance = new this;
-    }
-    return this._instance;
-  };
-
-  function Log(log1, out, _in) {
-    this.log = log1 != null ? log1 : "#logger";
-    this.out = out != null ? out : "#dataOut";
-    this["in"] = _in != null ? _in : "#dataIn";
-  }
-
-  Log.prototype.warn = function(message) {
-    var $log, $msg;
-    $log = $(this.log);
-    $msg = $("<span class='logmsg'>" + message + "</span><br/>");
-    $log.append($msg);
-    $log[0].scrollTop = $log[0].scrollHeight;
-    return log.warn(message);
-  };
-
-  Log.prototype.info = function(m) {
-    return this.warn(m);
-  };
-
-  Log.prototype.message = function(m) {
-    return this.warn(m);
-  };
-
-  Log.prototype.dataIn = function(message) {
-    return $(this["in"].text)(message);
-  };
-
-  Log.prototype.dataOut = function(message) {
-    return $(this.out.text)(message);
-  };
-
-  return Log;
-
-})();
-
-module.exports = Log;
-
-
-
-},{"loglevel":7}]},{},[1]);
+},{}]},{},[1]);
