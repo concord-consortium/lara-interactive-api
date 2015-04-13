@@ -82,8 +82,9 @@ module.exports = class Wrapper
       @scheduleDataUpdate()
     "#{@datasetName}-dataReset":=>
       @scheduleDataUpdate()
-    "getDataset": () =>
-      l.info("getDataSet sent by interactive (what to do?)")
+    "modelLoaded": () =>
+      l.info("Model loaded called")
+      @runtimePhone.post('interactiveStateGlobal', @globalState)
     "dataset": (data)=>
       @globalState[@globalStateKey] = data
       @runtimePhone.post('interactiveStateGlobal', @globalState)
