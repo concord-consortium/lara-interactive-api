@@ -39,13 +39,16 @@ module.exports = class Wrapper
       @runtimePhone.hangup()
       @runtimePhone = null
 
-    @runtimePhone = new iframePhone.getIFrameEndpoint()
-    @registerHandlers(@runtimePhone, @runtimeHandlers())
+
     @interactivePhone = new iframePhone.ParentEndpoint $(id)[0], =>
       @interactivePhoneAnswered()
       l.info "Interactive Phone ready"
-    l.info "Runtime Phone ready"
-    @runtimePhone.initialize()
+
+      # register LARA side:
+      @runtimePhone = new iframePhone.getIFrameEndpoint()
+      @registerHandlers(@runtimePhone, @runtimeHandlers())
+      l.info "Runtime Phone ready"
+      @runtimePhone.initialize()
 
   # Batch-up changes by starting a timer when data changes.
   # Notify change when timer runs out.
