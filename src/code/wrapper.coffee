@@ -45,7 +45,7 @@ module.exports = class Wrapper
       l.info "Interactive Phone ready"
     l.info "Runtime Phone ready"
     @runtimePhone.initialize()
-    
+
   # Batch-up changes by starting a timer when data changes.
   # Notify change when timer runs out.
   # delay if new data is continuing to come in.
@@ -60,7 +60,8 @@ module.exports = class Wrapper
   runtimeHandlers: ->
     "loadInteractiveGlobal": (data) =>
       key = @globalStateKey
-      myData = JSON.parse(data)[key]
+      data = JSON.parse(data) if typeof data is 'string'
+      myData = data[key]
       if myData
         @interactivePhone.post 'sendDatasetEvent',
           "eventName": 'dataReset'
@@ -97,7 +98,7 @@ module.exports = class Wrapper
           datasetName: "prediction-dataset"
       events = "sampleAdded dataReset sampleRemoved".split /\s+/
       reg(evnt) for evnt in events
-      
+
 
   registerHandlers: (phone, handlers) ->
     register = (phone, message, response) =>
