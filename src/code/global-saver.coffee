@@ -1,5 +1,5 @@
 # This is mostly a copy of the system in use on LARA as of April 13, 2015
-# (on github) → http://bit.ly/1JE4phw 
+# (on github) → http://bit.ly/1JE4phw
 # This class implements two main functionalities:
 # 1. Checks if global interactive state is availble on page load and if so,
 #    it posts 'interactiveLoadGlobal' to all interactives (iframes).
@@ -37,6 +37,6 @@ module.exports = class GlobalIframeSaver
   _broadcastGlobalState: (sender) ->
     @_iframePhones.forEach (phone) =>
       # Do not send state again to the same iframe that posted global state.
-      @_loadGlobalState phone if phone != sender
+      @_loadGlobalState phone if phone isnt sender
 
 window.GlobalIframeSaver = GlobalIframeSaver
