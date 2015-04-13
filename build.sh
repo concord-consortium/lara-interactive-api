@@ -1,6 +1,8 @@
 #!/bin/bash
 
-DISTDIR="./dist" 
+PATH=$(npm bin):$PATH # make local NPM modules available
+
+DISTDIR="./dist"
 GITCONFIG="$DISTDIR/.git/config"
 HERE=`pwd`
 DATE=`date +"%Y-%m-%d"`
@@ -44,7 +46,7 @@ echo "Rebuilding app"
 gulp build-all --production --buildInfo '$SHA built on $DATE' &&\
 
 # 5) Commit and push
-cd $DISTDIR 
+cd $DISTDIR
 git add * &&\
 git commit -a -m "deployment for $SHA built on $DATE" &&\
 git push origin gh-pages
