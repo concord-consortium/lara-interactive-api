@@ -83,7 +83,10 @@ module.exports = Wrapper = (function() {
         return function(data) {
           var key, myData;
           key = _this.globalStateKey;
-          myData = JSON.parse(data)[key];
+          if (typeof data === 'string') {
+            data = JSON.parse(data);
+          }
+          myData = data[key];
           if (myData) {
             return _this.interactivePhone.post('sendDatasetEvent', {
               "eventName": 'dataReset',
