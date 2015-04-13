@@ -63,7 +63,8 @@ module.exports = class Wrapper
 
   runtimeHandlers: ->
     "loadInteractiveGlobal": (data) =>
-      @globalState = JSON.parse(data) if typeof data is 'string'
+      data = JSON.parse(data) if typeof data is 'string'
+      @globalState = data
       myData = @globalState[@globalStateKey]
       if myData
         @interactivePhone.post 'sendDatasetEvent',
