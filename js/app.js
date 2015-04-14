@@ -12676,7 +12676,7 @@ Log = (function() {
       severity = "warn";
     }
     $log = $(this.logDiv);
-    if ($log && $log.size > 0) {
+    if ($log && $log.length > 0) {
       $msg = $("<span class='" + severity + " logmsg'>" + message + "</span><br/>");
       $log.append($msg);
       return $log[0].scrollTop = $log[0].scrollHeight;
