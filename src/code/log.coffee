@@ -10,7 +10,7 @@ class Log
   writeCustomLogDom: (message,severity="warn") ->
     # Possibly update a Dom element with message
     $log = $(@logDiv)
-    if $log and $log.size > 0
+    if $log and $log.length > 0
       $msg = $ "<span class='#{severity} logmsg'>#{message}</span><br/>"
       $log.append($msg)
       $log[0].scrollTop = $log[0].scrollHeight
