@@ -26,7 +26,7 @@ module.exports = class Wrapper
     @globalStateKey = getParameterByName "globalStateKey", "gstate-prediction-dataset"
     l.info "Wrapper: Global key #{@globalStateKey}"
 
-    @interactiveUrl = getParameterByName "interactive", "http://lab.concord.org/embeddable.html#interactives/itsi/sensor/prediction-prediction.json"
+    @interactiveUrl = getParameterByName "interactive", "http://lab.concord.org/embeddable-dev.html#interactives/itsi/sensor/prediction-prediction.json"
     l.info "Wrapper: Interactive #{@interactiveUrl}"
 
   registerPhones: (id) ->
