@@ -29,16 +29,16 @@ gulp.task('browserify-iframe', function(){
     .pipe(gulp.dest(config.iframe.dest));
 });
 
-gulp.task('browserify-wrapper', function(){
+gulp.task('browserify-dataset-sync-wrapper', function(){
   var b = browserify({
     debug: !production,
     extensions: ['.coffee']
   });
   b.transform(coffeeify);
-  b.add(config.wrapper.src);
+  b.add(config.datasetSyncWrapper.src);
   return b.bundle()
-    .pipe(source('wrapper.js'))
-    .pipe(gulp.dest(config.wrapper.dest));
+    .pipe(source('dataset-sync-wrapper.js'))
+    .pipe(gulp.dest(config.datasetSyncWrapper.dest));
 });
 
 gulp.task('browserify-saver', function(){

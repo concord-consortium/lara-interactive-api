@@ -23,9 +23,9 @@ module.exports = {
       src: src + '/code/iframe.coffee',
       dest: dest + '/js/'
     },
-    wrapper: {
+    datasetSyncWrapper: {
       watch: [src + '/code/**/*.*', '!' + src + '/code/globals.coffee'],
-      src: src + '/code/wrapper.coffee',
+      src: src + '/code/dataset-sync-wrapper.coffee',
       dest: dest + '/js/'
     },
     saver: {

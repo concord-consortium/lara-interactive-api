@@ -9,7 +9,7 @@ getParameterByName = (name, defaultValue="") ->
     return defaultValue
   return decodeURIComponent(results[1].replace(/\+/g, " "))
 
-module.exports = class Wrapper
+module.exports = class DatasetSyncWrapper
   constructor: (id) ->
     @globalState = {}
     @updateRuntimeDataSchedule = false
@@ -21,13 +21,13 @@ module.exports = class Wrapper
 
   loadConfiguration: () ->
     @datasetName = getParameterByName "datasetName", "prediction-dataset"
-    l.info "Wrapper: Using dataset #{@datasetName}"
+    l.info "DatasetSyncWrapper: Using dataset #{@datasetName}"
 
     @globalStateKey = getParameterByName "globalStateKey", "gstate-prediction-dataset"
-    l.info "Wrapper: Global key #{@globalStateKey}"
+    l.info "DatasetSyncWrapper: Global key #{@globalStateKey}"
 
     @interactiveUrl = getParameterByName "interactive", "http://lab.concord.org/embeddable-dev.html#interactives/itsi/sensor/prediction-prediction.json"
-    l.info "Wrapper: Interactive #{@interactiveUrl}"
+    l.info "DatasetSyncWrapper: Interactive #{@interactiveUrl}"
 
   registerPhones: (id) ->
     if @interactivePhone
@@ -79,7 +79,7 @@ module.exports = class Wrapper
     "#{@datasetName}-dataReset":=>
       @scheduleDataUpdate()
     # "modelLoaded": () =>
-    #   l.info("Wrapper: Model loaded called")
+    #   l.info("DatasetSyncWrapper: Model loaded called")
     #   @interactivePhone.post('interactiveStateGlobal', @globalState)
     "dataset": (data)=>
       @globalState[@globalStateKey] = data
@@ -87,9 +87,9 @@ module.exports = class Wrapper
 
   interactivePhoneAnswered: ()->
     if @alreadySetupInteractive
-      l.info "Wrapper: interactive phone rang, and previously answerd"
+      l.info "DatasetSyncWrapper: interactive phone rang, and previously answerd"
     else
-      l.info "Wrapper: interactive phone answered"
+      l.info "DatasetSyncWrapper: interactive phone answered"
       @alreadySetupInteractive = true
       @registerHandlers(@interactivePhone, @interactiveHandlers())
       reg = (evt) =>
@@ -103,12 +103,12 @@ module.exports = class Wrapper
   registerHandlers: (phone, handlers) ->
     register = (phone, message, response) =>
       phone.addListener message, (data) =>
-        l.info "Wrapper: handling phone: #{message}"
+        l.info "DatasetSyncWrapper: handling phone: #{message}"
         if response
           response(data)
         else
-          l.info "Wrapper: no response defined for #{message}"
+          l.info "DatasetSyncWrapper: no response defined for #{message}"
     register(phone,message, response) for message, response of handlers
 
 
-window.Wrapper = Wrapper
+window.DatasetSyncWrapper = DatasetSyncWrapper
