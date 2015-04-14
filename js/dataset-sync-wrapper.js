@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var Wrapper, getParameterByName, iframePhone, l;
+var DatasetSyncWrapper, getParameterByName, iframePhone, l;
 
 l = require('loglevel');
 
@@ -19,8 +19,8 @@ getParameterByName = function(name, defaultValue) {
   return decodeURIComponent(results[1].replace(/\+/g, " "));
 };
 
-module.exports = Wrapper = (function() {
-  function Wrapper(id) {
+module.exports = DatasetSyncWrapper = (function() {
+  function DatasetSyncWrapper(id) {
     this.globalState = {};
     this.updateRuntimeDataSchedule = false;
     this.updateInterval = 500;
@@ -33,16 +33,16 @@ module.exports = Wrapper = (function() {
     })(this));
   }
 
-  Wrapper.prototype.loadConfiguration = function() {
+  DatasetSyncWrapper.prototype.loadConfiguration = function() {
     this.datasetName = getParameterByName("datasetName", "prediction-dataset");
-    l.info("Wrapper: Using dataset " + this.datasetName);
+    l.info("DatasetSyncWrapper: Using dataset " + this.datasetName);
     this.globalStateKey = getParameterByName("globalStateKey", "gstate-prediction-dataset");
-    l.info("Wrapper: Global key " + this.globalStateKey);
-    this.interactiveUrl = getParameterByName("interactive", "http://lab.concord.org/embeddable.html#interactives/itsi/sensor/prediction-prediction.json");
-    return l.info("Wrapper: Interactive " + this.interactiveUrl);
+    l.info("DatasetSyncWrapper: Global key " + this.globalStateKey);
+    this.interactiveUrl = getParameterByName("interactive", "http://lab.concord.org/embeddable-dev.html#interactives/itsi/sensor/prediction-prediction.json");
+    return l.info("DatasetSyncWrapper: Interactive " + this.interactiveUrl);
   };
 
-  Wrapper.prototype.registerPhones = function(id) {
+  DatasetSyncWrapper.prototype.registerPhones = function(id) {
     if (this.interactivePhone) {
       this.interactivePhone.hangup();
       this.interactivePhone = null;
@@ -63,7 +63,7 @@ module.exports = Wrapper = (function() {
     })(this));
   };
 
-  Wrapper.prototype.scheduleDataUpdate = function() {
+  DatasetSyncWrapper.prototype.scheduleDataUpdate = function() {
     var func;
     if (this.updateRuntimeDataSchedule) {
       clearTimeout(this.updateRuntimeDataSchedule);
@@ -77,7 +77,7 @@ module.exports = Wrapper = (function() {
     return this.updateRuntimeDataSchedule = setTimeout(func, this.updateInterval);
   };
 
-  Wrapper.prototype.runtimeHandlers = function() {
+  DatasetSyncWrapper.prototype.runtimeHandlers = function() {
     return {
       "loadInteractiveGlobal": (function(_this) {
         return function(data) {
@@ -99,7 +99,7 @@ module.exports = Wrapper = (function() {
     };
   };
 
-  Wrapper.prototype.interactiveHandlers = function() {
+  DatasetSyncWrapper.prototype.interactiveHandlers = function() {
     var obj;
     return (
       obj = {},
@@ -118,12 +118,6 @@ module.exports = Wrapper = (function() {
           return _this.scheduleDataUpdate();
         };
       })(this),
-      obj["modelLoaded"] = (function(_this) {
-        return function() {
-          l.info("Wrapper: Model loaded called");
-          return _this.runtimePhone.post('interactiveStateGlobal', _this.globalState);
-        };
-      })(this),
       obj["dataset"] = (function(_this) {
         return function(data) {
           _this.globalState[_this.globalStateKey] = data;
@@ -134,12 +128,12 @@ module.exports = Wrapper = (function() {
     );
   };
 
-  Wrapper.prototype.interactivePhoneAnswered = function() {
+  DatasetSyncWrapper.prototype.interactivePhoneAnswered = function() {
     var events, evnt, i, len, reg, results1;
     if (this.alreadySetupInteractive) {
-      return l.info("Wrapper: interactive phone rang, and previously answerd");
+      return l.info("DatasetSyncWrapper: interactive phone rang, and previously answerd");
     } else {
-      l.info("Wrapper: interactive phone answered");
+      l.info("DatasetSyncWrapper: interactive phone answered");
       this.alreadySetupInteractive = true;
       this.registerHandlers(this.interactivePhone, this.interactiveHandlers());
       reg = (function(_this) {
@@ -160,16 +154,16 @@ module.exports = Wrapper = (function() {
     }
   };
 
-  Wrapper.prototype.registerHandlers = function(phone, handlers) {
+  DatasetSyncWrapper.prototype.registerHandlers = function(phone, handlers) {
     var message, register, response, results1;
     register = (function(_this) {
       return function(phone, message, response) {
         return phone.addListener(message, function(data) {
-          l.info("Wrapper: handling phone: " + message);
+          l.info("DatasetSyncWrapper: handling phone: " + message);
           if (response) {
             return response(data);
           } else {
-            return l.info("Wrapper: no response defined for " + message);
+            return l.info("DatasetSyncWrapper: no response defined for " + message);
           }
         });
       };
@@ -182,11 +176,11 @@ module.exports = Wrapper = (function() {
     return results1;
   };
 
-  return Wrapper;
+  return DatasetSyncWrapper;
 
 })();
 
-window.Wrapper = Wrapper;
+window.DatasetSyncWrapper = DatasetSyncWrapper;
 
 
 
