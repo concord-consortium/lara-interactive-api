@@ -19,7 +19,7 @@ module.exports = MockInteractive = (function() {
   MockInteractive.MessageResponses = {
     "getLearnerUrl": {
       "message": 'setLearnerUrl',
-      "data": 'http://blahblah.com'
+      "data": window.location.href
     },
     "getInteractiveState": {
       "message": 'interactiveState',
