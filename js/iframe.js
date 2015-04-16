@@ -21,21 +21,12 @@ module.exports = MockInteractive = (function() {
       "message": 'setLearnerUrl',
       "data": window.location.href
     },
-    "getInteractiveState": {
-      "message": 'interactiveState',
-      "data": {
-        "some": "fake",
-        "data": "boo"
-      }
-    },
-    "loadInteractive": false,
     "getExtendedSupport": {
       "message": "extendedSupport",
       "data": {
         "opts": "none"
       }
     },
-    "globalLoadState": false,
     "authInfo": false
   };
 
@@ -62,6 +53,25 @@ module.exports = MockInteractive = (function() {
       response = ref[message];
       addHandler(message, response);
     }
+    this.iframePhone.addListener('loadInteractive', (function(_this) {
+      return function(data) {
+        l.info("Phone call: loadInteractive: " + data);
+        return $('#interactiveState').val(JSON.stringify(data));
+      };
+    })(this));
+    this.iframePhone.addListener('getInteractiveState', (function(_this) {
+      return function(data) {
+        l.info("Phone call: getInteractiveState");
+        _this.iframePhone.post('interactiveState', JSON.parse($('#interactiveState').val()));
+        return l.info("Phone responded: interactiveState");
+      };
+    })(this));
+    this.iframePhone.addListener('loadInteractiveGlobal', (function(_this) {
+      return function(data) {
+        l.info("Phone call: interactiveStateGlobal: " + data);
+        return $('#interactiveStateGlobal').val(JSON.stringify(data));
+      };
+    })(this));
     this.iframePhone.initialize();
     return l.info("Phone ready");
   };
@@ -80,14 +90,8 @@ module.exports = MockInteractive = (function() {
     })(this));
     $('#globalSaveState').click((function(_this) {
       return function() {
-        var data;
-        l.info('posting globalSaveState');
-        data = {
-          "myGlobal": "state",
-          "being": "saved",
-          "to": "theParent"
-        };
-        return _this.iframePhone.post("globalSaveState", data);
+        l.info('posting interactiveStateGlobal');
+        return _this.iframePhone.post("interactiveStateGlobal", JSON.parse($('#interactiveStateGlobal').val()));
       };
     })(this));
   }
