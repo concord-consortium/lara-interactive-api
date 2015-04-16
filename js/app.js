@@ -104,11 +104,11 @@ App = (function() {
   };
 
   App.prototype.bindShutterbug = function() {
-    var $button, dest, source;
+    var $button, $button2, dest, source;
     source = "#interactive-iframe";
     dest = "#snapshot";
     $button = $("#takeSnapshot");
-    return $button.click(function() {
+    $button.click(function() {
       if (window.Shutterbug) {
         return Shutterbug.snapshot({
           selector: source,
@@ -117,6 +117,21 @@ App = (function() {
             return l.info("App: snapshot fail");
           },
           server: "//snapshot.concord.org/shutterbug"
+        });
+      } else {
+        return alert("shutterbug.js must be installed on the page");
+      }
+    });
+    $button2 = $("#takeSnapshotDev");
+    return $button2.click(function() {
+      if (window.Shutterbug) {
+        return Shutterbug.snapshot({
+          selector: source,
+          dstSelector: dest,
+          fail: function() {
+            return l.info("App: snapshot fail");
+          },
+          server: "//snapshotdev.concord.org/shutterbug"
         });
       } else {
         return alert("shutterbug.js must be installed on the page");
