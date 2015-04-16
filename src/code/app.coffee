@@ -81,7 +81,17 @@ class App
           server: "//snapshot.concord.org/shutterbug"
       else
         alert "shutterbug.js must be installed on the page"
-
+    $button2 = $("#takeSnapshotDev")
+    $button2.click () ->
+      if window.Shutterbug
+        Shutterbug.snapshot
+          selector: source
+          dstSelector: dest
+          fail: () ->
+            l.info("App: snapshot fail")
+          server: "//snapshotdev.concord.org/shutterbug"
+      else
+        alert "shutterbug.js must be installed on the page"
   ##
   ##
   restartPhone: ($iframe) ->
