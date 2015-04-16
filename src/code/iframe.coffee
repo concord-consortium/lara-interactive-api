@@ -12,21 +12,11 @@ module.exports = class MockInteractive
       "message": 'setLearnerUrl'
       "data": window.location.href
     
-    "getInteractiveState":
-      "message": 'interactiveState'
-      "data":
-        "some": "fake"
-        "data": "boo"
-    
-    "loadInteractive": false
-
     "getExtendedSupport":
       "message": "extendedSupport"
       "data":
         "opts": "none"
     
-    "globalLoadState": false
-
     "authInfo": false
     
   restartIframePhone: ($iframe) ->
@@ -44,7 +34,19 @@ module.exports = class MockInteractive
     
     for message, response of MockInteractive.MessageResponses
       addHandler(message,response)
-      
+    
+    @iframePhone.addListener 'loadInteractive', (data) =>
+      l.info "Phone call: loadInteractive: #{data}"
+      $('#interactiveState').val JSON.stringify(data)
+
+    @iframePhone.addListener 'getInteractiveState', (data) =>
+      l.info "Phone call: getInteractiveState"
+      @iframePhone.post('interactiveState', JSON.parse($('#interactiveState').val()))
+      l.info "Phone responded: interactiveState"
+
+    @iframePhone.addListener 'loadInteractiveGlobal', (data) =>
+      l.info "Phone call: interactiveStateGlobal: #{data}"
+      $('#interactiveStateGlobal').val JSON.stringify(data)
 
     @iframePhone.initialize()
     l.info("Phone ready")
@@ -65,11 +67,7 @@ module.exports = class MockInteractive
       @iframePhone.post("getAuthInfo")
     
     $('#globalSaveState').click () =>
-      l.info('posting globalSaveState')
-      data =
-        "myGlobal": "state"
-        "being": "saved"
-        "to": "theParent"
-      @iframePhone.post("globalSaveState", data)
+      l.info('posting interactiveStateGlobal')
+      @iframePhone.post("interactiveStateGlobal", JSON.parse($('#interactiveStateGlobal').val()))
   
 window.MockInteractive = MockInteractive
