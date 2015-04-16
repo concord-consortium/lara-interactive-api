@@ -31,7 +31,7 @@ module.exports = MockInteractive = (function() {
   };
 
   MockInteractive.prototype.restartIframePhone = function($iframe) {
-    var addHandler, message, ref, response;
+    var addHandler, logTheLogMessages, loggingChannel, message, ref, response;
     if (this.iframePhone) {
       this.iframePhone.hangup();
       this.iframePhone = null;
@@ -72,6 +72,18 @@ module.exports = MockInteractive = (function() {
         return $('#interactiveStateGlobal').val(JSON.stringify(data));
       };
     })(this));
+    logTheLogMessages = function(message, callback) {
+      if (message) {
+        l.info("Logging RPC call: " + message.message);
+      }
+      return callback;
+    };
+    loggingChannel = new iframePhone.IframePhoneRpcEndpoint({
+      handler: logTheLogMessages,
+      namespace: 'lara-logging',
+      targetWindow: window.parent,
+      phone: this.iframePhone
+    });
     this.iframePhone.initialize();
     return l.info("Phone ready");
   };
