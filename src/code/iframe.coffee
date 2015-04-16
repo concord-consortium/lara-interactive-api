@@ -48,6 +48,18 @@ module.exports = class MockInteractive
       l.info "Phone call: interactiveStateGlobal: #{data}"
       $('#interactiveStateGlobal').val JSON.stringify(data)
 
+    # Logging
+    logTheLogMessages = (message, callback) ->
+      if message
+        l.info "Logging RPC call: #{message.message}"
+      callback
+
+    loggingChannel = new iframePhone.IframePhoneRpcEndpoint
+      handler: logTheLogMessages
+      namespace: 'lara-logging'
+      targetWindow: window.parent
+      phone: @iframePhone
+
     @iframePhone.initialize()
     l.info("Phone ready")
 
