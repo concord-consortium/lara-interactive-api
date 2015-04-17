@@ -1,0 +1,6 @@
+site_name: LARA Interactive API
+theme: readthedocs
+site_dir: dist/docs
+pages:
+- ['index.md','LARA API']
+- ['about-mkdocs.md','About the documentation generator']

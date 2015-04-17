@@ -8,6 +8,13 @@ HERE=`pwd`
 DATE=`date +"%Y-%m-%d"`
 SHA=`git rev-parse --short=8 HEAD`
 
+hash mkdocs 2>/dev/null ||\
+ {
+   echo >&2 "this project uses mkdocs to build documentation"
+   echo >&2 "please install mkdocs via pip eg 'pip install mkdocs'"
+   exit 1
+}
+
 echo "Building gh-pages branch in $DISTDIR for SHA $SHA on $DATE"
 
 # 1) make sure dist folder variable is not empty and folder exists
@@ -45,7 +52,14 @@ cd $HERE
 echo "Rebuilding app"
 gulp build-all --production --buildInfo '$SHA built on $DATE' &&\
 
-# 5) Commit and push
+# 5) Build documenation
+echo "Building project documenation from ./docs using mkdocs"
+mkdocs build ||\
+{
+  echo "building docs with 'mkdocs build' failed"
+  exit 1
+}
+# 6) Commit and push
 cd $DISTDIR
 git add * &&\
 git commit -a -m "deployment for $SHA built on $DATE" &&\
