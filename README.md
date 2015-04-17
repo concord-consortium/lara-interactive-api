@@ -20,9 +20,6 @@ to the `./dev` directory
 ### Dry run ###
 * run `gulp build-all --production` this will create dist files in `./dist`
 * run `cd ./dist && live-server` to check your work.
-* Its possible you will see some very pedantic opinionated errors from coffee-lint.
-* Either correct the coffeelint errors, or change the coffee-lint config in 
-`.gulp/tasks/coffeelint-task.js`
 
 ### Update github pages ###
 When satisfied with the state of `./dist` 
