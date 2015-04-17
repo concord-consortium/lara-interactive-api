@@ -44,7 +44,7 @@ module.exports = class MockInteractive
       @iframePhone.post('interactiveState', JSON.parse($('#interactiveState').val()))
       l.info "Phone responded: interactiveState"
 
-    @iframePhone.addListener 'loadInteractiveGlobal', (data) =>
+    @iframePhone.addListener 'loadInteractiveGlobal', (data) ->
       l.info "Phone call: interactiveStateGlobal: #{data}"
       $('#interactiveStateGlobal').val JSON.stringify(data)
 

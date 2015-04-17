@@ -59,9 +59,9 @@ class App
       #   l.info "getExtendedSupport called"
       #   @iframePhoneRpc.call message: 'lara-logging-present'
 
-    bindButton = (name,f) =>
+    bindButton = (name,f) ->
       $elm = $ "##{name}"
-      $elm.on "click", (e) => f(e)
+      $elm.on "click", (e) -> f(e)
 
     bindButton(buttonname, action) for buttonname, action of buttons
 
