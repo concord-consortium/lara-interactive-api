@@ -11,19 +11,19 @@ module.exports = class MockInteractive
     "getLearnerUrl":
       "message": 'setLearnerUrl'
       "data": window.location.href
-    
+
     "getExtendedSupport":
       "message": "extendedSupport"
       "data":
         "opts": "none"
-    
+
     "authInfo": false
-    
+
   restartIframePhone: ($iframe) ->
     if @iframePhone
       @iframePhone.hangup()
       @iframePhone = null
-  
+
     @iframePhone = new iframePhone.getIFrameEndpoint()
     addHandler = (message,response) =>
       @iframePhone.addListener message, (data) =>
@@ -31,11 +31,11 @@ module.exports = class MockInteractive
         if response
           @iframePhone.post(response.message, response.data)
           l.info "Phone responded: #{response.message} - #{response.data}"
-    
+
     for message, response of MockInteractive.MessageResponses
       addHandler(message,response)
-    
-    @iframePhone.addListener 'loadInteractive', (data) =>
+
+    @iframePhone.addListener 'loadInteractive', (data) ->
       l.info "Phone call: loadInteractive: #{data}"
       $('#interactiveState').val JSON.stringify(data)
 
@@ -77,9 +77,9 @@ module.exports = class MockInteractive
     $('#getAuthInfo').click () =>
       l.info('posting getAuthInfo')
       @iframePhone.post("getAuthInfo")
-    
+
     $('#globalSaveState').click () =>
       l.info('posting interactiveStateGlobal')
       @iframePhone.post("interactiveStateGlobal", JSON.parse($('#interactiveStateGlobal').val()))
-  
+
 window.MockInteractive = MockInteractive

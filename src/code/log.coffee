@@ -18,18 +18,18 @@ class Log
   warn: (m) ->
     @writeCustomLogDom m, "warn"
     log.warn m
-  
+
   info: (m) ->
     @writeCustomLogDom m, "info"
     log.info m
-  
+
   error: (m) ->
     @writeCustomLogDom m, "error"
     log.error m
-    
+
   dataIn: (message) ->
     $(@in.text) message
-  
+
   dataOut: (message) ->
     $(@out.text) message
 
