@@ -14,6 +14,7 @@ module.exports = class GlobalIframeSaver
 
   constructor: (config) ->
     @_globalState = if config.raw_data then JSON.parse(config.raw_data) else null
+    @_listener = config.listener
 
     @_iframePhones = []
     $(INTERACTIVES_SEL).each (idx, iframeEl) =>
@@ -29,6 +30,7 @@ module.exports = class GlobalIframeSaver
   _setupPhoneListeners: (phone) ->
     phone.addListener 'interactiveStateGlobal', (state) =>
       @_globalState = state
+      @_listener state if @_listener
       @_broadcastGlobalState phone
 
   _loadGlobalState: (phone) ->

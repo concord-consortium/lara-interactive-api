@@ -17,7 +17,17 @@
     </a>
   </div>
 
-  <div class="prediction">
+  <div>
+    <label>Global State</label><br>
+    <textarea id="globalState"></textarea>
+  </div>
+
+  <div class="interactive-container">
+    <label>Interactive A</label><br>
+    <input  name="interactiveSourceA"
+      id="interactiveSourceA"
+      type="text"
+      value= "dataset-sync-wrapper.html?interactive=http%3A%2F%2Flab.concord.org%2Fembeddable-dev.html%23interactives%2Fitsi%2Fsensor%2Fprediction-prediction.json" /><br>
     <iframe 
       width=600
       height=400
@@ -29,6 +39,13 @@
       mozallowfullscreen="true" 
       webkitallowfullscreen="true">
     </iframe>
+  </div>
+  <div class="interactive-container">
+    <label>Interactive B</label><br>
+    <input  name="interactiveSourceB"
+      id="interactiveSourceB"
+      type="text"
+      value= "dataset-sync-wrapper.html?datasetName=sensor-dataset&interactive=http%3A%2F%2Flab.concord.org%2Fembeddable-dev.html%23interactives%2Fitsi%2Fsensor%2Fsensor-connector.json" /><br>
     <iframe
       width=600
       height=400
@@ -45,7 +62,10 @@
   <script src="js/globals.js"></script>
   <script src="js/global-saver.js"></script>
   <script type="text/javascript">
-    window.globalIframeSaver = new GlobalIframeSaver({});
+    function updateTextArea(state){
+      $('#globalState').val(JSON.stringify(state));
+    }
+    window.globalIframeSaver = new GlobalIframeSaver({listener: updateTextArea});
   </script>
 </body>
 </html>
