@@ -29,18 +29,6 @@ gulp.task('browserify-iframe', function(){
     .pipe(gulp.dest(config.iframe.dest));
 });
 
-gulp.task('browserify-dataset-sync-wrapper', function(){
-  var b = browserify({
-    debug: !production,
-    extensions: ['.coffee']
-  });
-  b.transform(coffeeify);
-  b.add(config.datasetSyncWrapper.src);
-  return b.bundle()
-    .pipe(source('dataset-sync-wrapper.js'))
-    .pipe(gulp.dest(config.datasetSyncWrapper.dest));
-});
-
 gulp.task('browserify-saver', function(){
   var b = browserify({
     debug: !production,
@@ -52,8 +40,6 @@ gulp.task('browserify-saver', function(){
     .pipe(source('global-saver.js'))
     .pipe(gulp.dest(config.saver.dest));
 });
-
-
 
 gulp.task('browserify-globals', function(){
   var b = browserify({
