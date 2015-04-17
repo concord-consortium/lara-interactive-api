@@ -1,64 +1,186 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var GlobalIframeSaver, iframePhone, l;
+var DatasetSyncWrapper, getParameterByName, iframePhone, l;
 
 l = require('loglevel');
 
 iframePhone = require('iframe-phone');
 
-module.exports = GlobalIframeSaver = (function() {
-  var INTERACTIVES_SEL;
+getParameterByName = function(name, defaultValue) {
+  var regex, results;
+  if (defaultValue == null) {
+    defaultValue = "";
+  }
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+  results = regex.exec(location.search);
+  if (results === null) {
+    return defaultValue;
+  }
+  return decodeURIComponent(results[1].replace(/\+/g, " "));
+};
 
-  INTERACTIVES_SEL = 'iframe.interactive';
-
-  function GlobalIframeSaver(config) {
-    this._globalState = config.raw_data ? JSON.parse(config.raw_data) : null;
-    this._iframePhones = [];
-    $(INTERACTIVES_SEL).each((function(_this) {
-      return function(idx, iframeEl) {
-        var phone;
-        return phone = new iframePhone.ParentEndpoint($(iframeEl)[0], function() {
-          return _this.addNewPhone(phone);
-        });
+module.exports = DatasetSyncWrapper = (function() {
+  function DatasetSyncWrapper(id) {
+    this.globalState = {};
+    this.updateRuntimeDataSchedule = false;
+    this.updateInterval = 500;
+    this.loadConfiguration();
+    $(id).attr('src', this.interactiveUrl);
+    $(id).load((function(_this) {
+      return function() {
+        return _this.registerPhones(id);
       };
     })(this));
   }
 
-  GlobalIframeSaver.prototype.addNewPhone = function(phone) {
-    this._iframePhones.push(phone);
-    this._setupPhoneListeners(phone);
-    if (this._globalState) {
-      return this._loadGlobalState(phone);
+  DatasetSyncWrapper.prototype.loadConfiguration = function() {
+    this.datasetName = getParameterByName("datasetName", "prediction-dataset");
+    l.info("DatasetSyncWrapper: Using dataset " + this.datasetName);
+    this.globalStateKey = getParameterByName("globalStateKey", "gstate-prediction-dataset");
+    l.info("DatasetSyncWrapper: Global key " + this.globalStateKey);
+    this.interactiveUrl = getParameterByName("interactive", "http://lab.concord.org/embeddable-dev.html#interactives/itsi/sensor/prediction-prediction.json");
+    return l.info("DatasetSyncWrapper: Interactive " + this.interactiveUrl);
+  };
+
+  DatasetSyncWrapper.prototype.registerPhones = function(id) {
+    if (this.interactivePhone) {
+      this.interactivePhone.hangup();
+      this.interactivePhone = null;
+    }
+    if (this.runtimePhone) {
+      this.runtimePhone.hangup();
+      this.runtimePhone = null;
+    }
+    return this.interactivePhone = new iframePhone.ParentEndpoint($(id)[0], (function(_this) {
+      return function() {
+        _this.interactivePhoneAnswered();
+        l.info("Interactive Phone ready");
+        _this.runtimePhone = new iframePhone.getIFrameEndpoint();
+        _this.registerHandlers(_this.runtimePhone, _this.runtimeHandlers());
+        l.info("Runtime Phone ready");
+        return _this.runtimePhone.initialize();
+      };
+    })(this));
+  };
+
+  DatasetSyncWrapper.prototype.scheduleDataUpdate = function() {
+    var func;
+    if (this.updateRuntimeDataSchedule) {
+      clearTimeout(this.updateRuntimeDataSchedule);
+    }
+    func = (function(_this) {
+      return function() {
+        _this.interactivePhone.post('getDataset', _this.datasetName);
+        return _this.updateRuntimeDataSchedule = false;
+      };
+    })(this);
+    return this.updateRuntimeDataSchedule = setTimeout(func, this.updateInterval);
+  };
+
+  DatasetSyncWrapper.prototype.runtimeHandlers = function() {
+    return {
+      "loadInteractiveGlobal": (function(_this) {
+        return function(data) {
+          var myData;
+          if (typeof data === 'string') {
+            data = JSON.parse(data);
+          }
+          _this.globalState = data;
+          myData = _this.globalState[_this.globalStateKey];
+          if (myData) {
+            return _this.interactivePhone.post('sendDatasetEvent', {
+              "eventName": 'dataReset',
+              "datasetName": _this.datasetName,
+              "data": myData.value.initialData
+            });
+          }
+        };
+      })(this)
+    };
+  };
+
+  DatasetSyncWrapper.prototype.interactiveHandlers = function() {
+    var obj;
+    return (
+      obj = {},
+      obj[this.datasetName + "-sampleAdded"] = (function(_this) {
+        return function() {
+          return _this.scheduleDataUpdate();
+        };
+      })(this),
+      obj[this.datasetName + "-sampleRemoved"] = (function(_this) {
+        return function() {
+          return _this.scheduleDataUpdate();
+        };
+      })(this),
+      obj[this.datasetName + "-dataReset"] = (function(_this) {
+        return function() {
+          return _this.scheduleDataUpdate();
+        };
+      })(this),
+      obj["dataset"] = (function(_this) {
+        return function(data) {
+          _this.globalState[_this.globalStateKey] = data;
+          return _this.runtimePhone.post('interactiveStateGlobal', _this.globalState);
+        };
+      })(this),
+      obj
+    );
+  };
+
+  DatasetSyncWrapper.prototype.interactivePhoneAnswered = function() {
+    var events, evnt, i, len, reg, results1;
+    if (this.alreadySetupInteractive) {
+      return l.info("DatasetSyncWrapper: interactive phone rang, and previously answerd");
+    } else {
+      l.info("DatasetSyncWrapper: interactive phone answered");
+      this.alreadySetupInteractive = true;
+      this.registerHandlers(this.interactivePhone, this.interactiveHandlers());
+      reg = (function(_this) {
+        return function(evt) {
+          return _this.interactivePhone.post("listenForDatasetEvent", {
+            eventName: evt,
+            datasetName: _this.datasetName
+          });
+        };
+      })(this);
+      events = "sampleAdded dataReset sampleRemoved".split(/\s+/);
+      results1 = [];
+      for (i = 0, len = events.length; i < len; i++) {
+        evnt = events[i];
+        results1.push(reg(evnt));
+      }
+      return results1;
     }
   };
 
-  GlobalIframeSaver.prototype._setupPhoneListeners = function(phone) {
-    return phone.addListener('interactiveStateGlobal', (function(_this) {
-      return function(state) {
-        _this._globalState = state;
-        return _this._broadcastGlobalState(phone);
+  DatasetSyncWrapper.prototype.registerHandlers = function(phone, handlers) {
+    var message, register, response, results1;
+    register = (function(_this) {
+      return function(phone, message, response) {
+        return phone.addListener(message, function(data) {
+          l.info("DatasetSyncWrapper: handling phone: " + message);
+          if (response) {
+            return response(data);
+          } else {
+            return l.info("DatasetSyncWrapper: no response defined for " + message);
+          }
+        });
       };
-    })(this));
+    })(this);
+    results1 = [];
+    for (message in handlers) {
+      response = handlers[message];
+      results1.push(register(phone, message, response));
+    }
+    return results1;
   };
 
-  GlobalIframeSaver.prototype._loadGlobalState = function(phone) {
-    return phone.post('loadInteractiveGlobal', this._globalState);
-  };
-
-  GlobalIframeSaver.prototype._broadcastGlobalState = function(sender) {
-    return this._iframePhones.forEach((function(_this) {
-      return function(phone) {
-        if (phone !== sender) {
-          return _this._loadGlobalState(phone);
-        }
-      };
-    })(this));
-  };
-
-  return GlobalIframeSaver;
+  return DatasetSyncWrapper;
 
 })();
 
-window.GlobalIframeSaver = GlobalIframeSaver;
+window.DatasetSyncWrapper = DatasetSyncWrapper;
 
 
 

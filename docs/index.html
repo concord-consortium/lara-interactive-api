@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>LARA Interactive API</title>
+  
+
+  <link rel="shortcut icon" href="./img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="./css/highlight.css">
+
+  <script src="./js/jquery-2.1.1.min.js"></script>
+  <script src="./js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="./js/highlight.pack.js"></script>
+  <script src="./js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> LARA Interactive API</a>
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <ul class="current">
+    
+        
+            <li class="toctree-l1 current">
+                <a class="current" href=".">LARA API</a>
+                
+                    <ul>
+                    
+                        <li class="toctree-l3"><a href="#lara-iframe-apis">LARA iframe APIs</a></li>
+                        
+                            <li><a class="toctree-l4" href="#interactive-shutterbug">Interactive Shutterbug</a></li>
+                        
+                            <li><a class="toctree-l4" href="#lara-interactive-save-state">LARA: Interactive save state</a></li>
+                        
+                            <li><a class="toctree-l4" href="#lara-current_user-info-for-an-interactive">LARA current_user info for an interactive</a></li>
+                        
+                            <li><a class="toctree-l4" href="#interactive-logging-coming-soon">Interactive Logging (coming soon)</a></li>
+                        
+                            <li><a class="toctree-l4" href="#global-state">Global state</a></li>
+                        
+                            <li><a class="toctree-l4" href="#only-playing-one-at-a-time-coming-soon">Only playing one at a time (coming soon)</a></li>
+                        
+                    
+                        <li class="toctree-l3"><a href="#reference-using-iframephone">Reference: using iFramePhone:</a></li>
+                        
+                            <li><a class="toctree-l4" href="#parent-setup">parent setup:</a></li>
+                        
+                            <li><a class="toctree-l4" href="#iframe-child-setup">iframe (child) setup:</a></li>
+                        
+                    
+                    </ul>
+                
+            </li>
+        
+
+    
+        
+            <li class="toctree-l1 ">
+                <a class="" href="about-mkdocs/">About the documentation generator</a>
+                
+            </li>
+        
+
+    
+</ul>
+
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">LARA Interactive API</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+    <li>LARA API</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              <p>Table of contents:</p>
+<div class="toc">
+<ul>
+<li><a href="#lara-iframe-apis">LARA iframe APIs</a><ul>
+<li><a href="#interactive-shutterbug">Interactive Shutterbug</a><ul>
+<li><a href="#shutterbug-messages">Shutterbug Messages:</a><ul>
+<li><a href="#htmlfragrequest">htmlFragRequest</a></li>
+<li><a href="#htmlfragresponse">`htmlFragResponse</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#lara-interactive-save-state">LARA: Interactive save state</a><ul>
+<li><a href="#interactivestate-iframephone-listeners">InteractiveState  iFramePhone listeners:</a><ul>
+<li><a href="#setlearnerurl">setLearnerUrl:</a></li>
+<li><a href="#interactivestate">interactiveState:</a></li>
+<li><a href="#extendedsupport">extendedSupport:</a></li>
+</ul>
+</li>
+<li><a href="#interactivestate-iframephone-posts">InteractiveState iFramePhone posts:</a><ul>
+<li><a href="#getextendedsupport">getExtendedSupport</a></li>
+<li><a href="#getlearnerurl">getLearnerUrl</a></li>
+<li><a href="#getinteractivestate">getInteractiveState</a></li>
+<li><a href="#loadinteractive">loadInteractive</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#lara-current_user-info-for-an-interactive">LARA current_user info for an interactive</a><ul>
+<li><a href="#current_user-listeners">current_user Listeners:</a><ul>
+<li><a href="#getauthinfo">getAuthInfo</a></li>
+</ul>
+</li>
+<li><a href="#current_user-posts">current_user Posts:</a><ul>
+<li><a href="#authinfo">authInfo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#interactive-logging-coming-soon">Interactive Logging (coming soon)</a><ul>
+<li><a href="#rpc-calls">RPC Calls:</a><ul>
+<li><a href="#lara-logging-present">LARA-logging-present</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#global-state">Global state</a><ul>
+<li><a href="#global-state-iframephone-listeners">Global state iFramePhone listeners:</a><ul>
+<li><a href="#interactivestateglobal">interactiveStateGlobal:</a></li>
+</ul>
+</li>
+<li><a href="#global-state-iframephone-posts">Global state iFramePhone posts:</a><ul>
+<li><a href="#loadinteractiveglobal">loadInteractiveGlobal</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#only-playing-one-at-a-time-coming-soon">Only playing one at a time (coming soon)</a></li>
+</ul>
+</li>
+<li><a href="#reference-using-iframephone">Reference: using iFramePhone:</a><ul>
+<li><a href="#parent-setup">parent setup:</a></li>
+<li><a href="#iframe-child-setup">iframe (child) setup:</a><ul>
+<li><a href="#hello-messages">hello messages:</a></li>
+<li><a href="#other-messages">other messages:</a></li>
+<li><a href="#message-posting-implementation">Message posting implementation:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h1 id="lara-iframe-apis">LARA iframe APIs</h1>
+<p>This is an attempt to document the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage">postMessage</a> communication currently in use in <a href="https://github.com/concord-consortium/LARA">LARA</a>.  Some of these use <a href="https://github.com/concord-consortium/iframe-phone">iFramePhone</a>, and some use raw postMessage calls. This documentation was started from this <a href="https://www.pivotaltracker.com/story/show/90777130">PT Story</a>.</p>
+<h2 id="interactive-shutterbug">Interactive Shutterbug</h2>
+<p><a href="https://github.com/concord-consortium/shutterbug.js">Shutterbug</a> is used widely in Lab and in LARA, it uses <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage">postMessage</a> to request child iFrames HTML content for snapshotting.</p>
+<p>The basic PostMessage API Calls that are used in the shutterbug javascript project are <a href="https://github.com/concord-consortium/shutterbug.js/blob/master/app/scripts/shutterbug-worker.js#L276-L343">documented in the github repo</a>  </p>
+<h3 id="shutterbug-messages">Shutterbug Messages:</h3>
+<hr />
+<h4 id="htmlfragrequest"><code>htmlFragRequest</code></h4>
+<p>Parent asks iframes about their content:</p>
+<pre><code class="javascript"> var message  = {
+   type:        'htmlFragRequest',
+   id:          id,       // Shutterbug ID
+   iframeReqId: iframeId, // position of iframe in dom
+   iframeReqTimeout: this.iframeReqTimeout * 0.6
+ };
+ window.postMessage(JSON.stringify(message), &quot;*&quot;);
+</code></pre>
+
+<hr />
+<h4 id="htmlfragresponse">`htmlFragResponse</h4>
+<hr />
+<hr />
+<p>` </p>
+<p>An Iframe sends its content back:</p>
+<pre><code class="javascript">var response = {
+  type:        'htmlFragResponse',
+  value:       html,
+  iframeReqId: iframeReqId, // counter, from request
+  id:          id           // sender_id from request
+};
+source.postMessage(JSON.stringify(response), &quot;*&quot;);
+</code></pre>
+
+<hr />
+<h2 id="lara-interactive-save-state">LARA: Interactive save state</h2>
+<p>LARA tries to save the interactive state in child iframes by using <a href="https://github.com/concord-consortium/iframe-phone">iFramePhone</a>, but it wraps it up in <a href="https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L1">iframe-saver.coffee</a>.  The LARA logging service also uses iFramePhones <a href="https://github.com/concord-consortium/iframe-phone/blob/master/lib/iframe-phone-rpc-endpoint.js">RPC endpoint</a> to log events from the interactives.</p>
+<p>iFramePhone Handlers registered in iframe-saver.cofee:</p>
+<h3 id="interactivestate-iframephone-listeners">InteractiveState  iFramePhone listeners:</h3>
+<h4 id="setlearnerurl"><code>setLearnerUrl</code>:</h4>
+<p>Listen for an attempt to set the exact URL for this current student. (In the case of Lab Interactives these are version-locked instances of the interactive). Usually sent LARA after LARA has asked for the info via a previous <code>getLearnerUrl</code> message to the iFrame.</p>
+<pre><code class="javascript">var learnerUrlCallback = function(learner_url) { … };
+iframePhone.addListener('setLearnerUrl', learnerUrlCallback);
+</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object, note that <code>content</code> is the argument sent to our callback:</p>
+<pre><code class="javascript">var message = {
+  type: &quot;setLearnerUrl&quot;, 
+  content: &quot;https://lab.concord.org/version/1-0/embeddable.html?is_versioned_url=true&quot;
+};
+</code></pre>
+
+<h4 id="interactivestate"><code>interactiveState</code>:</h4>
+<p>Listen for the current interactive state. Usually sent as a result of our having sent <code>getInteractiveState</code> message to the iFrame earlier.</p>
+<pre><code class="javascript">var setStateCallback = function(stateObjOrJson) { … };
+iframePhone.addListener('interactiveState', setStateCallback);
+</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object, note that <code>content</code> is the argument sent to our callback:</p>
+<pre><code class="javascript">var message = {
+  type: &quot;interactiveState&quot;, 
+  content: {key: 'value', … } // maybe sent as Obj, or JSON depending. 
+};
+</code></pre>
+
+<h4 id="extendedsupport"><code>extendedSupport</code>:</h4>
+<p>Listen for the option to reset state using delete button.  If <code>opts.reset</code> is true, we will allow the user to 'reset' the interactive via the <em>delete</em> button in the LARA runtime. Usually sent as a result of our having sent 'getExtendedSupport' earlier.</p>
+<pre><code class="javascript">var extendSupport = function(opts) { … };
+iframePhone.addListener('extendedSupport', extendSupport);
+</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object, note that <code>content</code> is the argument sent to our callback:</p>
+<pre><code class="javascript">var message = {
+  type: &quot;extendedSupport&quot;, 
+  content: {rest: [true||false]} // maybe sent as Obj, or JSON depending. 
+};
+</code></pre>
+
+<h3 id="interactivestate-iframephone-posts">InteractiveState iFramePhone posts:</h3>
+<h4 id="getextendedsupport"><code>getExtendedSupport</code></h4>
+<p>LARA asks about extended support for things like 'reset':</p>
+<pre><code class="javascript">iframePhone.post('getExtendedSupport');
+</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+<pre><code class="javascript">var message = {
+  type: &quot;getExtendedSupport&quot;, 
+  content: {} // ignored 
+};
+</code></pre>
+
+<h4 id="getlearnerurl"><code>getLearnerUrl</code></h4>
+<p>LARA asks for the exact URL for the current student. For Lab Interactives this results in a version-specific URL:</p>
+<pre><code class="javascript">iframePhone.post('getLearnerUrl');     
+</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+<pre><code class="javascript">var message = {
+  type: &quot;getLearnerUrl&quot;, 
+  content: {} // ignored 
+};
+</code></pre>
+
+<h4 id="getinteractivestate"><code>getInteractiveState</code></h4>
+<p>LARA asks for the iframes state.</p>
+<pre><code class="javascript">iframePhone.post('getInteractiveState');     
+</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+<pre><code class="javascript">var message = {
+  type: &quot;getInteractiveState&quot;, 
+  content: {} // ignored 
+};
+</code></pre>
+
+<h4 id="loadinteractive"><code>loadInteractive</code></h4>
+<p>LARA loads interactive state if it is available in LARA activity run (so <code>interactiveState</code> message has been received earlier).</p>
+<pre><code class="javascript">var state = {key: 'value', … };
+iframePhone.post('loadInteractive', state);     
+</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+<pre><code class="javascript">var message = {
+  type: &quot;loadInteractive&quot;, 
+  content: {key: 'value', … } // maybe sent as Obj, or JSON depending. 
+};
+</code></pre>
+
+<hr />
+<h2 id="lara-current_user-info-for-an-interactive">LARA current_user info for an interactive</h2>
+<p>Information about whether this is an anonymous run, and or who the current_user is (email) is sometimes sent to the interactive. Most of this functionality was added (possibly erroneously) to the <a href="https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L1">iframe-saver</a> in  <a href="https://github.com/concord-consortium/LARA/commit/58d7ee267fd0ae80547f432d932e287cdc856a7b">these commits</a></p>
+<h3 id="current_user-listeners">current_user Listeners:</h3>
+<h4 id="getauthinfo"><code>getAuthInfo</code></h4>
+<p>LARA listens for this message. When received, LARA is being asked to send authentication iformation to the iframe for the current_user.</p>
+<pre><code class="javascript">var sendAuthInfo = function() { iFramePhone.post('authInfo', …) };
+iframePhone.addListener('getAuthInfo', sendAuthInfo);
+</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+<pre><code class="javascript">var message = {
+  type: &quot;getAuthInfo&quot;, 
+  content: {} // ignored 
+};
+</code></pre>
+
+<h3 id="current_user-posts">current_user Posts:</h3>
+<h4 id="authinfo"><code>authInfo</code></h4>
+<p>LARA posts this in response to <code>getAuthInfo</code> messages.</p>
+<pre><code class="javascript">var authInfo = { … }; // get the current_user info
+iframePhone.post('authInfo', authInfo);
+</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+<pre><code class="javascript">var message = {
+  type: &quot;authInfo&quot;, 
+  content: {
+    provider: 'authentication-provider', 
+    loggedIn: (true || false),
+    email: (undefined || 'somebody@somplace.com')
+  } 
+};
+</code></pre>
+
+<hr />
+<h2 id="interactive-logging-coming-soon">Interactive Logging (coming soon)</h2>
+<p>Interactive Logging is a service that proxies communication from the interactive → LARA → Logging server. Some endpoints for logging are (possibly erroniously) created in the <a href="https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L1">iframe-saver</a>. Others are installed in <a href="https://github.com/concord-consortium/lara/blob/b51f764600816844088a0d45dc4493c0510eefe0/app/assets/javascripts/logger.js#L99">logger.js</a>  Instead of using the Listen / Post paradigm, the interactive Logging service uses the <a href="https://github.com/concord-consortium/iframe-phone/blob/master/lib/iframe-phone-rpc-endpoint.js">IframePhoneRpcEndpoint</a> of iFramePhone. </p>
+<h3 id="rpc-calls">RPC Calls:</h3>
+<h4 id="lara-logging-present">LARA-logging-present</h4>
+<p>Here is an approximation of the initialization code in  <a href="https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L146">iframe-saver</a>.</p>
+<pre><code class="javascript">var iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint({
+  phone: iframePhone,  // existing iFramePhone
+    namespace: 'lara-logging'
+});
+iframePhoneRpc.call(message: 'lara-logging-present');
+</code></pre>
+
+<p>The above code is only run in the event that there is saveable interactive.  Otherwise logger.js will create its own iFramePhone &amp;etc.  After that optional step, it registers its logging handler, and indicates that its ready to log.</p>
+<pre><code class="javascript">iframePhoneRpc.handler = handler; // a function that logs :)
+iframePhoneRpc.call({ message: 'lara-logging-present' });
+</code></pre>
+
+<hr />
+<h2 id="global-state">Global state</h2>
+<h3 id="global-state-iframephone-listeners">Global state iFramePhone listeners:</h3>
+<h4 id="interactivestateglobal"><code>interactiveStateGlobal</code>:</h4>
+<p>Listen for the global state that should be shared with all the interactives embedded in the current activity for the current student. Usually sent by one of the embedded interactives. State is saved in DB as text (stringified JSON) and LARA does not care about its content.</p>
+<p>Once this message is received, LARA immediately posts <code>globalLoadState</code> to all interactives on the same page (except from the sender of the original save message).</p>
+<pre><code class="javascript">var interactiveStateGlobalCallback = function(state) {
+  // Save `state` in DB, post `loadInteractiveGlobal` message. 
+  ...
+};
+iframePhone.addListener(&quot;interactiveStateGlobal&quot;, interactiveStateGlobalCallback);
+</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object, note that <code>content</code> is the argument sent to our callback:</p>
+<pre><code class="javascript">var message = {
+  type: &quot;interactiveStateGlobal&quot;, 
+  content: {param1: &quot;Test&quot;, param2: 10} // maybe sent as Obj, or JSON depending.
+};
+</code></pre>
+
+<h3 id="global-state-iframephone-posts">Global state iFramePhone posts:</h3>
+<h4 id="loadinteractiveglobal"><code>loadInteractiveGlobal</code></h4>
+<p>LARA sends the global interactive state (for current activity and student) to all interactives on the current page. It's interactive responsibility to interpret this message and load (or not) the given state.</p>
+<p>This message is sent when:</p>
+<ul>
+<li><code>interactiveStateGlobal</code> message is received</li>
+<li>activity page is loaded <strong>and</strong> the global interactive state is available in LARA activity run (so only if <code>interactiveStateGlobal</code> has been received earlier)</li>
+</ul>
+<pre><code class="javascript">// `globalState` is retrieved from the DB or `interactiveStateGlobal` message.
+var globalState = {param1: &quot;Test&quot;, param2: 10}; 
+iframePhone.post(&quot;loadInteractiveGlobal&quot;, globalState);     
+</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+<pre><code class="javascript">var message = {
+  type: &quot;loadInteractiveGlobal&quot;, 
+  content: {param1: &quot;Test&quot;, param2: 10} // maybe sent as Obj, or JSON depending.
+};
+</code></pre>
+
+<hr />
+<h2 id="only-playing-one-at-a-time-coming-soon">Only playing one at a time (coming soon)</h2>
+<hr />
+<h1 id="reference-using-iframephone">Reference: using iFramePhone:</h1>
+<p>As mentioned <a href="https://github.com/concord-consortium/iframe-phone">iFramePhone</a> is the service which LARA uses for much of its iFrame communication.   It is also used by Lab Interactives internally. Most of the Lab messages are ignored by LARA.  </p>
+<p>Here for reference is what the implementation looks like. Taken from the <a href="https://github.com/concord-consortium/iframe-phone">iFramePhone Readme</a>:</p>
+<h3 id="parent-setup">parent setup:</h3>
+<pre><code class="javascript">var phone = new iframePhone.ParentEndpoint(iframeElement, function () {
+  console.log(&quot;connection with iframe established&quot;);
+});
+phone.post('testMessage', 'abc');
+phone.addListener('response', function (content) {
+  console.log(&quot;parent received response: &quot; + content);
+});
+</code></pre>
+
+<h3 id="iframe-child-setup">iframe (child) setup:</h3>
+<pre><code class="javascript">var phone = iframePhone.getIFrameEndpoint();
+phone.addListener('testMessage', function (content) { 
+  console.log(&quot;iframe received message: &quot; + content);
+  phone.post('response', 'got it');
+});
+// IMPORTANT:
+// Initialize connection after all message listeners are added!
+phone.initialize();
+</code></pre>
+
+<h4 id="hello-messages">hello messages:</h4>
+<p>iFramePhone uses a <code>hello</code> messages to start communication with a specified origin. These messages get sent using the PostMessage API and look like this:</p>
+<pre><code class="javascript">var message = {
+  type: &quot;hello&quot;, 
+  origin: &quot;https://lab.concord.org&quot;
+};
+</code></pre>
+
+<h4 id="other-messages">other messages:</h4>
+<p>Subsequent messages follow a similar pattern, specifiying <code>type</code> which helps determine which listeners to notify:</p>
+<pre><code class="javascript">var message = {
+  type:&quot;modelLoaded&quot;,
+  …
+};
+</code></pre>
+
+<h4 id="message-posting-implementation">Message posting implementation:</h4>
+<p>The post messages looks like this as they are being sent out through iFramePhone. You don't need to worry about this; it is here for reference.</p>
+<pre><code class="javascript">message = {
+  type: &quot;getLearnerUrl&quot;, 
+  origin: &quot;http://localhost:3000&quot;,
+  content: {} // something specific to 'type'
+};
+Window.postMessage(JSON.stringify(message), targetOrigin);
+</code></pre>
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="about-mkdocs/" class="btn btn-neutral float-right" title="About the documentation generator"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    <!-- Copyright etc -->
+    </p>
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        
+      <span><a href="" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="about-mkdocs/" style="color: #fcfcfc">Next &raquo;</a></span>
+    </span>
+</div>
+
+<!--
+MkDocs version  : 0.12.1
+Docs Build Date : 2015-04-17 14:37:10.957664
+-->
+</body>
+</html>
