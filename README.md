@@ -26,9 +26,16 @@ When satisfied with the state of `./dist`
 run `./build.sh` from the root directory of this project. This will attempt to
 push changes up to the `gh-pages` branch of this project __which you shouldn't change by hand__
 
+## Documenation ##
+
+The existing API documenation can be edited in `./docs/.`.  When
+writing documenation use `mkdocs serve` to see a live preview it
+at http://localhost:8000
+
+When the build is complete, the gh-pages documenation at [http://concord-consortium.github.io/lara-interactive-api](http://concord-consortium.github.io/lara-interactive-api/) will also be updated.
+
 ## TODO: ##
 * Add RPC testing …
-* Move LARA Api Documentation into this repo?
 
 ## LICENSE: ##
 
