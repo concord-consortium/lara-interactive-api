@@ -53,12 +53,10 @@ module.exports = MockInteractive = (function() {
       response = ref[message];
       addHandler(message, response);
     }
-    this.iframePhone.addListener('loadInteractive', (function(_this) {
-      return function(data) {
-        l.info("Phone call: loadInteractive: " + data);
-        return $('#interactiveState').val(JSON.stringify(data));
-      };
-    })(this));
+    this.iframePhone.addListener('loadInteractive', function(data) {
+      l.info("Phone call: loadInteractive: " + data);
+      return $('#interactiveState').val(JSON.stringify(data));
+    });
     this.iframePhone.addListener('getInteractiveState', (function(_this) {
       return function(data) {
         l.info("Phone call: getInteractiveState");
@@ -66,12 +64,10 @@ module.exports = MockInteractive = (function() {
         return l.info("Phone responded: interactiveState");
       };
     })(this));
-    this.iframePhone.addListener('loadInteractiveGlobal', (function(_this) {
-      return function(data) {
-        l.info("Phone call: interactiveStateGlobal: " + data);
-        return $('#interactiveStateGlobal').val(JSON.stringify(data));
-      };
-    })(this));
+    this.iframePhone.addListener('loadInteractiveGlobal', function(data) {
+      l.info("Phone call: interactiveStateGlobal: " + data);
+      return $('#interactiveStateGlobal').val(JSON.stringify(data));
+    });
     logTheLogMessages = function(message, callback) {
       if (message) {
         l.info("Logging RPC call: " + message.message);

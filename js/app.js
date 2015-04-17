@@ -86,15 +86,13 @@ App = (function() {
         };
       })(this)
     };
-    bindButton = (function(_this) {
-      return function(name, f) {
-        var $elm;
-        $elm = $("#" + name);
-        return $elm.on("click", function(e) {
-          return f(e);
-        });
-      };
-    })(this);
+    bindButton = function(name, f) {
+      var $elm;
+      $elm = $("#" + name);
+      return $elm.on("click", function(e) {
+        return f(e);
+      });
+    };
     results = [];
     for (buttonname in buttons) {
       action = buttons[buttonname];
