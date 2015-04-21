@@ -33,7 +33,7 @@ module.exports = MockInteractive = (function() {
   MockInteractive.prototype.restartIframePhone = function($iframe) {
     var addHandler, logTheLogMessages, loggingChannel, message, ref, response;
     if (this.iframePhone) {
-      this.iframePhone.hangup();
+      this.iframePhone.disconnect();
       this.iframePhone = null;
     }
     this.iframePhone = new iframePhone.getIFrameEndpoint();
