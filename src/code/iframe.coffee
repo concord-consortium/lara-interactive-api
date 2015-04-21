@@ -21,7 +21,7 @@ module.exports = class MockInteractive
 
   restartIframePhone: ($iframe) ->
     if @iframePhone
-      @iframePhone.hangup()
+      @iframePhone.disconnect()
       @iframePhone = null
 
     @iframePhone = new iframePhone.getIFrameEndpoint()
