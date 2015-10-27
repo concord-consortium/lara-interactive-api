@@ -6,4 +6,5 @@ repo_url: https://github.com/concord-consortium/lara-interactive-api
 site_url: http://concord-consortium.github.io/lara-interactive-api/
 pages:
 - LARA API: 'index.md'
+- Safari, cookies and iframe redirects: 'safari-cookies-redirects.md'
 - About the documentation generator: 'about-mkdocs.md'
