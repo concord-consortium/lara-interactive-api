@@ -3,8 +3,7 @@ theme: readthedocs
 site_dir: dist/docs
 repo_name: Github
 repo_url: https://github.com/concord-consortium/lara-interactive-api
-sute_url: http://concord-consortium.github.io/lara-interactive-api/
+site_url: http://concord-consortium.github.io/lara-interactive-api/
 pages:
-- ['index.md','LARA API']
-- ['about-mkdocs.md','About the documentation generator':W
-]
+- LARA API: 'index.md'
+- About the documentation generator: 'about-mkdocs.md'
