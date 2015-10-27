@@ -17,6 +17,12 @@
   <link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="./css/highlight.css">
 
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "None";
+  </script>
+  
   <script src="./js/jquery-2.1.1.min.js"></script>
   <script src="./js/modernizr-2.8.3.min.js"></script>
   <script type="text/javascript" src="./js/highlight.pack.js"></script>
@@ -33,56 +39,64 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
         <a href="." class="icon icon-home"> LARA Interactive API</a>
-        
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-      <ul class="current">
-    
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href=".">LARA API</a>
         
-            <li class="toctree-l1 current">
-                <a class="current" href=".">LARA API</a>
+            <ul>
+            
+                <li class="toctree-l3"><a href="#lara-iframe-apis">LARA iframe APIs</a></li>
                 
-                    <ul>
-                    
-                        <li class="toctree-l3"><a href="#lara-iframe-apis">LARA iframe APIs</a></li>
-                        
-                            <li><a class="toctree-l4" href="#interactive-shutterbug">Interactive Shutterbug</a></li>
-                        
-                            <li><a class="toctree-l4" href="#lara-interactive-save-state">LARA: Interactive save state</a></li>
-                        
-                            <li><a class="toctree-l4" href="#lara-current_user-info-for-an-interactive">LARA current_user info for an interactive</a></li>
-                        
-                            <li><a class="toctree-l4" href="#interactive-logging-coming-soon">Interactive Logging (coming soon)</a></li>
-                        
-                            <li><a class="toctree-l4" href="#global-state">Global state</a></li>
-                        
-                            <li><a class="toctree-l4" href="#only-playing-one-at-a-time-coming-soon">Only playing one at a time (coming soon)</a></li>
-                        
-                    
-                        <li class="toctree-l3"><a href="#reference-using-iframephone">Reference: using iFramePhone:</a></li>
-                        
-                            <li><a class="toctree-l4" href="#parent-setup">parent setup:</a></li>
-                        
-                            <li><a class="toctree-l4" href="#iframe-child-setup">iframe (child) setup:</a></li>
-                        
-                    
-                    </ul>
+                    <li><a class="toctree-l4" href="#interactive-shutterbug">Interactive Shutterbug</a></li>
                 
-            </li>
-        
-
-    
-        
-            <li class="toctree-l1 ">
-                <a class="" href="about-mkdocs/">{'About the documentation generator': 'W'}</a>
+                    <li><a class="toctree-l4" href="#lara-interactive-save-state">LARA: Interactive save state</a></li>
                 
-            </li>
+                    <li><a class="toctree-l4" href="#lara-current_user-info-for-an-interactive">LARA current_user info for an interactive</a></li>
+                
+                    <li><a class="toctree-l4" href="#interactive-logging-coming-soon">Interactive Logging (coming soon)</a></li>
+                
+                    <li><a class="toctree-l4" href="#global-state">Global state</a></li>
+                
+                    <li><a class="toctree-l4" href="#only-playing-one-at-a-time-coming-soon">Only playing one at a time (coming soon)</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#reference-using-iframephone">Reference: using iFramePhone:</a></li>
+                
+                    <li><a class="toctree-l4" href="#parent-setup">parent setup:</a></li>
+                
+                    <li><a class="toctree-l4" href="#iframe-child-setup">iframe (child) setup:</a></li>
+                
+            
+            </ul>
         
-
-    
-</ul>
-
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="safari-cookies-redirects/">Safari, cookies and iframe redirects</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="about-mkdocs/">About the documentation generator</a>
+        
+    </li>
+<li>
+          
+        </ul>
       </div>
       &nbsp;
     </nav>
@@ -102,18 +116,21 @@
   <ul class="wy-breadcrumbs">
     <li><a href=".">Docs</a> &raquo;</li>
     
+      
+    
     <li>LARA API</li>
-      <li class="wy-breadcrumbs-aside">
+    <li class="wy-breadcrumbs-aside">
+      
         
-          
-        
-      </li>
+      
+    </li>
   </ul>
   <hr/>
 </div>
           <div role="main">
             <div class="section">
-              <p>Table of contents:</p>
+              
+                <p>Table of contents:</p>
 <div class="toc">
 <ul>
 <li><a href="#lara-iframe-apis">LARA iframe APIs</a><ul>
@@ -457,13 +474,14 @@ phone.initialize();
 };
 Window.postMessage(JSON.stringify(message), targetOrigin);
 </code></pre>
+              
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="about-mkdocs/" class="btn btn-neutral float-right" title="{'About the documentation generator': 'W'}"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="safari-cookies-redirects/" class="btn btn-neutral float-right" title="Safari, cookies and iframe redirects"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
     </div>
@@ -472,9 +490,8 @@ Window.postMessage(JSON.stringify(message), targetOrigin);
   <hr/>
 
   <div role="contentinfo">
-    <p>
     <!-- Copyright etc -->
-    </p>
+    
   </div>
 
   Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
@@ -489,15 +506,18 @@ Window.postMessage(JSON.stringify(message), targetOrigin);
 
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
-        
-      <span><a href="" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="about-mkdocs/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+      
+      
+        <span style="margin-left: 15px"><a href="safari-cookies-redirects/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
     </span>
 </div>
 
-<!--
-MkDocs version  : 0.12.2
-Docs Build Date : 2015-05-01 17:02:16.143252
--->
 </body>
 </html>
+
+<!--
+MkDocs version : 0.14.0
+Build Date UTC : 2015-10-27 20:04:16.750809
+-->
