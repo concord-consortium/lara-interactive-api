@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LARA iframe APIs</title>
+<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css" />
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body><div class="container"><p>Table of contents:</p>
+
+<p><div class="toc">
+<ul>
+<li><a href="#lara-iframe-apis">LARA iframe APIs</a><ul>
+<li><a href="#interactive-shutterbug">Interactive Shutterbug</a><ul>
+<li><a href="#shutterbug-messages">Shutterbug Messages:</a><ul>
+<li><a href="#htmlfragrequest">htmlFragRequest</a></li>
+<li><a href="#htmlfragresponse">htmlFragResponse</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#lara-interactive-save-state">LARA: Interactive save state</a><ul>
+<li><a href="#interactivestate-iframephone-listeners">InteractiveState  iFramePhone listeners:</a><ul>
+<li><a href="#setlearnerurl">setLearnerUrl:</a></li>
+<li><a href="#interactivestate">interactiveState:</a></li>
+<li><a href="#extendedsupport">extendedSupport:</a></li>
+</ul>
+</li>
+<li><a href="#interactivestate-iframephone-posts">InteractiveState iFramePhone posts:</a><ul>
+<li><a href="#getextendedsupport">getExtendedSupport</a></li>
+<li><a href="#getlearnerurl">getLearnerUrl</a></li>
+<li><a href="#getinteractivestate">getInteractiveState</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#lara-currentuser-info-for-an-interactive">LARA current_user info for an interactive</a><ul>
+<li><a href="#currentuser-listeners">current_user Listeners:</a><ul>
+<li><a href="#getauthinfo">getAuthInfo</a></li>
+</ul>
+</li>
+<li><a href="#currentuser-posts">current_user Posts:</a><ul>
+<li><a href="#authinfo">authInfo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#interactive-logging-coming-soon">Interactive Logging (coming soon)</a><ul>
+<li><a href="#rpc-calls">RPC Calls:</a><ul>
+<li><a href="#lara-logging-present">LARA-logging-present</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#global-state-coming-soon">Global state (coming soon)</a><ul>
+<li><ul>
+<li><a href="#globalsavestate">globalSaveState</a></li>
+<li><a href="#globalloadstate">globalLoadState</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#only-playing-one-at-a-time-coming-soon">Only playing one at a time (coming soon)</a></li>
+</ul>
+</li>
+<li><a href="#reference-using-iframephone">Reference: using iFramePhone:</a><ul>
+<li><ul>
+<li><a href="#parent-setup">parent setup:</a></li>
+<li><a href="#iframe-child-setup">iframe (child) setup:</a><ul>
+<li><a href="#hello-messages">hello messages:</a></li>
+<li><a href="#other-messages">other messages:</a></li>
+<li><a href="#message-posting-implementation">Message posting implementation:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+
+
+
+<h1 id="lara-iframe-apis">LARA iframe APIs</h1>
+
+<p>This is an attempt to document the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage">postMessage</a> communication currently in use in <a href="https://github.com/concord-consortium/LARA">LARA</a>.  Some of these use <a href="https://github.com/concord-consortium/iframe-phone">iFramePhone</a>, and some use raw postMessage calls. This documentation was started from this <a href="https://www.pivotaltracker.com/story/show/90777130">PT Story</a>.</p>
+
+
+
+<h2 id="interactive-shutterbug">Interactive Shutterbug</h2>
+
+<p><a href="https://github.com/concord-consortium/shutterbug.js">Shutterbug</a> is used widely in Lab and in LARA, it uses <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage">postMessage</a> to request child iFrames HTML content for snapshotting.</p>
+
+<p>The basic PostMessage API Calls that are used in the shutterbug javascript project are <a href="https://github.com/concord-consortium/shutterbug.js/blob/master/app/scripts/shutterbug-worker.js#L276-L343">documented in the github repo</a>  </p>
+
+
+
+<h3 id="shutterbug-messages">Shutterbug Messages:</h3>
+
+<hr>
+
+
+
+<h4 id="htmlfragrequest"><code>htmlFragRequest</code></h4>
+
+<p>Parent asks iframes about their content:</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "> <span class="hljs-keyword">var</span> message  = {
+   type:        <span class="hljs-string">'htmlFragRequest'</span>,
+   id:          id,       <span class="hljs-comment">// Shutterbug ID</span>
+   iframeReqId: iframeId, <span class="hljs-comment">// position of iframe in dom</span>
+   iframeReqTimeout: <span class="hljs-keyword">this</span>.iframeReqTimeout * <span class="hljs-number">0.6</span>
+ };
+ window.postMessage(<span class="hljs-built_in">JSON</span>.stringify(message), <span class="hljs-string">"*"</span>);</code></pre>
+
+<hr>
+
+
+
+<h4 id="htmlfragresponse">`htmlFragResponse</h4>
+
+<hr>
+
+<hr>
+
+<p>` </p>
+
+<p>An Iframe sends its content back:</p>
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> response = {
+    type:        <span class="hljs-string">'htmlFragResponse'</span>,
+    value:       html,
+    iframeReqId: iframeReqId, <span class="hljs-comment">// counter, from request</span>
+    id:          id           <span class="hljs-comment">// sender_id from request</span>
+};
+source.postMessage(<span class="hljs-built_in">JSON</span>.stringify(response), <span class="hljs-string">"*"</span>);</code></pre>
+
+<hr>
+
+
+
+<h2 id="lara-interactive-save-state">LARA: Interactive save state</h2>
+
+<p>LARA tries to save the interactive state in child iframes by using <a href="https://github.com/concord-consortium/iframe-phone">iFramePhone</a>, but it wraps it up in <a href="https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L1">iframe-saver.coffee</a>.  The LARA logging service also uses iFramePhones <a href="https://github.com/concord-consortium/iframe-phone/blob/master/lib/iframe-phone-rpc-endpoint.js">RPC endpoint</a> to log events from the interactives.</p>
+
+<p>iFramePhone Handlers registered in iframe-saver.cofee:</p>
+
+
+
+<h3 id="interactivestate-iframephone-listeners">InteractiveState  iFramePhone listeners:</h3>
+
+
+
+<h4 id="setlearnerurl"><code>setLearnerUrl</code>:</h4>
+
+<p>Listen for an attempt to set the exact URL for this current student. (In the case of Lab Interactives these are version-locked instances of the interactive). Usually sent LARA after LARA has asked for the info via a previous <code>getLearnerUrl</code> message to the iFrame.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> learnerUrlCallback = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(learner_url)</span> {</span> … };
+iframePhone.addListener(<span class="hljs-string">'setLearnerUrl'</span>, learnerUrlCallback);</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object, note that <code>content</code> is the argument sent to our callback:</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> message = {
+    type: <span class="hljs-string">"setLearnerUrl"</span>, 
+    content: <span class="hljs-string">"https://lab.concord.org/version/1-0/embeddable.html?is_versioned_url=true"</span>
+};</code></pre>
+
+
+
+<h4 id="interactivestate"><code>interactiveState</code>:</h4>
+
+<p>Listen for the current interactive state. Usually sent as a result of our having sent ‘getInteractiveState’ message to the iFrame earlier.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> setStateCallback = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(stateObjOrJson)</span> {</span> … };
+iframePhone.addListener(<span class="hljs-string">'interactiveState'</span>, setStateCallback);</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object, note that <code>content</code> is the argument sent to our callback:</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> message = {
+    type: <span class="hljs-string">"interactiveState"</span>, 
+    content: {key: <span class="hljs-string">'value'</span>, … } <span class="hljs-comment">// maybe sent as Obj, or JSON depending. </span>
+};</code></pre>
+
+
+
+<h4 id="extendedsupport"><code>extendedSupport</code>:</h4>
+
+<p>Listen for the option to reset state using delete button.  If <code>opts.reset</code> is true, we will allow the user to ‘reset’ the interactive via the <em>delete</em> button in the LARA runtime. Usually sent as a result of our having sent ‘getExtendedSupport’ earlier.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> extendSupport = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(opts)</span> {</span> … };
+iframePhone.addListener(<span class="hljs-string">'extendedSupport'</span>, extendSupport);</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object, note that <code>content</code> is the argument sent to our callback:</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> message = {
+    type: <span class="hljs-string">"extendedSupport"</span>, 
+    content: {rest: [<span class="hljs-literal">true</span>||<span class="hljs-literal">false</span>]} <span class="hljs-comment">// maybe sent as Obj, or JSON depending. </span>
+};</code></pre>
+
+
+
+<h3 id="interactivestate-iframephone-posts">InteractiveState iFramePhone posts:</h3>
+
+
+
+<h4 id="getextendedsupport"><code>getExtendedSupport</code></h4>
+
+<p>LARA asks about extended support for things like ‘reset’:</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs ">iframePhone.post(<span class="hljs-string">'getExtendedSupport'</span>);</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> message = {
+    type: <span class="hljs-string">"getExtendedSupport"</span>, 
+    content: {} <span class="hljs-comment">// ignored </span>
+};</code></pre>
+
+
+
+<h4 id="getlearnerurl"><code>getLearnerUrl</code></h4>
+
+<p>LARA asks for the exact URL for the current student. For Lab Interactives this results in a version-specific URL:</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs ">iframePhone.post(<span class="hljs-string">'getLearnerUrl'</span>);     </code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> message = {
+    type: <span class="hljs-string">"getLearnerUrl"</span>, 
+    content: {} <span class="hljs-comment">// ignored </span>
+};</code></pre>
+
+
+
+<h4 id="getinteractivestate"><code>getInteractiveState</code></h4>
+
+<p>LARA asks for the iframes state.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs ">iframePhone.post(<span class="hljs-string">'getInteractiveState'</span>);     </code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> message = {
+    type: <span class="hljs-string">"getInteractiveState"</span>, 
+    content: {} <span class="hljs-comment">// ignored </span>
+};</code></pre>
+
+<hr>
+
+
+
+<h2 id="lara-currentuser-info-for-an-interactive">LARA current_user info for an interactive</h2>
+
+<p>Information about whether this is an anonymous run, and or who the current_user is (email) is sometimes sent to the interactive. Most of this functionality was added (possibly erroneously) to the <a href="https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L1">iframe-saver</a> in  <a href="https://github.com/concord-consortium/LARA/commit/58d7ee267fd0ae80547f432d932e287cdc856a7b">these commits</a></p>
+
+
+
+<h3 id="currentuser-listeners">current_user Listeners:</h3>
+
+
+
+<h4 id="getauthinfo"><code>getAuthInfo</code></h4>
+
+<p>LARA listens for this message. When received, LARA is being asked to send authentication iformation to the iframe for the current_user.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> sendAuthInfo = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> iFramePhone.post(<span class="hljs-string">'authInfo'</span>, …) };
+iframePhone.addListener(<span class="hljs-string">'getAuthInfo'</span>, sendAuthInfo);</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> message = {
+    type: <span class="hljs-string">"getAuthInfo"</span>, 
+    content: {} <span class="hljs-comment">// ignored </span>
+};</code></pre>
+
+
+
+<h3 id="currentuser-posts">current_user Posts:</h3>
+
+
+
+<h4 id="authinfo"><code>authInfo</code></h4>
+
+<p>LARA posts this in response to <code>getAuthInfo</code> messages.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> authInfo = { … }; <span class="hljs-comment">// get the current_user info</span>
+iframePhone.post(<span class="hljs-string">'authInfo'</span>, authInfo);</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> message = {
+    type: <span class="hljs-string">"authInfo"</span>, 
+    content: {
+        provider: <span class="hljs-string">'authentication-provider'</span>, 
+        loggedIn: (<span class="hljs-literal">true</span> || <span class="hljs-literal">false</span>),
+        email: (<span class="hljs-literal">undefined</span> || <span class="hljs-string">'somebody@somplace.com'</span>)
+    } 
+};</code></pre>
+
+<hr>
+
+
+
+<h2 id="interactive-logging-coming-soon">Interactive Logging (coming soon)</h2>
+
+<p>Interactive Logging is a service that proxies communication from the interactive → LARA → Logging server. Some endpoints for logging are (possibly erroniously) created in the <a href="https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L1">iframe-saver</a>. Others are installed in <a href="https://github.com/concord-consortium/lara/blob/b51f764600816844088a0d45dc4493c0510eefe0/app/assets/javascripts/logger.js#L99">logger.js</a>  Instead of using the Listen / Post paradigm, the interactive Logging service uses the <a href="https://github.com/concord-consortium/iframe-phone/blob/master/lib/iframe-phone-rpc-endpoint.js">IframePhoneRpcEndpoint</a> of iFramePhone. </p>
+
+
+
+<h3 id="rpc-calls">RPC Calls:</h3>
+
+
+
+<h4 id="lara-logging-present">LARA-logging-present</h4>
+
+<p>Here is an approximation of the initialization code in  <a href="https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L146">iframe-saver</a>.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> iframePhoneRpc = <span class="hljs-keyword">new</span> iframePhone.IframePhoneRpcEndpoint({
+    phone: iframePhone,  <span class="hljs-comment">// existing iFramePhone</span>
+    namespace: <span class="hljs-string">'lara-logging'</span>
+});
+iframePhoneRpc.call(message: <span class="hljs-string">'lara-logging-present'</span>);</code></pre>
+
+<p>The above code is only run in the event that there is saveable interactive.  Otherwise logger.js will create its own iFramePhone &amp;etc.  After that optional step, it registers its logging handler, and indicates that its ready to log.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs ">iframePhoneRpc.handler = handler; <span class="hljs-comment">// a function that logs :)</span>
+iframePhoneRpc.call({ message: <span class="hljs-string">'lara-logging-present'</span> });</code></pre>
+
+<hr>
+
+
+
+<h2 id="global-state-wip">Global state (WIP)</h2>
+
+
+
+<h3 id="global-state-iframephone-listeners">Global state iFramePhone listeners:</h3>
+
+
+
+<h4 id="globalsavestate"><code>globalSaveState</code>:</h4>
+
+<p>Listen for the global state that should be shared with all the interactives embedded in the current activity for the current student. Usually sent by one of the embedded interactives. State is expected to be a <strong>string</strong>. It’s saved in DB as <strong>text</strong> and LARA does not care about its content.</p>
+
+<p>Once this message is received, LARA immediately posts <code>globalLoadState</code> to all interactives on the same page (except from the sender of the original save message).</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> globalSaveStateCallback = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(state)</span> {</span>
+    <span class="hljs-comment">// Save `state` in DB, post `globalLoadState` message. </span>
+    ...
+};
+iframePhone.addListener(<span class="hljs-string">"globalSaveState"</span>, globalSaveStateCallback);</code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object, note that <code>content</code> is the argument sent to our callback:</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> message = {
+    type: <span class="hljs-string">"globalSaveState"</span>, 
+    content: <span class="hljs-string">'{"param1": "Test", "param2": 10}'</span> <span class="hljs-comment">// string expected.</span>
+};</code></pre>
+
+
+
+<h3 id="global-state-iframephone-posts">Global state iFramePhone posts:</h3>
+
+
+
+<h4 id="globalloadstate"><code>globalLoadState</code></h4>
+
+<p>LARA sends the global interactive state (for current activity and student) to all interactives on the current page. It’s interactive responsibility to interpret this message and load (or not) the given state. State is sent as <strong>string</strong>.</p>
+
+<p>This message is sent when:</p>
+
+<ul>
+<li><code>globalSaveState</code> message is received</li>
+<li>activity page is loaded <strong>if</strong> the global interactive state is available in LARA activity run (so only if <code>globalSaveState</code> has been received earlier)</li>
+</ul>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-comment">// `globalState` is retrieved from the DB or `globalSaveState` message.</span>
+<span class="hljs-keyword">var</span> globalState = <span class="hljs-string">'{"param1": "Test", "param2": 10}'</span>; 
+iframePhone.post(<span class="hljs-string">"globalLoadState"</span>, globalState);     </code></pre>
+
+<p>iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> message = {
+    type: <span class="hljs-string">"globalLoadState"</span>, 
+    content: <span class="hljs-string">'{"param1": "Test", "param2": 10}'</span> <span class="hljs-comment">// string expected.</span>
+};</code></pre>
+
+<hr>
+
+<h2 id="only-playing-one-at-a-time-coming-soon">Only playing one at a time (coming soon)</h2>
+
+<hr>
+
+
+
+<h1 id="reference-using-iframephone">Reference: using iFramePhone:</h1>
+
+<p>As mentioned <a href="https://github.com/concord-consortium/iframe-phone">iFramePhone</a> is the service which LARA uses for much of its iFrame communication.   It is also used by Lab Interactives internally. Most of the Lab messages are ignored by LARA.  </p>
+
+<p>Here for reference is what the implementation looks like. Taken from the <a href="https://github.com/concord-consortium/iframe-phone">iFramePhone Readme</a>:</p>
+
+
+
+<h3 id="parent-setup">parent setup:</h3>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> phone = <span class="hljs-keyword">new</span> iframePhone.ParentEndpoint(iframeElement, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+  console.log(<span class="hljs-string">"connection with iframe established"</span>);
+});
+phone.post(<span class="hljs-string">'testMessage'</span>, <span class="hljs-string">'abc'</span>);
+phone.addListener(<span class="hljs-string">'response'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(content)</span> {</span>
+  console.log(<span class="hljs-string">"parent received response: "</span> + content);
+});</code></pre>
+
+
+
+<h3 id="iframe-child-setup">iframe (child) setup:</h3>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> phone = iframePhone.getIFrameEndpoint();
+phone.addListener(<span class="hljs-string">'testMessage'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(content)</span> {</span> 
+  console.log(<span class="hljs-string">"iframe received message: "</span> + content);
+  phone.post(<span class="hljs-string">'response'</span>, <span class="hljs-string">'got it'</span>);
+});
+<span class="hljs-comment">// IMPORTANT:</span>
+<span class="hljs-comment">// Initialize connection after all message listeners are added!</span>
+phone.initialize();</code></pre>
+
+
+
+<h4 id="hello-messages">hello messages:</h4>
+
+<p>iFramePhone uses a <code>hello</code> messages to start communication with a specified origin. These messages get sent using the PostMessage API and look like this:</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> message = {
+    type: <span class="hljs-string">"hello"</span>, 
+    origin: <span class="hljs-string">"https://lab.concord.org"</span>
+};</code></pre>
+
+
+
+<h4 id="other-messages">other messages:</h4>
+
+<p>Subsequent messages follow a similar pattern, specifiying <code>type</code> which helps determine which listeners to notify:</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs "><span class="hljs-keyword">var</span> message = {
+    type:<span class="hljs-string">"modelLoaded"</span>,
+    …
+};</code></pre>
+
+
+
+<h4 id="message-posting-implementation">Message posting implementation:</h4>
+
+<p>The post messages looks like this as they are being sent out through iFramePhone. You don’t need to worry about this; it is here for reference.</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs ">message = {
+    type: <span class="hljs-string">"getLearnerUrl"</span>, 
+    origin: <span class="hljs-string">"http://localhost:3000"</span>,
+    content: {} <span class="hljs-comment">// something specific to 'type'</span>
+};
+Window.postMessage(<span class="hljs-built_in">JSON</span>.stringify(message), targetOrigin);</code></pre></div></body>
+</html>
