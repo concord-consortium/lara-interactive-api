@@ -211,28 +211,15 @@ var message = {
 
 ----
 
-## Interactive Logging (coming soon)
-Interactive Logging is a service that proxies communication from the interactive → LARA → Logging server. Some endpoints for logging are (possibly erroniously) created in the [iframe-saver](https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L1). Others are installed in [logger.js](https://github.com/concord-consortium/lara/blob/b51f764600816844088a0d45dc4493c0510eefe0/app/assets/javascripts/logger.js#L99)  Instead of using the Listen / Post paradigm, the interactive Logging service uses the [IframePhoneRpcEndpoint](https://github.com/concord-consortium/iframe-phone/blob/master/lib/iframe-phone-rpc-endpoint.js) of iFramePhone. 
+## Interactive Logging
+Interactive Logging is a service that proxies communication from the interactive → LARA → Logging server.
 
-### RPC Calls:
-#### LARA-logging-present 
-Here is an approximation of the initialization code in  [iframe-saver](https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L146).
-
+There is only one way communication between the interactive and LARA. The interactive is expected to post following messages using iframe phone:
 ```javascript
-var iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint({
-  phone: iframePhone,  // existing iFramePhone
-    namespace: 'lara-logging'
-});
-iframePhoneRpc.call(message: 'lara-logging-present');
+phone.post('log', {action: 'actionName', data: {someValue: 1, otherValue: 2})
 ```
 
-
-The above code is only run in the event that there is saveable interactive.  Otherwise logger.js will create its own iFramePhone &etc.  After that optional step, it registers its logging handler, and indicates that its ready to log.
-
-```javascript
-iframePhoneRpc.handler = handler; // a function that logs :)
-iframePhoneRpc.call({ message: 'lara-logging-present' });
-```
+LARA listens to these events only when logging is enabled (they will be ingored otherwise). Approprieate iframe phone handlers are installed in [logger.js](https://github.com/concord-consortium/lara/blob/b51f764600816844088a0d45dc4493c0510eefe0/app/assets/javascripts/logger.js). When `log` message is received, LARA issues a POST request to the Logging server. LARA uses provided action name and data, but also adds additional information to the event (context that might useful for researchers, e.g. user name, activity name, url, session ID, etc.).
 
 ----
 
