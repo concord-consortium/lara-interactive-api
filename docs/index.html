@@ -63,7 +63,7 @@
                 
                     <li><a class="toctree-l4" href="#lara-current_user-info-for-an-interactive">LARA current_user info for an interactive</a></li>
                 
-                    <li><a class="toctree-l4" href="#interactive-logging-coming-soon">Interactive Logging (coming soon)</a></li>
+                    <li><a class="toctree-l4" href="#interactive-logging">Interactive Logging</a></li>
                 
                     <li><a class="toctree-l4" href="#global-state">Global state</a></li>
                 
@@ -169,13 +169,7 @@
 </li>
 </ul>
 </li>
-<li><a href="#interactive-logging-coming-soon">Interactive Logging (coming soon)</a><ul>
-<li><a href="#rpc-calls">RPC Calls:</a><ul>
-<li><a href="#lara-logging-present">LARA-logging-present</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#interactive-logging">Interactive Logging</a></li>
 <li><a href="#global-state">Global state</a><ul>
 <li><a href="#global-state-iframephone-listeners">Global state iFramePhone listeners:</a><ul>
 <li><a href="#interactivestateglobal">interactiveStateGlobal:</a></li>
@@ -365,23 +359,13 @@ iframePhone.post('authInfo', authInfo);
 </code></pre>
 
 <hr />
-<h2 id="interactive-logging-coming-soon">Interactive Logging (coming soon)</h2>
-<p>Interactive Logging is a service that proxies communication from the interactive → LARA → Logging server. Some endpoints for logging are (possibly erroniously) created in the <a href="https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L1">iframe-saver</a>. Others are installed in <a href="https://github.com/concord-consortium/lara/blob/b51f764600816844088a0d45dc4493c0510eefe0/app/assets/javascripts/logger.js#L99">logger.js</a>  Instead of using the Listen / Post paradigm, the interactive Logging service uses the <a href="https://github.com/concord-consortium/iframe-phone/blob/master/lib/iframe-phone-rpc-endpoint.js">IframePhoneRpcEndpoint</a> of iFramePhone. </p>
-<h3 id="rpc-calls">RPC Calls:</h3>
-<h4 id="lara-logging-present">LARA-logging-present</h4>
-<p>Here is an approximation of the initialization code in  <a href="https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L146">iframe-saver</a>.</p>
-<pre><code class="javascript">var iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint({
-  phone: iframePhone,  // existing iFramePhone
-    namespace: 'lara-logging'
-});
-iframePhoneRpc.call(message: 'lara-logging-present');
+<h2 id="interactive-logging">Interactive Logging</h2>
+<p>Interactive Logging is a service that proxies communication from the interactive → LARA → Logging server.</p>
+<p>There is only one way communication between the interactive and LARA. The interactive is expected to post following messages using iframe phone:</p>
+<pre><code class="javascript">phone.post('log', {action: 'actionName', data: {someValue: 1, otherValue: 2})
 </code></pre>
 
-<p>The above code is only run in the event that there is saveable interactive.  Otherwise logger.js will create its own iFramePhone &amp;etc.  After that optional step, it registers its logging handler, and indicates that its ready to log.</p>
-<pre><code class="javascript">iframePhoneRpc.handler = handler; // a function that logs :)
-iframePhoneRpc.call({ message: 'lara-logging-present' });
-</code></pre>
-
+<p>LARA listens to these events only when logging is enabled (they will be ingored otherwise). Approprieate iframe phone handlers are installed in <a href="https://github.com/concord-consortium/lara/blob/b51f764600816844088a0d45dc4493c0510eefe0/app/assets/javascripts/logger.js">logger.js</a>. When <code>log</code> message is received, LARA issues a POST request to the Logging server. LARA uses provided action name and data, but also adds additional information to the event (context that might useful for researchers, e.g. user name, activity name, url, session ID, etc.).</p>
 <hr />
 <h2 id="global-state">Global state</h2>
 <h3 id="global-state-iframephone-listeners">Global state iFramePhone listeners:</h3>
@@ -519,5 +503,5 @@ Window.postMessage(JSON.stringify(message), targetOrigin);
 
 <!--
 MkDocs version : 0.14.0
-Build Date UTC : 2015-10-30 22:12:00.498982
+Build Date UTC : 2015-12-03 16:51:21.988454
 -->
