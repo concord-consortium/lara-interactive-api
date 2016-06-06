@@ -1,342 +1,103 @@
+# LARA Interactive API
+
 Table of contents:
 
 [TOC]
 
-# LARA iframe APIs
+## Startup and Initialization
 
-This is an attempt to document the [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) communication currently in use in [LARA](https://github.com/concord-consortium/LARA).  Some of these use [iFramePhone](https://github.com/concord-consortium/iframe-phone), and some use raw postMessage calls. This documentation was started from this [PT Story](https://www.pivotaltracker.com/story/show/90777130).
+LARA interactive iframes communicate by using [iFramePhone](https://github.com/concord-consortium/iframe-phone) through three scripts loaded by the server in the browser:  [iframe-saver.coffee](https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee),
+[global-iframe-saver.coffee](https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/global-iframe-saver.coffee) and
+[logger.js](https://github.com/concord-consortium/lara/blob/b51f764600816844088a0d45dc4493c0510eefe0/app/assets/javascripts/logger.js).  The LARA logging service also uses iFramePhones [RPC endpoint](https://github.com/concord-consortium/iframe-phone/blob/master/lib/iframe-phone-rpc-endpoint.js) to log events from the interactives.
 
-## Interactive Shutterbug
+The iframe-saver.coffee script first listens for the iFramePhone to connect and registers the message handlers documented below, then sends separate `getExtendedSupport` and `getLearnerUrl`
+requests to the client and finally calls back to the LARA server to get the current interactive state.  If there is existing interactive state the client will receive a `loadInteractive` message with the current interactive state as the parameter to the message.  However if no previous interactive state is found on the server the client will **not** receive a callback.  To allow interactives to have a
+consistent startup a new message was added, `initInteractive` (documented below), which is always sent to the client after the server is queried for the interactive state by iframe-saver.coffee.
 
-[Shutterbug](https://github.com/concord-consortium/shutterbug.js) is used widely in Lab and in LARA, it uses [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to request child iFrames HTML content for snapshotting.
+The global-iframe-saver.coffee script sets up a listener for the `interactiveStateGlobal` message and sends one message: `loadInteractiveGlobal`.
 
-The basic PostMessage API Calls that are used in the shutterbug javascript project are [documented in the github repo](https://github.com/concord-consortium/shutterbug.js/blob/master/app/scripts/shutterbug-worker.js#L276-L343)  
+The logger.js sets up a listener for the `log` message.
 
-###  Shutterbug Messages:
+Since the three scripts above and the interactive's code are both running in the browser we will use the term server to mean the code in scripts interfacing with LARA above and client to be the interactive.
 
------
-#### `htmlFragRequest` 
+## iframe-saver.coffee Messages
 
-Parent asks iframes about their content:
+The client-side API can be split into two parts: messages initiated by the server to inform the client or request data back from the client and those initiated by the client to inform the server or request data back from the server.  Some of the messages from the client can be both responses to the server when it queries for information and requests to the server to set that information.
 
-```javascript
- var message  = {
-   type:        'htmlFragRequest',
-   id:          id,       // Shutterbug ID
-   iframeReqId: iframeId, // position of iframe in dom
-   iframeReqTimeout: this.iframeReqTimeout * 0.6
- };
- window.postMessage(JSON.stringify(message), "*");
-```
-----
+### getExtendedSupport
 
-#### `htmlFragResponse
+Sent automatically by the server at startup to query the client about their `extendedSupport` status.  This is the first message the client will receive and is sent before the call is made to
+the server to get the interactive state.  It has no payload data.
 
+### extendedSupport
 
-----------
+Can be thought of as `setExtendedSupport`. Sent by the client either in response to receiving a `getExtendedSupport` message or can be initiated by the client.  The payload for the message is an object with the following structure: `{reset: <boolean>}`.  If `reset` is true, we will allow the user to 'reset' the interactive via the _delete_ button in the LARA runtime.
 
+### getLearnerUrl
 
-----------
+Sent automatically by the server at startup to query the client about their learner url (the client responds via `setLearnerUrl`).  This is the second message the client will receive and is sent before the call is made to the server to get the interactive state.  It has no payload data.
 
+### setLearnerUrl
 
-` 
+Sent by the client either in response to receiving a `getLearnerUrl` message or can be initiated by the client. The payload for the message is the string that denotes exact URL for the current student.
 
-An Iframe sends its content back:
-```javascript 
-var response = {
-  type:        'htmlFragResponse',
-  value:       html,
-  iframeReqId: iframeReqId, // counter, from request
-  id:          id           // sender_id from request
-};
-source.postMessage(JSON.stringify(response), "*");
-```
+### getInteractiveState
 
+Sent automatically by the server every 5 seconds to query the client about their interactive state. It has no payload data.
 
-----
+### interactiveState
 
-## LARA: Interactive save state
+Can be thought of as `setInteractiveState`. Sent by the client either in response to receiving a `getInteractiveState` message or can be initiated by the client.  The payload for the message is an arbitrary serializable object that will be stored by the LARA server.
 
-LARA tries to save the interactive state in child iframes by using [iFramePhone](https://github.com/concord-consortium/iframe-phone), but it wraps it up in [iframe-saver.coffee](https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L1).  The LARA logging service also uses iFramePhones [RPC endpoint](https://github.com/concord-consortium/iframe-phone/blob/master/lib/iframe-phone-rpc-endpoint.js) to log events from the interactives.
+### getAuthInfo
 
-iFramePhone Handlers registered in iframe-saver.cofee:
+Sent by the client to the server to request the current users authentication information.  It has no payload data.
 
-### InteractiveState  iFramePhone listeners:
-#### `setLearnerUrl`:
-Listen for an attempt to set the exact URL for this current student. (In the case of Lab Interactives these are version-locked instances of the interactive). Usually sent LARA after LARA has asked for the info via a previous `getLearnerUrl` message to the iFrame.
+### authInfo
 
-```javascript
-var learnerUrlCallback = function(learner_url) { … };
-iframePhone.addListener('setLearnerUrl', learnerUrlCallback);
-```
+Sent by the server only in response to a `getAuthInfo` request by the client.  The payload is the object `{provider: <string>, loggedIn: <boolean>, email: <string>}` where `provider` and `loggedIn`
+are always set and `email` is only set if the user has an email address.
 
-iFramePhone handles this for us, but for completeness here is the raw postMessage data object, note that `content` is the argument sent to our callback:
-```javascript
-var message = {
-  type: "setLearnerUrl", 
-  content: "https://lab.concord.org/version/1-0/embeddable.html?is_versioned_url=true"
-};
-```
+### loadInteractive
 
+Sent by the server at startup after the LARA server is queried about the interactive's state and *only* if the interactive has state.  The payload for the message is a arbitrary serialized object
+previously set by the `interactiveState` message.
 
-#### `interactiveState`:
-Listen for the current interactive state. Usually sent as a result of our having sent `getInteractiveState` message to the iFrame earlier.
-```javascript
-var setStateCallback = function(stateObjOrJson) { … };
-iframePhone.addListener('interactiveState', setStateCallback);
-```
+### initInteractive
 
-iFramePhone handles this for us, but for completeness here is the raw postMessage data object, note that `content` is the argument sent to our callback:
-```javascript
-var message = {
-  type: "interactiveState", 
-  content: {key: 'value', … } // maybe sent as Obj, or JSON depending. 
-};
-```
+Sent by the server at startup after the LARA server is queried about the interactive's state.  This message will always be sent, even if there is an error querying the server about the interactive state.
+The payload is the object:
 
+ `{version: 1, error: <string>, interactiveState: <object>, hasLinkedState: <boolean>, linkedState: <object>}`
 
-#### `extendedSupport`:
-Listen for the option to reset state using delete button.  If `opts.reset` is true, we will allow the user to 'reset' the interactive via the _delete_ button in the LARA runtime. Usually sent as a result of our having sent 'getExtendedSupport' earlier.
-```javascript
-var extendSupport = function(opts) { … };
-iframePhone.addListener('extendedSupport', extendSupport);
-```
+ The `error` member will be a string denoting any error querying the server about the interactive state or will be null otherwise.  The `interactiveState` member will be null if there is no current state or will otherwise be the same object returned by `loadInteractive`.  The `hasLinkedState` member will be true if the interactive is linked to another interactive in the authoring system and the `linkedState` will be the current interactive state of that linked interactive.  Linked interactives are currently in development.
 
-iFramePhone handles this for us, but for completeness here is the raw postMessage data object, note that `content` is the argument sent to our callback:
-```javascript
-var message = {
-  type: "extendedSupport", 
-  content: {rest: [true||false]} // maybe sent as Obj, or JSON depending. 
-};
-```
+## global-iframe-saver.coffee Messages
 
-### InteractiveState iFramePhone posts:
+#### interactiveStateGlobal
 
-#### `getExtendedSupport` 
-LARA asks about extended support for things like 'reset':
-```javascript
-iframePhone.post('getExtendedSupport');
-```
-iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.
-```javascript
-var message = {
-  type: "getExtendedSupport", 
-  content: {} // ignored 
-};
-```
+Sent by the client to the server and sets the global state that should be shared with all the interactives embedded in the current activity for the current student.  The payload for the message is
+an arbitrary serializable object. The global state is saved in database as text (stringified JSON) and LARA does not care about its content.
 
-#### `getLearnerUrl` 
-LARA asks for the exact URL for the current student. For Lab Interactives this results in a version-specific URL:
-```javascript
-iframePhone.post('getLearnerUrl');     
-```
-iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.
-```javascript
-var message = {
-  type: "getLearnerUrl", 
-  content: {} // ignored 
-};
-```
+Once this message is received, the server immediately posts `loadInteractiveGlobal` to all interactives on the same page (except from the sender of the original save message).
 
-#### `getInteractiveState` 
-LARA asks for the iframes state.
-```javascript
-iframePhone.post('getInteractiveState');     
-```
-iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.
-```javascript
-var message = {
-  type: "getInteractiveState", 
-  content: {} // ignored 
-};
-```
+#### loadInteractiveGlobal
 
-#### `loadInteractive` 
-LARA loads interactive state if it is available in LARA activity run (so `interactiveState` message has been received earlier).
+Sent by the server to all interactives on the current page (for current activity and student).  The payload for the message is an arbitrary serialized object.  It's interactive responsibility to interpret this message and load (or not) the given state.
 
-```javascript
-var state = {key: 'value', … };
-iframePhone.post('loadInteractive', state);     
-```
-iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.
-```javascript
-var message = {
-  type: "loadInteractive", 
-  content: {key: 'value', … } // maybe sent as Obj, or JSON depending. 
-};
-```
-----
+This message is sent by the server when:
 
-## LARA current_user info for an interactive
-Information about whether this is an anonymous run, and or who the current_user is (email) is sometimes sent to the interactive. Most of this functionality was added (possibly erroneously) to the [iframe-saver](https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee#L1) in  [these commits](https://github.com/concord-consortium/LARA/commit/58d7ee267fd0ae80547f432d932e287cdc856a7b)
+- The `interactiveStateGlobal` message is received by the server
+- The activity page is loaded **and** the global interactive state is available in LARA activity run (so only if `interactiveStateGlobal` has been received earlier)
 
-### current_user Listeners:
+## logger.js Messages
 
-#### `getAuthInfo` 
-LARA listens for this message. When received, LARA is being asked to send authentication iformation to the iframe for the current_user.
+### log
 
-```javascript
-var sendAuthInfo = function() { iFramePhone.post('authInfo', …) };
-iframePhone.addListener('getAuthInfo', sendAuthInfo);
-```
-iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.
-```javascript
-var message = {
-  type: "getAuthInfo", 
-  content: {} // ignored 
-};
-```
+This message proxies communication from the interactive → LARA → Logging server.  There is only one way communication between the interactive and LARA. The interactive is expected to post following messages using iframe phone:
 
-### current_user Posts:
-
-#### `authInfo`
-LARA posts this in response to `getAuthInfo` messages.
-
-```javascript
-var authInfo = { … }; // get the current_user info
-iframePhone.post('authInfo', authInfo);
-```
-
-iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.
-```javascript
-var message = {
-  type: "authInfo", 
-  content: {
-    provider: 'authentication-provider', 
-    loggedIn: (true || false),
-    email: (undefined || 'somebody@somplace.com')
-  } 
-};
-```
-
-----
-
-## Interactive Logging
-Interactive Logging is a service that proxies communication from the interactive → LARA → Logging server.
-
-There is only one way communication between the interactive and LARA. The interactive is expected to post following messages using iframe phone:
 ```javascript
 phone.post('log', {action: 'actionName', data: {someValue: 1, otherValue: 2})
 ```
 
-LARA listens to these events only when logging is enabled (they will be ingored otherwise). Approprieate iframe phone handlers are installed in [logger.js](https://github.com/concord-consortium/lara/blob/b51f764600816844088a0d45dc4493c0510eefe0/app/assets/javascripts/logger.js). When `log` message is received, LARA issues a POST request to the Logging server. LARA uses provided action name and data, but also adds additional information to the event (context that might useful for researchers, e.g. user name, activity name, url, session ID, etc.).
-
-----
-
-## Global state
-
-### Global state iFramePhone listeners:
-
-#### `interactiveStateGlobal`:
-Listen for the global state that should be shared with all the interactives embedded in the current activity for the current student. Usually sent by one of the embedded interactives. State is saved in DB as text (stringified JSON) and LARA does not care about its content.
-
-Once this message is received, LARA immediately posts `globalLoadState` to all interactives on the same page (except from the sender of the original save message).
-
-```javascript
-var interactiveStateGlobalCallback = function(state) {
-  // Save `state` in DB, post `loadInteractiveGlobal` message. 
-  ...
-};
-iframePhone.addListener("interactiveStateGlobal", interactiveStateGlobalCallback);
-```
-
-iFramePhone handles this for us, but for completeness here is the raw postMessage data object, note that `content` is the argument sent to our callback:
-```javascript
-var message = {
-  type: "interactiveStateGlobal", 
-  content: {param1: "Test", param2: 10} // maybe sent as Obj, or JSON depending.
-};
-```
-
-### Global state iFramePhone posts:
-
-#### `loadInteractiveGlobal` 
-
-LARA sends the global interactive state (for current activity and student) to all interactives on the current page. It's interactive responsibility to interpret this message and load (or not) the given state.
-
-This message is sent when:
-
-- `interactiveStateGlobal` message is received
-- activity page is loaded **and** the global interactive state is available in LARA activity run (so only if `interactiveStateGlobal` has been received earlier)
-
-```javascript
-// `globalState` is retrieved from the DB or `interactiveStateGlobal` message.
-var globalState = {param1: "Test", param2: 10}; 
-iframePhone.post("loadInteractiveGlobal", globalState);     
-```
-iFramePhone handles this for us, but for completeness here is the raw postMessage data object sent.
-```javascript
-var message = {
-  type: "loadInteractiveGlobal", 
-  content: {param1: "Test", param2: 10} // maybe sent as Obj, or JSON depending.
-};
-```
-
-----
-
-## Only playing one at a time (coming soon)
-
-----
-
-# Reference: using iFramePhone:
-
-As mentioned [iFramePhone](https://github.com/concord-consortium/iframe-phone) is the service which LARA uses for much of its iFrame communication.   It is also used by Lab Interactives internally. Most of the Lab messages are ignored by LARA.  
-
-Here for reference is what the implementation looks like. Taken from the [iFramePhone Readme](https://github.com/concord-consortium/iframe-phone):
-
-### parent setup:
-```javascript
-var phone = new iframePhone.ParentEndpoint(iframeElement, function () {
-  console.log("connection with iframe established");
-});
-phone.post('testMessage', 'abc');
-phone.addListener('response', function (content) {
-  console.log("parent received response: " + content);
-});
-```
-
-### iframe (child) setup:
-```javascript
-var phone = iframePhone.getIFrameEndpoint();
-phone.addListener('testMessage', function (content) { 
-  console.log("iframe received message: " + content);
-  phone.post('response', 'got it');
-});
-// IMPORTANT:
-// Initialize connection after all message listeners are added!
-phone.initialize();
-```
-
-#### hello messages:
-iFramePhone uses a `hello` messages to start communication with a specified origin. These messages get sent using the PostMessage API and look like this:
-
-```javascript
-var message = {
-  type: "hello", 
-  origin: "https://lab.concord.org"
-};
-```
-
-#### other messages:
-Subsequent messages follow a similar pattern, specifiying `type` which helps determine which listeners to notify:
-
-```javascript
-var message = {
-  type:"modelLoaded",
-  …
-};
-```
-
-#### Message posting implementation:
-The post messages looks like this as they are being sent out through iFramePhone. You don't need to worry about this; it is here for reference.
-
-```javascript
-message = {
-  type: "getLearnerUrl", 
-  origin: "http://localhost:3000",
-  content: {} // something specific to 'type'
-};
-Window.postMessage(JSON.stringify(message), targetOrigin);
-```
-
-
+LARA listens to these events only when logging is enabled (they will be ignored otherwise). When a `log` message is received, LARA issues a POST request to the Logging server. LARA uses provided action name and data, but also adds additional information to the event (context that might useful for researchers, e.g. user name, activity name, url, session ID, etc.).
