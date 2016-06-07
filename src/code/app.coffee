@@ -149,10 +149,10 @@ class App
   ##
   post: (msg,data) ->
     if @already_setup
-      l.info("App: posting message #{msg} #{data}")
+      l.info("App: posting message #{msg} #{JSON.stringify data}")
       @iframePhone.post(msg,data)
     else
-      l.info("App: queueing message #{msg} #{data}")
+      l.info("App: queueing message #{msg} #{JSON.stringify data}")
       @queue.push
         'msg': msg
         'data': data

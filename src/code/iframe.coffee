@@ -27,16 +27,16 @@ module.exports = class MockInteractive
     @iframePhone = new iframePhone.getIFrameEndpoint()
     addHandler = (message,response) =>
       @iframePhone.addListener message, (data) =>
-        l.info "Phone call: #{message}: #{data}"
+        l.info "Phone call: #{message}: #{JSON.stringify data}"
         if response
           @iframePhone.post(response.message, response.data)
-          l.info "Phone responded: #{response.message} - #{response.data}"
+          l.info "Phone responded: #{response.message} - #{JSON.stringify response.data}"
 
     for message, response of MockInteractive.MessageResponses
       addHandler(message,response)
 
     @iframePhone.addListener 'loadInteractive', (data) ->
-      l.info "Phone call: loadInteractive: #{data}"
+      l.info "Phone call: loadInteractive: #{JSON.stringify data}"
       $('#interactiveState').val JSON.stringify(data)
 
     @iframePhone.addListener 'getInteractiveState', (data) =>
@@ -45,8 +45,11 @@ module.exports = class MockInteractive
       l.info "Phone responded: interactiveState"
 
     @iframePhone.addListener 'loadInteractiveGlobal', (data) ->
-      l.info "Phone call: interactiveStateGlobal: #{data}"
+      l.info "Phone call: interactiveStateGlobal: #{JSON.stringify data}"
       $('#interactiveStateGlobal').val JSON.stringify(data)
+
+    @iframePhone.addListener 'initInteractive', (data) ->
+      l.info "Phone call: initInteractive: #{JSON.stringify data}"
 
     # Logging
     logTheLogMessages = (message, callback) ->
