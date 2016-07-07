@@ -206,8 +206,8 @@ previously set by the <code>interactiveState</code> message.</p>
 <h3 id="initinteractive">initInteractive</h3>
 <p>Sent by the server at startup after the LARA server is queried about the interactive's state.  This message will always be sent, even if there is an error querying the server about the interactive state.
 The payload is the object:</p>
-<p><code>{version: 1, error: &lt;string&gt;, interactiveState: &lt;object&gt;, hasLinkedState: &lt;boolean&gt;, linkedState: &lt;object&gt;}</code></p>
-<p>The <code>error</code> member will be a string denoting any error querying the server about the interactive state or will be null otherwise.  The <code>interactiveState</code> member will be null if there is no current state or will otherwise be the same object returned by <code>loadInteractive</code>.  The <code>hasLinkedState</code> member will be true if the interactive is linked to another interactive in the authoring system and the <code>linkedState</code> will be the current interactive state of that linked interactive.  Linked interactives are currently in development.</p>
+<p><code>{version: 1, error: &lt;string&gt;, interactiveState: &lt;object&gt;, hasLinkedInteractive: &lt;boolean&gt;, linkedState: &lt;object&gt;}</code></p>
+<p>The <code>error</code> member will be a string denoting any error querying the server about the interactive state or will be null otherwise.  The <code>interactiveState</code> member will be null if there is no current state or will otherwise be the same object returned by <code>loadInteractive</code>.  The <code>hasLinkedInteractive</code> member will be true if the interactive is linked to another interactive in the authoring system and the <code>linkedState</code> will be the current interactive state of that linked interactive.  Linked interactives are currently in development.</p>
 <h2 id="global-iframe-savercoffee-messages">global-iframe-saver.coffee Messages</h2>
 <h4 id="interactivestateglobal">interactiveStateGlobal</h4>
 <p>Sent by the client to the server and sets the global state that should be shared with all the interactives embedded in the current activity for the current student.  The payload for the message is
@@ -272,5 +272,5 @@ an arbitrary serializable object. The global state is saved in database as text 
 
 <!--
 MkDocs version : 0.15.3
-Build Date UTC : 2016-07-07 17:55:30.039517
+Build Date UTC : 2016-07-07 18:20:13.004716
 -->
