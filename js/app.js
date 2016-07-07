@@ -205,10 +205,10 @@ App = (function() {
 
   App.prototype.post = function(msg, data) {
     if (this.already_setup) {
-      l.info("App: posting message " + msg + " " + data);
+      l.info("App: posting message " + msg + " " + (JSON.stringify(data)));
       return this.iframePhone.post(msg, data);
     } else {
-      l.info("App: queueing message " + msg + " " + data);
+      l.info("App: queueing message " + msg + " " + (JSON.stringify(data)));
       return this.queue.push({
         'msg': msg,
         'data': data

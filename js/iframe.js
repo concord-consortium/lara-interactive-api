@@ -40,10 +40,10 @@ module.exports = MockInteractive = (function() {
     addHandler = (function(_this) {
       return function(message, response) {
         return _this.iframePhone.addListener(message, function(data) {
-          l.info("Phone call: " + message + ": " + data);
+          l.info("Phone call: " + message + ": " + (JSON.stringify(data)));
           if (response) {
             _this.iframePhone.post(response.message, response.data);
-            return l.info("Phone responded: " + response.message + " - " + response.data);
+            return l.info("Phone responded: " + response.message + " - " + (JSON.stringify(response.data)));
           }
         });
       };
@@ -54,7 +54,7 @@ module.exports = MockInteractive = (function() {
       addHandler(message, response);
     }
     this.iframePhone.addListener('loadInteractive', function(data) {
-      l.info("Phone call: loadInteractive: " + data);
+      l.info("Phone call: loadInteractive: " + (JSON.stringify(data)));
       return $('#interactiveState').val(JSON.stringify(data));
     });
     this.iframePhone.addListener('getInteractiveState', (function(_this) {
@@ -65,8 +65,11 @@ module.exports = MockInteractive = (function() {
       };
     })(this));
     this.iframePhone.addListener('loadInteractiveGlobal', function(data) {
-      l.info("Phone call: interactiveStateGlobal: " + data);
+      l.info("Phone call: interactiveStateGlobal: " + (JSON.stringify(data)));
       return $('#interactiveStateGlobal').val(JSON.stringify(data));
+    });
+    this.iframePhone.addListener('initInteractive', function(data) {
+      return l.info("Phone call: initInteractive: " + (JSON.stringify(data)));
     });
     logTheLogMessages = function(message, callback) {
       if (message) {
