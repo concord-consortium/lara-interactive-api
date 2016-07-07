@@ -68,9 +68,9 @@ previously set by the `interactiveState` message.
 Sent by the server at startup after the LARA server is queried about the interactive's state.  This message will always be sent, even if there is an error querying the server about the interactive state.
 The payload is the object:
 
- `{version: 1, error: <string>, interactiveState: <object>, hasLinkedState: <boolean>, linkedState: <object>}`
+ `{version: 1, error: <string>, interactiveState: <object>, hasLinkedInteractive: <boolean>, linkedState: <object>}`
 
- The `error` member will be a string denoting any error querying the server about the interactive state or will be null otherwise.  The `interactiveState` member will be null if there is no current state or will otherwise be the same object returned by `loadInteractive`.  The `hasLinkedState` member will be true if the interactive is linked to another interactive in the authoring system and the `linkedState` will be the current interactive state of that linked interactive.  Linked interactives are currently in development.
+ The `error` member will be a string denoting any error querying the server about the interactive state or will be null otherwise.  The `interactiveState` member will be null if there is no current state or will otherwise be the same object returned by `loadInteractive`.  The `hasLinkedInteractive` member will be true if the interactive is linked to another interactive in the authoring system and the `linkedState` will be the current interactive state of that linked interactive.  Linked interactives are currently in development.
 
 ## global-iframe-saver.coffee Messages
 
