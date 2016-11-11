@@ -50,6 +50,9 @@ module.exports = class MockInteractive
 
     @iframePhone.addListener 'initInteractive', (data) ->
       l.info "Phone call: initInteractive: #{JSON.stringify data}"
+      $('#interactiveState').val JSON.stringify(data.interactiveState) if data.interactiveState
+      $('#authoredState').val JSON.stringify(data.authoredState) if data.authoredState
+      $('#interactiveStateGlobal').val JSON.stringify(data.globalInteractiveState) if data.globalInteractiveState
 
     # Logging
     logTheLogMessages = (message, callback) ->
@@ -84,5 +87,9 @@ module.exports = class MockInteractive
     $('#globalSaveState').click () =>
       l.info('posting interactiveStateGlobal')
       @iframePhone.post("interactiveStateGlobal", JSON.parse($('#interactiveStateGlobal').val()))
+
+    $('#saveAuthoredState').click () =>
+      l.info('posting authoredState')
+      @iframePhone.post("authoredState", JSON.parse($('#authoredState').val()))
 
 window.MockInteractive = MockInteractive
