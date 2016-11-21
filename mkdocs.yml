@@ -6,6 +6,7 @@ repo_url: https://github.com/concord-consortium/lara-interactive-api
 site_url: http://concord-consortium.github.io/lara-interactive-api/
 pages:
 - LARA Interactive API: 'index.md'
+- Implementing Interactive: 'implementing-interactive.md'
 - Shutterbug API: 'shutterbug.md'
 - Using iFramePhone: 'using-iframe-phone.md'
 - Safari / IE, cookies and iframe redirects: 'safari-cookies-redirects.md'
