@@ -20,6 +20,14 @@ phone.addListener('otherMessageType', function (data) {
 // (...)
 // IMPORTANT: Initialize connection after all message listeners are added!
 phone.initialize();
+// Informat LARA about supported features. Some of them require that (e.g. state authoring, student progress saving):
+phone.post('supportedFeatures', {
+  apiVersion: 1, 
+  features: {
+    someFeature: true 
+    otherFeature: true
+  }
+});
 ```
 
 ### Handling the `initInteractive` message
@@ -32,9 +40,9 @@ reads values stored in `data` Object / hash:
 ```javascript
 phone.addListener('initInteractive', function (data) {
   // process data object, e.g.:
-  // initializeMode(data.mode);
-  // loadAuthoredState(data.authoredState);
-  // loadStudentWork(data.interactiveState);
+  initializeMode(data.mode);
+  loadAuthoredState(data.authoredState);
+  loadStudentWork(data.interactiveState);
 });  
 ```
 
@@ -50,10 +58,10 @@ phone.addListener('initInteractive', function (data) {
  below in other section). Provided only in runtime mode. If it's not defined, it would be falsy value (null or empty string).
  - **[optional]** globalInteractiveState - JSON that has been saved by interactive earlier in runtime mode using `globalInteractiveState` message (described
  below in other section). Provided only in runtime mode. If it's not defined, it would be falsy value (null or empty string).
- - **[optional]** hasLinkedInteractive
- - **[optional]** linkedState
- - **[optional]** interactiveStateUrl
- - **[optional]** collaboratorUrls
+ - **[optional]** hasLinkedInteractive - TODO
+ - **[optional]** linkedState - TODO
+ - **[optional]** interactiveStateUrl - TODO
+ - **[optional]** collaboratorUrls - TODO
  
 
 ### Interactive customization
@@ -105,6 +113,84 @@ phone.post('supportedFeatures', {
 phone.post('interactiveState', interactiveState);  
 ```
  
- There are no requirements regarding `interactiveState` expect from the fact that it should be a JSON.
- Next time the interactive is loaded either in runtime mode, `initInteractive` will provide this state to the interactive
- in `interactiveState` property.
+There are no requirements regarding `interactiveState` expect from the fact that it should be a JSON.
+Next time the interactive is loaded either in runtime mode, `initInteractive` will provide this state to the interactive
+in `interactiveState` property.
+ 
+### Custom learner URL
+
+This feature is related to student progress saving. Interactive can provide versioned URL to make sure that given
+data format is always supported (otherwise, e.g. interactive can be updated, but LARA would still try to load old data format).
+ 
+```javascript
+phone.post('setLearnerUrl', 'https://my.example.interactive/version/1');  
+```
+
+### Global interactive state
+
+A few interactives can share one, global state within a single LARA activity. E.g. you can let students work on the 
+same model on different pages of the activity. Interactive can set global state using `interactiveStateGlobal` message:
+
+```javascript
+phone.post('interactiveStateGlobal', globalState);
+```
+
+Once this message is received, the server immediately posts `loadInteractiveGlobal` to all interactives on the same page 
+(except from the sender of the original save message). So, interactives can listen to this message:
+
+
+```javascript
+phone.addListener('loadInteraciveGlobal', function (globalState) {
+  // Process global state, e.g.:
+  loadState(globalState);
+});  
+```
+
+Also, if global state is available for the activity (so, one of the interactives has sent `interactiveStateGlobal` message before),
+it will be provided in `initInteractive` message. 
+
+### Logging
+
+This message proxies communication from the interactive → LARA → Logging server. 
+There is only one way communication between the interactive and LARA. The interactive is expected to post following messages using iframe phone:
+
+```javascript
+phone.post('log', {action: 'actionName', data: {someValue: 1, otherValue: 2}});
+```
+
+LARA listens to these events only when logging is enabled (they will be ignored otherwise). 
+When a `log` message is received, LARA issues a POST request to the Logging server. LARA uses provided action name and data, 
+but also adds additional information to the event (context that might useful for researchers, e.g. user name, activity name, url, session ID, etc.).
+
+
+### Auth info
+
+Interactive can ask LARA about the current users authentication information using `getAuthInfo` message. It has no payload data:
+
+```javascript
+phone.post('getAuthInfo');
+```
+
+LARA responds using `authInfo` message:
+
+```javascript
+phone.addListener('authInfo', function (info) {
+  // ...
+});  
+```
+
+The payload is the object `{provider: <string>, loggedIn: <boolean>, email: <string>}` where `provider` and `loggedIn`
+are always set and `email` is only set if the user has an email address.
+
+### getExtendedSupport
+
+TODO
+
+PJ: do we really want to document and support these messages / feature? 
+ 
+I know it's implemented, but it's a bit unclear to me, including naming (what is extendedSupport and why is it realted
+to state resetting?).
+
+### Linked interactives
+
+TODO
