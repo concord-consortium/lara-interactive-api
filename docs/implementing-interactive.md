@@ -58,7 +58,19 @@ phone.addListener('initInteractive', function (data) {
 
 ### Interactive customization
 
-`initInteractive` provides `mode` property. Interactive can display authoring interface when mode value is equal
+If interactive wants to support customization, it should inform LARA about it using `supportedFeatures` message:
+ 
+```javascript
+phone.post('supportedFeatures', {
+  apiVersion: 1, 
+  features: {
+    authoredState: true 
+    // + other supported features
+  }
+});  
+``` 
+
+`initInteractive` message provides `mode` property. Interactive can display authoring interface when mode value is equal
 to `"authoring"`. Every customization made by author should be sent back to LARA using `authoredState` message:
 
 ```javascript
@@ -72,6 +84,18 @@ Note that it's recommended that `authoredState` should be sent to LARA immediate
 its own "Save" button that would actually save this state to the DB and "Reset" which would set it back to null.
 
 ### Saving student progress
+
+If interactive wants to support student progress saving, it should inform LARA about it using `supportedFeatures` message:
+ 
+```javascript
+phone.post('supportedFeatures', {
+  apiVersion: 1, 
+  features: {
+    interactiveState: true 
+    // + other supported features
+  }
+});  
+``` 
 
 `initInteractive` provides `mode` property. `"runtime"` mode means that Interactive is viewed by student. Interactive
  can save student progress using `interactiveState` message:
