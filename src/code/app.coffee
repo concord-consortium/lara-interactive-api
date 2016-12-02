@@ -31,6 +31,11 @@ class App
 
   setUpButtons: () ->
     buttons =
+      "initInteractive": (e) =>
+        value = $('#dataOut').val()
+        obj = JSON.parse(value) # TODO This has to be an object...
+        @post "initInteractive", obj
+
       "saveInteractive": (e) =>
         @post "getInteractiveState"
 
