@@ -132,10 +132,12 @@ class App
     messageHandlers =
       "setLearnerUrl": false
       "interactiveState": false
+      "authoredState": false
       "getAuthInfo":
         message: "authInfo"
         data: "knowuh@gmail.com"
       "extendedSupport": false
+      "supportedFeatures": false
       "interactiveStateGlobal":
         handler: (data) =>
           @globalState = _.extend(@globalState,data)

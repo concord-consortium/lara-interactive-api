@@ -18,6 +18,7 @@
 .project
 .settings
 .tmproj
+.idea
 nbproject
 Thumbs.db
 

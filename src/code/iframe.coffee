@@ -69,6 +69,15 @@ module.exports = class MockInteractive
     @iframePhone.initialize()
     l.info("Phone ready")
 
+    @iframePhone.post("supportedFeatures", {
+      apiVersion: 1,
+      features: {
+        authoredState: true,
+        interactiveState: true
+      }
+    })
+    l.info("Posted supported features")
+
     # TODO: (rpc)
     # @iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint
     #   phone: @iframePhone
