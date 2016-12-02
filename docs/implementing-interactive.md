@@ -136,7 +136,7 @@ So the interactive should add an listener for `getInteractiveState`. To be safe,
 calling `phone.initialize();`. Here is an example listener:
 
 ```javascript
-phone.addListener('getInteractiveState', function (data) {
+phone.addListener('getInteractiveState', function () {
   phone.post('interactiveState', interactiveState);
 });
 ```
