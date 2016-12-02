@@ -69,7 +69,16 @@ module.exports = MockInteractive = (function() {
       return $('#interactiveStateGlobal').val(JSON.stringify(data));
     });
     this.iframePhone.addListener('initInteractive', function(data) {
-      return l.info("Phone call: initInteractive: " + (JSON.stringify(data)));
+      l.info("Phone call: initInteractive: " + (JSON.stringify(data)));
+      if (data.interactiveState) {
+        $('#interactiveState').val(JSON.stringify(data.interactiveState));
+      }
+      if (data.authoredState) {
+        $('#authoredState').val(JSON.stringify(data.authoredState));
+      }
+      if (data.globalInteractiveState) {
+        return $('#interactiveStateGlobal').val(JSON.stringify(data.globalInteractiveState));
+      }
     });
     logTheLogMessages = function(message, callback) {
       if (message) {
@@ -84,7 +93,15 @@ module.exports = MockInteractive = (function() {
       phone: this.iframePhone
     });
     this.iframePhone.initialize();
-    return l.info("Phone ready");
+    l.info("Phone ready");
+    this.iframePhone.post("supportedFeatures", {
+      apiVersion: 1,
+      features: {
+        authoredState: true,
+        interactiveState: true
+      }
+    });
+    return l.info("Posted supported features");
   };
 
   function MockInteractive() {
@@ -103,6 +120,12 @@ module.exports = MockInteractive = (function() {
       return function() {
         l.info('posting interactiveStateGlobal');
         return _this.iframePhone.post("interactiveStateGlobal", JSON.parse($('#interactiveStateGlobal').val()));
+      };
+    })(this));
+    $('#saveAuthoredState').click((function(_this) {
+      return function() {
+        l.info('posting authoredState');
+        return _this.iframePhone.post("authoredState", JSON.parse($('#authoredState').val()));
       };
     })(this));
   }

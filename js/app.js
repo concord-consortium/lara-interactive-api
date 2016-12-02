@@ -47,6 +47,14 @@ App = (function() {
   App.prototype.setUpButtons = function() {
     var action, bindButton, buttonname, buttons, results;
     buttons = {
+      "initInteractive": (function(_this) {
+        return function(e) {
+          var obj, value;
+          value = $('#dataOut').val();
+          obj = JSON.parse(value);
+          return _this.post("initInteractive", obj);
+        };
+      })(this),
       "saveInteractive": (function(_this) {
         return function(e) {
           return _this.post("getInteractiveState");
@@ -176,11 +184,13 @@ App = (function() {
     messageHandlers = {
       "setLearnerUrl": false,
       "interactiveState": false,
+      "authoredState": false,
       "getAuthInfo": {
         message: "authInfo",
         data: "knowuh@gmail.com"
       },
       "extendedSupport": false,
+      "supportedFeatures": false,
       "interactiveStateGlobal": {
         handler: (function(_this) {
           return function(data) {
