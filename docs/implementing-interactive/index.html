@@ -89,6 +89,8 @@
                 
                     <li><a class="toctree-l4" href="#linked-interactives">Linked interactives</a></li>
                 
+                    <li><a class="toctree-l4" href="#accessing-interactive-state-with-http">Accessing Interactive State with HTTP</a></li>
+                
             
             </ul>
         
@@ -164,7 +166,7 @@ happens through <a href="https://github.com/concord-consortium/iframe-phone">iFr
 <code>postMessage</code> API. Interactive which wants to use LARA Interactive API needs to use this library. Check its 
 readme to see how to include it in your project (npm, RequireJS or via script tag). Once <code>iframePhone</code> library is 
 available, Interactive needs to setup communication:</p>
-<h3 id="iframe-phone-setup">iframe-phone setup</h3>
+<h2 id="iframe-phone-setup">iframe-phone setup</h2>
 <pre><code class="javascript">var phone = iframePhone.getIFrameEndpoint();
 phone.addListener('initInteractive', function (data) {
   // handle initInteractive call
@@ -172,122 +174,168 @@ phone.addListener('initInteractive', function (data) {
 phone.addListener('otherMessageType', function (data) {
   // handle otherMessageType call
 });
-// more handlers here 
-// (...)
+// more handlers here
+
 // IMPORTANT: Initialize connection after all message listeners are added!
 phone.initialize();
-// Informat LARA about supported features. Some of them require that (e.g. state authoring, student progress saving):
+// Inform LARA about supported features. Some of them require that
+//  (e.g. state authoring, student progress saving):
 phone.post('supportedFeatures', {
-  apiVersion: 1, 
+  apiVersion: 1,
   features: {
-    someFeature: true 
+    someFeature: true
     otherFeature: true
   }
 });
 </code></pre>
 
-<h3 id="handling-the-initinteractive-message">Handling the <code>initInteractive</code> message</h3>
+<h2 id="handling-the-initinteractive-message">Handling the <code>initInteractive</code> message</h2>
 <p>This is one of the most important messages sent by LARA. It provides most of the information stored by LARA.
-It tells the interactive what is the current API version, mode (<code>runtime</code> or <code>authoring</code>), <code>authoredState</code> (state defined by teacher), 
-<code>interactiveState</code> (state based on student work) and so on. Interactive should add <code>initInteractive</code> handler that
-reads values stored in <code>data</code> Object / hash:</p>
+It tells the interactive what is the current API version, mode (<code>runtime</code> or <code>authoring</code>), <code>authoredState</code>
+(state defined by author), <code>interactiveState</code> (state based on student work) and so on. Interactive should
+add <code>initInteractive</code> handler that reads values stored in <code>data</code> Object / hash:</p>
 <pre><code class="javascript">phone.addListener('initInteractive', function (data) {
   // process data object, e.g.:
   initializeMode(data.mode);
   loadAuthoredState(data.authoredState);
   loadStudentWork(data.interactiveState);
-});  
+});
 </code></pre>
 
-<p><code>data</code> consists of:</p>
+<h3 id="data-passed-to-initinteractive">Data passed to initInteractive</h3>
 <ul>
-<li>error - <code>null</code> if everything is okay, error message otherwise (e.g. data fetching might fail).</li>
-<li>mode - <code>"authoring"</code> or <code>"runtime"</code>. Interactive can be displayed in one of those two modes, but it's up to interactive whether
- it supports authoring mode. Runtime is basic mode which is presented to students. Authoring mode can be used
- by authors to customize interactive.</li>
-<li><strong>[optional]</strong> authoredState - JSON that has been saved by interactive earlier in authoring mode using <code>authoredState</code> message (described
- below in other section). If it's not defined, it would be falsy value (null or empty string).</li>
-<li><strong>[optional]</strong> interactiveState - JSON that has been saved by interactive earlier in runtime mode using <code>interactiveState</code> message (described
- below in other section). Provided only in runtime mode. If it's not defined, it would be falsy value (null or empty string).</li>
-<li><strong>[optional]</strong> globalInteractiveState - JSON that has been saved by interactive earlier in runtime mode using <code>globalInteractiveState</code> message (described
- below in other section). Provided only in runtime mode. If it's not defined, it would be falsy value (null or empty string).</li>
-<li><strong>[optional]</strong> hasLinkedInteractive - TODO</li>
-<li><strong>[optional]</strong> linkedState - TODO</li>
-<li><strong>[optional]</strong> interactiveStateUrl - TODO</li>
-<li><strong>[optional]</strong> collaboratorUrls - TODO</li>
+<li><strong>error</strong> - <code>null</code> if everything is okay, error message otherwise (e.g. data fetching might fail).</li>
+<li><strong>mode</strong> - <code>"authoring"</code> or <code>"runtime"</code>. Interactive can be displayed in one of those two modes, but it's
+   up to interactive whether it supports authoring mode. Runtime is basic mode which is presented to students.
+   Authoring mode can be used by authors to customize interactive.</li>
+<li><strong>authoredState [optional]</strong> - JSON that has been saved by interactive earlier in authoring mode using
+   <code>authoredState</code> message (described below in other section). If it's not defined, it would be falsy value
+   (null or empty string).</li>
+<li><strong>interactiveState [optional]</strong> - JSON that has been saved by interactive earlier in runtime mode using
+   <code>interactiveState</code> message. More detail in <a href="#saving-student-progress">Saving Student Progress section</a>. Provided only in runtime mode. If it's not
+   defined, it would be falsy value (null or empty string).</li>
+<li><strong>globalInteractiveState [optional]</strong> - JSON that has been saved by any interactive in the same activity
+   earlier in runtime mode using <a href="#global-interactive-state">globalInteractiveState message</a>.
+   Provided only in runtime mode.
+   If it's not defined, it would be falsy value (null or empty string).</li>
+<li><strong>hasLinkedInteractive [optional]</strong> - boolean or undefined. If this is true then the author has
+   linked this interactive to another interactive in the activity or sequence. This will be true even if
+   the linked interactive has not saved state yet.</li>
+<li><strong>linkedState [optional]</strong> - JSON that has been saved by the linked interactive. If no state has been
+   saved this will be falsy.</li>
+<li><strong>interactiveStateUrl [optional]</strong> - Fully qualified URL to access the interactive state externally.
+   See <a href="#accessing-interactive-state-with-http">Accessing Interactive State with HTTP</a> for more information.</li>
+<li><strong>collaboratorUrls [optional]</strong> - Fully qualified URL to access the interactive state of each collaborator
+   working with the current student. These URLs can be used to save a copy of the work into each 
+   collaborator's interactive state.</li>
 </ul>
-<h3 id="interactive-customization">Interactive customization</h3>
+<h2 id="interactive-customization">Interactive customization</h2>
 <p>If interactive wants to support customization, it should inform LARA about it using <code>supportedFeatures</code> message:</p>
 <pre><code class="javascript">phone.post('supportedFeatures', {
-  apiVersion: 1, 
+  apiVersion: 1,
   features: {
-    authoredState: true 
+    authoredState: true
     // + other supported features
   }
-});  
+});
 </code></pre>
 
-<p><code>initInteractive</code> message provides <code>mode</code> property. Interactive can display authoring interface when mode value is equal
-to <code>"authoring"</code>. Every customization made by author should be sent back to LARA using <code>authoredState</code> message:</p>
-<pre><code class="javascript">phone.post('authoredState', authoredState);  
+<p><code>initInteractive</code> message provides <code>mode</code> property. Interactive can display authoring interface when mode value
+is equal to <code>"authoring"</code>. Every customization made by author should be sent back to LARA using <code>authoredState</code>
+message:</p>
+<pre><code class="javascript">phone.post('authoredState', data);
 </code></pre>
 
-<p>There are no requirements regarding <code>authoredState</code> expect from the fact that it should be a JSON.
-Next time the interactive is loaded either in authoring or runtime mode, <code>initInteractive</code> will provide this state to the interactive 
-in <code>authoredState</code> property.
+<p>The authoredState data should be a JSON compatible object, that is the only requirement.
+Next time the interactive is loaded either in authoring or runtime mode, <code>initInteractive</code> will provide this
+state to the interactive in <code>authoredState</code> property.
 Note that it's recommended that <code>authoredState</code> should be sent to LARA immediately after every change. LARA provides
 its own "Save" button that would actually save this state to the DB and "Reset" which would set it back to null.</p>
-<h3 id="saving-student-progress">Saving student progress</h3>
+<h2 id="saving-student-progress">Saving student progress</h2>
 <p>If interactive wants to support student progress saving, it should inform LARA about it using <code>supportedFeatures</code> message:</p>
 <pre><code class="javascript">phone.post('supportedFeatures', {
-  apiVersion: 1, 
+  apiVersion: 1,
   features: {
-    interactiveState: true 
+    interactiveState: true
     // + other supported features
   }
-});  
+});
 </code></pre>
 
+<p>Currently, LARA is not paying attention to this interactiveState supportedFeature, but it will do so in the future.</p>
+<p>When this interactive is added to a LARA page the author needs to check the "save state" checkbox.</p>
 <p><code>initInteractive</code> provides <code>mode</code> property. <code>"runtime"</code> mode means that Interactive is viewed by student. Interactive
  can save student progress using <code>interactiveState</code> message:</p>
-<pre><code class="javascript">phone.post('interactiveState', interactiveState);  
+<pre><code class="javascript">phone.post('interactiveState', data);
 </code></pre>
 
-<p>There are no requirements regarding <code>interactiveState</code> expect from the fact that it should be a JSON.
-Next time the interactive is loaded either in runtime mode, <code>initInteractive</code> will provide this state to the interactive
+<p>Normally the interactiveState data should be a JSON compatible object, that is the only requirement.
+Next time the interactive is loaded in runtime mode, <code>initInteractive</code> will provide this state to the interactive
 in <code>interactiveState</code> property.</p>
-<h3 id="custom-learner-url">Custom learner URL</h3>
-<p>This feature is related to student progress saving. Interactive can provide versioned URL to make sure that given
-data format is always supported (otherwise, e.g. interactive can be updated, but LARA would still try to load old data format).</p>
-<pre><code class="javascript">phone.post('setLearnerUrl', 'https://my.example.interactive/version/1');  
+<p>LARA will send the interactive a <code>getInteractiveState</code> periodically:</p>
+<ul>
+<li>every 5 seconds</li>
+<li>on window focus</li>
+<li>iframe mouseout</li>
+<li>when the student tries to leave the page containing the interactive</li>
+</ul>
+<p>The interactive should add a listener for <code>getInteractiveState</code>. To be safe, remember to add the listener
+before calling <code>phone.initialize();</code>. Here is an example listener:</p>
+<pre><code class="javascript">phone.addListener('getInteractiveState', function () {
+  phone.post('interactiveState', interactiveState);
+});
 </code></pre>
 
-<h3 id="global-interactive-state">Global interactive state</h3>
-<p>A few interactives can share one, global state within a single LARA activity. E.g. you can let students work on the 
-same model on different pages of the activity. Interactive can set global state using <code>interactiveStateGlobal</code> message:</p>
+<p><strong>IMPORTANT</strong> When the student tries to leave the page with the interactive, the interactive needs to
+respond with an <code>interactiveState</code> message. LARA will not changes pages until it receives this message.</p>
+<p>There is a special value <code>"nochange"</code>, that can be sent as the interactiveState data. This tells LARA the
+interactiveState has not changed since the last time. This is useful when responding to getInteractiveState</p>
+<h2 id="custom-learner-url">Custom learner URL</h2>
+<p><strong>DEPRECATED</strong> This feature is related to student progress saving. Interactive can provide versioned URL
+to make sure that the given data format is always supported. Otherwise the interactive might be updated
+and not be able to open the old state format.</p>
+<p>This is deprecated because it causes more problems than
+it is worth. We have wanted to remove support for old versions of interactives, and we've had to remember
+to go through all of the interactive states and these learner urls.  Also the concept of saving a URL
+that works in this maner is confusing. Sometimes the interactive is loaded with the authored URL sometimes
+it is loaded with the saved URL. So a set of students or testers might see different versions of what seems
+like it should be the same interactive. Instead of using this approach to handle old state, the interactive
+should handle migrating its own old state. If migrating its own state isn't practical then please work with
+the LARA developers to do a batch migration on the server.</p>
+<pre><code class="javascript">phone.post('setLearnerUrl', 'https://my.example.interactive/version/1');
+</code></pre>
+
+<h2 id="global-interactive-state">Global interactive state</h2>
+<p>A few interactives can share one global state within a single LARA activity. E.g. you can let students
+work on the same model on different pages of the activity. Interactive can set global state using
+<code>interactiveStateGlobal</code> message:</p>
 <pre><code class="javascript">phone.post('interactiveStateGlobal', globalState);
 </code></pre>
 
-<p>Once this message is received, the server immediately posts <code>loadInteractiveGlobal</code> to all interactives on the same page 
-(except from the sender of the original save message). So, interactives can listen to this message:</p>
+<p>Once this message is received, the server immediately posts <code>loadInteractiveGlobal</code> to all interactives
+on the same page (except from the sender of the original save message). So, interactives can listen
+to this message:</p>
 <pre><code class="javascript">phone.addListener('loadInteraciveGlobal', function (globalState) {
   // Process global state, e.g.:
   loadState(globalState);
-});  
+});
 </code></pre>
 
-<p>Also, if global state is available for the activity (so, one of the interactives has sent <code>interactiveStateGlobal</code> message before),
-it will be provided in <code>initInteractive</code> message. </p>
-<h3 id="logging">Logging</h3>
-<p>This message proxies communication from the interactive → LARA → Logging server. 
-There is only one way communication between the interactive and LARA. The interactive is expected to post following messages using iframe phone:</p>
+<p>If one of the interactives has sent <code>interactiveStateGlobal</code> message before another interactive is
+initialized then the global state will be provided in the <code>initInteractive</code> message.</p>
+<p><strong>NOTE</strong> Another way to communicate between two interactives is with
+<a href="#linked-interactives">Linked Interactives</a>.</p>
+<h2 id="logging">Logging</h2>
+<p>This message proxies communication from the interactive → LARA → Logging server.
+There is only one way communication between the interactive and LARA. The interactive is expected to post following messages using
+iframe phone:</p>
 <pre><code class="javascript">phone.post('log', {action: 'actionName', data: {someValue: 1, otherValue: 2}});
 </code></pre>
 
 <p>LARA listens to these events only when logging is enabled (they will be ignored otherwise). 
 When a <code>log</code> message is received, LARA issues a POST request to the Logging server. LARA uses provided action name and data, 
 but also adds additional information to the event (context that might useful for researchers, e.g. user name, activity name, url, session ID, etc.).</p>
-<h3 id="auth-info">Auth info</h3>
+<h2 id="auth-info">Auth info</h2>
 <p>Interactive can ask LARA about the current users authentication information using <code>getAuthInfo</code> message. It has no payload data:</p>
 <pre><code class="javascript">phone.post('getAuthInfo');
 </code></pre>
@@ -300,12 +348,17 @@ but also adds additional information to the event (context that might useful for
 
 <p>The payload is the object <code>{provider: &lt;string&gt;, loggedIn: &lt;boolean&gt;, email: &lt;string&gt;}</code> where <code>provider</code> and <code>loggedIn</code>
 are always set and <code>email</code> is only set if the user has an email address.</p>
-<h3 id="getextendedsupport">getExtendedSupport</h3>
+<h2 id="getextendedsupport">getExtendedSupport</h2>
+<p>This is a message sent by LARA to the interactive. The interactive can respond with a <code>extendedSupport</code> message.
+The data of the <code>extendedSupport</code> only supports one property <code>reset</code>. The value of reset should be boolean.
+If the interactive sends <code>reset: true</code> then LARA will show a button below the interactive for clearing the
+interactive state and reloading the interactive.  If <code>reset: false</code> then LARA will not show this button. By
+default LARA will show this button.</p>
+<p><strong>NOTE</strong> this extended support message is out of date. It is the only way to hide the reset button, so it
+isn't deprecated. New options like this will be added to the <code>supportedFeatures</code> message described above.</p>
+<h2 id="linked-interactives">Linked interactives</h2>
 <p>TODO</p>
-<p>PJ: do we really want to document and support these messages / feature? </p>
-<p>I know it's implemented, but it's a bit unclear to me, including naming (what is extendedSupport and why is it realted
-to state resetting?).</p>
-<h3 id="linked-interactives">Linked interactives</h3>
+<h2 id="accessing-interactive-state-with-http">Accessing Interactive State with HTTP</h2>
 <p>TODO</p>
               
             </div>
