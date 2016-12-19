@@ -18,7 +18,7 @@ to the `./dev` directory
 ## Deploying: ##
 
 ### Dry run ###
-* run `gulp build-all --production` this will create dist files in `./dist`
+* run `gulp build-all --production && mkdocs build` this will create dist files in `./dist`
 * run `cd ./dist && live-server` to check your work.
 
 ### Update github pages ###
