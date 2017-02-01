@@ -32,6 +32,11 @@ module.exports = {
       watch: src + '/code/globals.coffee',
       src: src + '/code/globals.coffee',
       dest: dest + '/js/'
+    },
+    userInfo: {
+      watch: [src + '/code/**/*.*', '!' + src + '/code/globals.coffee'],
+      src: src + '/code/interactives/user-info.coffee',
+      dest: dest + '/js/interactives/'
     }
   },
   coffeelint: {

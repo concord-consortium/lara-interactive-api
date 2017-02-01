@@ -52,4 +52,16 @@ gulp.task('browserify-globals', function(){
     .pipe(gulp.dest(config.globals.dest));
 });
 
+gulp.task('browserify-user-info', function(){
+  var b = browserify({
+    debug: !production,
+    extensions: ['.coffee']
+  });
+  b.transform(coffeeify);
+  b.add(config.userInfo.src);
+  return b.bundle()
+    .pipe(source('user-info.js'))
+    .pipe(gulp.dest(config.userInfo.dest));
+});
+
 gulp.task('browserify', ['browserify-app', 'browserify-globals', 'browserify-iframe']);
