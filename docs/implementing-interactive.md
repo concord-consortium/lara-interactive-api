@@ -2,9 +2,9 @@
 
 LARA embeds interactives using iframe and provides LARA Interactive API. This API can be used e.g. to customize interactive,
 save state authored by teachers or save student progress. The whole communication between LARA and Interactive
-happens through [iFramePhone](https://github.com/concord-consortium/iframe-phone) which is a simple wrapper around 
-`postMessage` API. Interactive which wants to use LARA Interactive API needs to use this library. Check its 
-readme to see how to include it in your project (npm, RequireJS or via script tag). Once `iframePhone` library is 
+happens through [iFramePhone](https://github.com/concord-consortium/iframe-phone) which is a simple wrapper around
+`postMessage` API. Interactive which wants to use LARA Interactive API needs to use this library. Check its
+readme to see how to include it in your project (npm, RequireJS or via script tag). Once `iframePhone` library is
 available, Interactive needs to setup communication:
 
 ## iframe-phone setup
@@ -71,7 +71,7 @@ phone.addListener('initInteractive', function (data) {
  - **interactiveStateUrl [optional]** - Fully qualified URL to access the interactive state externally.
    See [Accessing Interactive State with HTTP](#accessing-interactive-state-with-http) for more information.
  - **collaboratorUrls [optional]** - Fully qualified URL to access the interactive state of each collaborator
-   working with the current student. These URLs can be used to save a copy of the work into each 
+   working with the current student. These URLs can be used to save a copy of the work into each
    collaborator's interactive state.
 
 
@@ -210,8 +210,8 @@ iframe phone:
 phone.post('log', {action: 'actionName', data: {someValue: 1, otherValue: 2}});
 ```
 
-LARA listens to these events only when logging is enabled (they will be ignored otherwise). 
-When a `log` message is received, LARA issues a POST request to the Logging server. LARA uses provided action name and data, 
+LARA listens to these events only when logging is enabled (they will be ignored otherwise).
+When a `log` message is received, LARA issues a POST request to the Logging server. LARA uses provided action name and data,
 but also adds additional information to the event (context that might useful for researchers, e.g. user name, activity name, url, session ID, etc.).
 
 
@@ -248,7 +248,36 @@ isn't deprecated. New options like this will be added to the `supportedFeatures`
 
 ## Linked interactives
 
-TODO
+Each interactive in LARA can be linked with one other interactive in the same activity
+or sequence. A LARA author edits the main interactive and can add a reference to the
+linked interactive. Currently this reference is with an interactive id, but that
+referencing mechanism could change and it should not effect how the interactives are
+implemented.
+
+When the main interactive is loaded it will be sent the `initInteractive` message just
+like normal.  This message has 2 fields in related to linked interactives.
+
+The `hasLinkedInteractive` field will be set to true if the author has setup the
+linking.  This will be true even if the learner hasn't done any work on the linked
+interactive yet.
+
+The `linkedState` field will contain the work the learner has done on the linked
+interactive. It will be falsy if the student hasn't done any work.
+
+An example use case is an activity where a student is incrementally building a  diagram.
+In interactive 1 the student fills out part of the diagram and then in interactive 2
+the student is asked to add more to the diagram.  Interactive 2 can load in the state
+from the interactive 1 and display the diagram the student created before. Any new
+changes made can be saved separately into interactive 2's state.  The state of
+interactive 1 will be preserved.
+
+The main interactive can use the `hasLinkedInteractive` field to tell the difference
+between being used independently in the activity or being linked to another
+interactive.  In the diagram example above, if interactive 2 sees there is no
+linkedState, it should then check `hasLinkedInteractive`.  In that case it could tell
+the student "you should complete the previous diagram before starting this one". If
+`hasLinkedInteractive` is falsy then the interactive knows it shouldn't show this
+message.
 
 ## Accessing Interactive State with HTTP
 
