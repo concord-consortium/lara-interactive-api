@@ -37,6 +37,11 @@ module.exports = {
       watch: [src + '/code/**/*.*', '!' + src + '/code/globals.coffee'],
       src: src + '/code/interactives/user-info.coffee',
       dest: dest + '/js/interactives/'
+    },
+    toggleForwardNav: {
+      watch: [src + '/code/**/*.*', '!' + src + '/code/globals.coffee'],
+      src: src + '/code/interactives/toggle-forward-nav.coffee',
+      dest: dest + '/js/interactives/'
     }
   },
   coffeelint: {

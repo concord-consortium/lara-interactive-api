@@ -64,4 +64,16 @@ gulp.task('browserify-user-info', function(){
     .pipe(gulp.dest(config.userInfo.dest));
 });
 
-gulp.task('browserify', ['browserify-app', 'browserify-globals', 'browserify-iframe']);
+gulp.task('browserify-toggle-forward-nav', function(){
+  var b = browserify({
+    debug: !production,
+    extensions: ['.coffee']
+  });
+  b.transform(coffeeify);
+  b.add(config.toggleForwardNav.src);
+  return b.bundle()
+    .pipe(source('toggle-forward-nav.js'))
+    .pipe(gulp.dest(config.toggleForwardNav.dest));
+});
+
+gulp.task('browserify', ['browserify-app', 'browserify-globals', 'browserify-iframe', 'browserify-user-info', 'browserify-toggle-forward-nav']);
