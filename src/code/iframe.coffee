@@ -51,7 +51,9 @@ module.exports = class MockInteractive
     @iframePhone.addListener 'initInteractive', (data) ->
       l.info "Phone call: initInteractive: #{JSON.stringify data}"
       $('#interactiveState').val JSON.stringify(data.interactiveState) if data.interactiveState
-      $('#authoredState').val JSON.stringify(data.authoredState) if data.authoredState
+      # prior to LARA 1.26 the authorState would come in as a string during authoring and
+      # an object during runtime
+      $('#authoredState').val @convertIfNecessary(data.authoredState) if data.authoredState
       $('#interactiveStateGlobal').val JSON.stringify(data.globalInteractiveState) if data.globalInteractiveState
 
     # Logging
@@ -69,19 +71,25 @@ module.exports = class MockInteractive
     @iframePhone.initialize()
     l.info("Phone ready")
 
-    @iframePhone.post("supportedFeatures", {
+    @postAndLog("supportedFeatures", {
       apiVersion: 1,
       features: {
         authoredState: true,
         interactiveState: true
       }
     })
-    l.info("Posted supported features")
 
     # TODO: (rpc)
     # @iframePhoneRpc = new iframePhone.IframePhoneRpcEndpoint
     #   phone: @iframePhone
     #   namespace: 'lara-logging'
+
+  postAndLog: (msgType, data=null) ->
+    @iframePhone.post(msgType, data)
+    l.info("posted #{msgType}: #{JSON.stringify data}")
+
+  convertIfNecessary: (objectOrString) ->
+    if typeof objectOrString == 'String' then objectOrString else JSON.stringify(objectOrString)
 
   constructor: () ->
     l.info("Starting the dummy iframe interactive")
@@ -90,15 +98,12 @@ module.exports = class MockInteractive
       $('#logger').html('')
 
     $('#getAuthInfo').click () =>
-      l.info('posting getAuthInfo')
-      @iframePhone.post("getAuthInfo")
+      @postAndLog('getAuthInfo')
 
     $('#globalSaveState').click () =>
-      l.info('posting interactiveStateGlobal')
-      @iframePhone.post("interactiveStateGlobal", JSON.parse($('#interactiveStateGlobal').val()))
+      @postAndLog("interactiveStateGlobal", JSON.parse($('#interactiveStateGlobal').val()))
 
     $('#saveAuthoredState').click () =>
-      l.info('posting authoredState')
-      @iframePhone.post("authoredState", JSON.parse($('#authoredState').val()))
+      @postAndLog("authoredState", JSON.parse($('#authoredState').val()))
 
 window.MockInteractive = MockInteractive
