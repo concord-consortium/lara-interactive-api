@@ -22,7 +22,7 @@
     "gulp-concat": "^2.5.2",
     "gulp-stylus": "^2.0.1",
     "vinyl-source-stream": "^1.1.0",
-    "require-dir": "^0.1.0",
+    "require-dir": "^1.0.0",
     "yargs": "^3.6.0",
     "gulp-replace": "^0.5.3",
     "gulp-if": "^1.2.5",
