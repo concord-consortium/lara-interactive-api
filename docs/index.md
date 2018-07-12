@@ -35,15 +35,23 @@ Can be thought of as `setExtendedSupport`. Sent by the client either in response
 
 ### getLearnerUrl
 
+**DEPRECATED** instead you should use the messages that save and load interactive state: `initInteractive`, `getInteractiveState`, `interactiveState`
+
 Sent automatically by the server at startup to query the client about their learner url (the client responds via `setLearnerUrl`).  This is the second message the client will receive and is sent before the call is made to the server to get the interactive state.  It has no payload data.
 
 ### setLearnerUrl
+
+**DEPRECATED** instead you should use the messages that save and load interactive state: `initInteractive`, `getInteractiveState`, `interactiveState`
 
 Sent by the client either in response to receiving a `getLearnerUrl` message or can be initiated by the client. The payload for the message is the string that denotes exact URL for the current student.
 
 ### getInteractiveState
 
 Sent automatically by the server every 5 seconds to query the client about their interactive state. It has no payload data.
+
+This is also sent by LARA before changing pages.  The client must respond with `initInteractive`.
+
+**IMPORTANT** If the client does not respond with the `interactiveState` message then LARA will not change pages.
 
 ### interactiveState
 
@@ -60,17 +68,16 @@ are always set and `email` is only set if the user has an email address.
 
 ### loadInteractive
 
+**DEPRECATED** The `initInteractive` message includes the state, and should be used to get the state instead.
+
 Sent by the server at startup after the LARA server is queried about the interactive's state and *only* if the interactive has state.  The payload for the message is a arbitrary serialized object
 previously set by the `interactiveState` message.
 
 ### initInteractive
 
 Sent by the server at startup after the LARA server is queried about the interactive's state.  This message will always be sent, even if there is an error querying the server about the interactive state.
-The payload is the object:
 
- `{version: 1, error: <string>, interactiveState: <object>, hasLinkedInteractive: <boolean>, linkedState: <object>}`
-
- The `error` member will be a string denoting any error querying the server about the interactive state or will be null otherwise.  The `interactiveState` member will be null if there is no current state or will otherwise be the same object returned by `loadInteractive`.  The `hasLinkedInteractive` member will be true if the interactive is linked to another interactive in the authoring system and the `linkedState` will be the current interactive state of that linked interactive.  Linked interactives are currently in development.
+See the [initInteractive section in Implementing Interactive](implementing-interactive.md#handling-the-initinteractive-message) for details.
 
 ## global-iframe-saver.coffee Messages
 
