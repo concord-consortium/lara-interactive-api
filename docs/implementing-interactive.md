@@ -50,29 +50,14 @@ phone.addListener('initInteractive', function (data) {
 ### Data passed to initInteractive
 
  - **error** - `null` if everything is okay, error message otherwise (e.g. data fetching might fail).
- - **mode** - `"authoring"` or `"runtime"`. Interactive can be displayed in one of those two modes, but it's
-   up to interactive whether it supports authoring mode. Runtime is basic mode which is presented to students.
-   Authoring mode can be used by authors to customize interactive.
- - **authoredState [optional]** - JSON that has been saved by interactive earlier in authoring mode using
-   `authoredState` message (described below in other section). If it's not defined, it would be falsy value
-   (null or empty string).
- - **interactiveState [optional]** - JSON that has been saved by interactive earlier in runtime mode using
-   `interactiveState` message. More detail in [Saving Student Progress section](#saving-student-progress). Provided only in runtime mode. If it's not
-   defined, it would be falsy value (null or empty string).
- - **globalInteractiveState [optional]** - JSON that has been saved by any interactive in the same activity
-   earlier in runtime mode using [globalInteractiveState message](#global-interactive-state).
-   Provided only in runtime mode.
-   If it's not defined, it would be falsy value (null or empty string).
- - **hasLinkedInteractive [optional]** - boolean or undefined. If this is true then the author has
-   linked this interactive to another interactive in the activity or sequence. This will be true even if
-   the linked interactive has not saved state yet.
- - **linkedState [optional]** - JSON that has been saved by the linked interactive. If no state has been
-   saved this will be falsy.
- - **interactiveStateUrl [optional]** - Fully qualified URL to access the interactive state externally.
-   See [Accessing Interactive State with HTTP](#accessing-interactive-state-with-http) for more information.
- - **collaboratorUrls [optional]** - Fully qualified URL to access the interactive state of each collaborator
-   working with the current student. These URLs can be used to save a copy of the work into each
-   collaborator's interactive state.
+ - **mode** - `"authoring"` or `"runtime"`. Interactive can be displayed in one of those two modes, but it's up to interactive whether it supports authoring mode. Runtime is basic mode which is presented to students. Authoring mode can be used by authors to customize interactive.
+ - **authoredState [optional]** - JSON that has been saved by interactive earlier in authoring mode using `authoredState` message (described below in other section). If it's not defined, it would be falsy value (null or empty string).
+ - **interactiveState [optional]** - JSON that has been saved by interactive earlier in runtime mode using `interactiveState` message. More detail in [Saving Student Progress section](#saving-student-progress). Provided only in runtime mode. If it's not defined, it would be falsy value (null or empty string).
+ - **globalInteractiveState [optional]** - JSON that has been saved by any interactive in the same activity earlier in runtime mode using [globalInteractiveState message](#global-interactive-state). Provided only in runtime mode. If it's not defined, it would be falsy value (null or empty string).
+ - **hasLinkedInteractive [optional]** - boolean or undefined. If this is true then the author has linked this interactive to another interactive in the activity or sequence. This will be true even if the linked interactive has not saved state yet.
+ - **linkedState [optional]** - JSON that has been saved by the linked interactive. If no state has been saved this will be falsy.
+ - **interactiveStateUrl [optional]** - Fully qualified URL to access the interactive state externally. See [Accessing Interactive State with HTTP](#accessing-interactive-state-with-http) for more information.
+ - **collaboratorUrls [optional]** - Fully qualified URL to access the interactive state of each collaborator working with the current student. These URLs can be used to save a copy of the work into each collaborator's interactive state.
 
 
 ## Interactive customization
@@ -89,19 +74,13 @@ phone.post('supportedFeatures', {
 });
 ```
 
-`initInteractive` message provides `mode` property. Interactive can display authoring interface when mode value
-is equal to `"authoring"`. Every customization made by author should be sent back to LARA using `authoredState`
-message:
+`initInteractive` message provides `mode` property. Interactive can display authoring interface when mode value is equal to `"authoring"`. Every customization made by author should be sent back to LARA using `authoredState` message:
 
 ```javascript
 phone.post('authoredState', data);
 ```
 
-The authoredState data should be a JSON compatible object, that is the only requirement.
-Next time the interactive is loaded either in authoring or runtime mode, `initInteractive` will provide this
-state to the interactive in `authoredState` property.
-Note that it's recommended that `authoredState` should be sent to LARA immediately after every change. LARA provides
-its own "Save" button that would actually save this state to the DB and "Reset" which would set it back to null.
+The authoredState data should be a JSON compatible object, that is the only requirement. Next time the interactive is loaded either in authoring or runtime mode, `initInteractive` will provide this state to the interactive in `authoredState` property. Note that it's recommended that `authoredState` should be sent to LARA immediately after every change. LARA provides its own "Save" button that would actually save this state to the DB and "Reset" which would set it back to null.
 
 ## Saving student progress
 
@@ -128,9 +107,7 @@ When this interactive is added to a LARA page the author needs to check the "sav
 phone.post('interactiveState', data);
 ```
 
-Normally the interactiveState data should be a JSON compatible object, that is the only requirement.
-Next time the interactive is loaded in runtime mode, `initInteractive` will provide this state to the interactive
-in `interactiveState` property.
+Normally the interactiveState data should be a JSON compatible object, that is the only requirement. Next time the interactive is loaded in runtime mode, `initInteractive` will provide this state to the interactive in `interactiveState` property.
 
 LARA will send the interactive a `getInteractiveState` periodically:
 
@@ -139,8 +116,7 @@ LARA will send the interactive a `getInteractiveState` periodically:
 - iframe mouseout
 - when the student tries to leave the page containing the interactive
 
-The interactive should add a listener for `getInteractiveState`. To be safe, remember to add the listener
-before calling `phone.initialize();`. Here is an example listener:
+The interactive should add a listener for `getInteractiveState`. To be safe, remember to add the listener before calling `phone.initialize();`. Here is an example listener:
 
 ```javascript
 phone.addListener('getInteractiveState', function () {
@@ -148,26 +124,15 @@ phone.addListener('getInteractiveState', function () {
 });
 ```
 
-**IMPORTANT** When the student tries to leave the page with the interactive, the interactive needs to
-respond with an `interactiveState` message. LARA will not changes pages until it receives this message.
+**IMPORTANT** When the student tries to leave the page with the interactive, the interactive needs to respond with an `interactiveState` message. LARA will not changes pages until it receives this message.
 
-There is a special value `"nochange"`, that can be sent as the interactiveState data. This tells LARA the
-interactiveState has not changed since the last time. This is useful when responding to getInteractiveState
+There is a special value `"nochange"`, that can be sent as the interactiveState data. This tells LARA the interactiveState has not changed since the last time. This is useful when responding to getInteractiveState
 
 ## Custom learner URL
 
-**DEPRECATED** This feature is related to student progress saving. Interactive can provide versioned URL
-to make sure that the given data format is always supported. Otherwise the interactive might be updated
-and not be able to open the old state format.
+**DEPRECATED** This feature is related to student progress saving. Interactive can provide versioned URL to make sure that the given data format is always supported. Otherwise the interactive might be updated and not be able to open the old state format.
 
-This is deprecated because it causes more problems than
-it is worth. We have wanted to remove support for old versions of interactives, and we've had to remember
-to go through all of the interactive states and these learner urls.  Also the concept of saving a URL
-that works in this maner is confusing. Sometimes the interactive is loaded with the authored URL sometimes
-it is loaded with the saved URL. So a set of students or testers might see different versions of what seems
-like it should be the same interactive. Instead of using this approach to handle old state, the interactive
-should handle migrating its own old state. If migrating its own state isn't practical then please work with
-the LARA developers to do a batch migration on the server.
+This is deprecated because it causes more problems than it is worth. We have wanted to remove support for old versions of interactives, and we've had to remember to go through all of the interactive states and these learner urls.  Also the concept of saving a URL that works in this maner is confusing. Sometimes the interactive is loaded with the authored URL sometimes it is loaded with the saved URL. So a set of students or testers might see different versions of what seems like it should be the same interactive. Instead of using this approach to handle old state, the interactive should handle migrating its own old state. If migrating its own state isn't practical then please work with the LARA developers to do a batch migration on the server.
 
 ```javascript
 phone.post('setLearnerUrl', 'https://my.example.interactive/version/1');
@@ -175,17 +140,13 @@ phone.post('setLearnerUrl', 'https://my.example.interactive/version/1');
 
 ## Global interactive state
 
-A few interactives can share one global state within a single LARA activity. E.g. you can let students
-work on the same model on different pages of the activity. Interactive can set global state using
-`interactiveStateGlobal` message:
+A few interactives can share one global state within a single LARA activity. E.g. you can let students work on the same model on different pages of the activity. Interactive can set global state using `interactiveStateGlobal` message:
 
 ```javascript
 phone.post('interactiveStateGlobal', globalState);
 ```
 
-Once this message is received, the server immediately posts `loadInteractiveGlobal` to all interactives
-on the same page (except from the sender of the original save message). So, interactives can listen
-to this message:
+Once this message is received, the server immediately posts `loadInteractiveGlobal` to all interactives on the same page (except from the sender of the original save message). So, interactives can listen to this message:
 
 ```javascript
 phone.addListener('loadInteraciveGlobal', function (globalState) {
@@ -194,25 +155,20 @@ phone.addListener('loadInteraciveGlobal', function (globalState) {
 });
 ```
 
-If one of the interactives has sent `interactiveStateGlobal` message before another interactive is
-initialized then the global state will be provided in the `initInteractive` message.
+If one of the interactives has sent `interactiveStateGlobal` message before another interactive is initialized then the global state will be provided in the `initInteractive` message.
 
 **NOTE** Another way to communicate between two interactives is with
 [Linked Interactives](#linked-interactives).
 
 ## Logging
 
-This message proxies communication from the interactive → LARA → Logging server.
-There is only one way communication between the interactive and LARA. The interactive is expected to post following messages using
-iframe phone:
+This message proxies communication from the interactive → LARA → Logging server. There is only one way communication between the interactive and LARA. The interactive is expected to post following messages using iframe phone:
 
 ```javascript
 phone.post('log', {action: 'actionName', data: {someValue: 1, otherValue: 2}});
 ```
 
-LARA listens to these events only when logging is enabled (they will be ignored otherwise).
-When a `log` message is received, LARA issues a POST request to the Logging server. LARA uses provided action name and data,
-but also adds additional information to the event (context that might useful for researchers, e.g. user name, activity name, url, session ID, etc.).
+LARA listens to these events only when logging is enabled (they will be ignored otherwise). When a `log` message is received, LARA issues a POST request to the Logging server. LARA uses provided action name and data, but also adds additional information to the event (context that might useful for researchers, e.g. user name, activity name, url, session ID, etc.).
 
 
 ## Auth info
@@ -231,19 +187,13 @@ phone.addListener('authInfo', function (info) {
 });  
 ```
 
-The payload is the object `{provider: <string>, loggedIn: <boolean>, email: <string>}` where `provider` and `loggedIn`
-are always set and `email` is only set if the user has an email address.
+The payload is the object `{provider: <string>, loggedIn: <boolean>, email: <string>}` where `provider` and `loggedIn` are always set and `email` is only set if the user has an email address.
 
 ## getExtendedSupport
 
-This is a message sent by LARA to the interactive. The interactive can respond with a `extendedSupport` message.
-The data of the `extendedSupport` only supports one property `reset`. The value of reset should be boolean.
-If the interactive sends `reset: true` then LARA will show a button below the interactive for clearing the
-interactive state and reloading the interactive.  If `reset: false` then LARA will not show this button. By
-default LARA will show this button.
+This is a message sent by LARA to the interactive. The interactive can respond with a `extendedSupport` message. The data of the `extendedSupport` only supports one property `reset`. The value of reset should be boolean. If the interactive sends `reset: true` then LARA will show a button below the interactive for clearing the interactive state and reloading the interactive.  If `reset: false` then LARA will not show this button. By default LARA will show this button.
 
-**NOTE** this extended support message is out of date. It is the only way to hide the reset button, so it
-isn't deprecated. New options like this will be added to the `supportedFeatures` message described above.
+**NOTE** this extended support message is out of date. It is the only way to hide the reset button, so it isn't deprecated. New options like this will be added to the `supportedFeatures` message described above.
 
 
 ## Linked interactives
