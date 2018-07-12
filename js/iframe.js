@@ -74,7 +74,7 @@ module.exports = MockInteractive = (function() {
         $('#interactiveState').val(JSON.stringify(data.interactiveState));
       }
       if (data.authoredState) {
-        $('#authoredState').val(JSON.stringify(data.authoredState));
+        $('#authoredState').val(this.convertIfNecessary(data.authoredState));
       }
       if (data.globalInteractiveState) {
         return $('#interactiveStateGlobal').val(JSON.stringify(data.globalInteractiveState));
@@ -94,14 +94,29 @@ module.exports = MockInteractive = (function() {
     });
     this.iframePhone.initialize();
     l.info("Phone ready");
-    this.iframePhone.post("supportedFeatures", {
+    return this.postAndLog("supportedFeatures", {
       apiVersion: 1,
       features: {
         authoredState: true,
         interactiveState: true
       }
     });
-    return l.info("Posted supported features");
+  };
+
+  MockInteractive.prototype.postAndLog = function(msgType, data) {
+    if (data == null) {
+      data = null;
+    }
+    this.iframePhone.post(msgType, data);
+    return l.info("posted " + msgType + ": " + (JSON.stringify(data)));
+  };
+
+  MockInteractive.prototype.convertIfNecessary = function(objectOrString) {
+    if (typeof objectOrString === 'String') {
+      return objectOrString;
+    } else {
+      return JSON.stringify(objectOrString);
+    }
   };
 
   function MockInteractive() {
@@ -112,20 +127,17 @@ module.exports = MockInteractive = (function() {
     });
     $('#getAuthInfo').click((function(_this) {
       return function() {
-        l.info('posting getAuthInfo');
-        return _this.iframePhone.post("getAuthInfo");
+        return _this.postAndLog('getAuthInfo');
       };
     })(this));
     $('#globalSaveState').click((function(_this) {
       return function() {
-        l.info('posting interactiveStateGlobal');
-        return _this.iframePhone.post("interactiveStateGlobal", JSON.parse($('#interactiveStateGlobal').val()));
+        return _this.postAndLog("interactiveStateGlobal", JSON.parse($('#interactiveStateGlobal').val()));
       };
     })(this));
     $('#saveAuthoredState').click((function(_this) {
       return function() {
-        l.info('posting authoredState');
-        return _this.iframePhone.post("authoredState", JSON.parse($('#authoredState').val()));
+        return _this.postAndLog("authoredState", JSON.parse($('#authoredState').val()));
       };
     })(this));
   }
@@ -136,7 +148,7 @@ module.exports = MockInteractive = (function() {
 
 window.MockInteractive = MockInteractive;
 
-
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL1VzZXJzL3NjeXRhY2tpL0RldmVsb3BtZW50L2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2lmcmFtZS5jb2ZmZWUiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIvVXNlcnMvc2N5dGFja2kvRGV2ZWxvcG1lbnQvbGFyYS1pbnRlcmFjdGl2ZS1hcGkvc3JjL2NvZGUvaWZyYW1lLmNvZmZlZSJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxJQUFBOztBQUFBLENBQUEsR0FBSSxDQUFDLE9BQUEsQ0FBUSxPQUFSLENBQUQsQ0FBaUIsQ0FBQyxRQUFsQixDQUFBOztBQUNKLFdBQUEsR0FBYyxPQUFBLENBQVEsY0FBUjs7QUFFZCxNQUFNLENBQUMsT0FBUCxHQUF1QjtFQUNyQixlQUFDLENBQUEsU0FBRCxHQUFhOztFQUNiLGVBQUMsQ0FBQSxRQUFELEdBQVcsU0FBQyxPQUFEO0FBQ1QsUUFBQTs7VUFBVyxDQUFBLE9BQUEsSUFBWSxJQUFJLElBQUosQ0FBTSxPQUFOOztXQUN2QixJQUFDLENBQUEsU0FBVSxDQUFBLE9BQUE7RUFGRjs7RUFJWCxlQUFDLENBQUEsZ0JBQUQsR0FDRTtJQUFBLGVBQUEsRUFDRTtNQUFBLFNBQUEsRUFBVyxlQUFYO01BQ0EsTUFBQSxFQUFRLE1BQU0sQ0FBQyxRQUFRLENBQUMsSUFEeEI7S0FERjtJQUlBLG9CQUFBLEVBQ0U7TUFBQSxTQUFBLEVBQVcsaUJBQVg7TUFDQSxNQUFBLEVBQ0U7UUFBQSxNQUFBLEVBQVEsTUFBUjtPQUZGO0tBTEY7SUFTQSxVQUFBLEVBQVksS0FUWjs7OzRCQVdGLGtCQUFBLEdBQW9CLFNBQUMsT0FBRDtBQUNsQixRQUFBO0lBQUEsSUFBRyxJQUFDLENBQUEsV0FBSjtNQUNFLElBQUMsQ0FBQSxXQUFXLENBQUMsVUFBYixDQUFBO01BQ0EsSUFBQyxDQUFBLFdBQUQsR0FBZSxLQUZqQjs7SUFJQSxJQUFDLENBQUEsV0FBRCxHQUFlLElBQUksV0FBVyxDQUFDLGlCQUFoQixDQUFBO0lBQ2Ys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
 
 },{"./log":8,"iframe-phone":6}],2:[function(require,module,exports){
 var structuredClone = require('./structured-clone');
@@ -144,21 +156,20 @@ var HELLO_INTERVAL_LENGTH = 200;
 var HELLO_TIMEOUT_LENGTH = 60000;
 
 function IFrameEndpoint() {
-  var parentOrigin;
   var listeners = {};
   var isInitialized = false;
   var connected = false;
   var postMessageQueue = [];
   var helloInterval;
 
-  function postToTarget(message, target) {
+  function postToParent(message) {
     // See http://dev.opera.com/articles/view/window-postmessage-messagechannel/#crossdoc
     //     https://github.com/Modernizr/Modernizr/issues/388
     //     http://jsfiddle.net/ryanseddon/uZTgD/2/
     if (structuredClone.supported()) {
-      window.parent.postMessage(message, target);
+      window.parent.postMessage(message, '*');
     } else {
-      window.parent.postMessage(JSON.stringify(message), target);
+      window.parent.postMessage(JSON.stringify(message), '*');
     }
   }
 
@@ -175,20 +186,16 @@ function IFrameEndpoint() {
       };
     }
     if (connected) {
-      postToTarget(message, parentOrigin);
+      postToParent(message);
     } else {
       postMessageQueue.push(message);
     }
   }
 
-  // Only the initial 'hello' message goes permissively to a '*' target (because due to cross origin
-  // restrictions we can't find out our parent's origin until they voluntarily send us a message
-  // with it.)
   function postHello() {
-    postToTarget({
-      type: 'hello',
-      origin: document.location.href.match(/(.*?\/\/.*?)\//)[1]
-    }, '*');
+    postToParent({
+      type: 'hello'
+    });
   }
 
   function addListener(type, fn) {
@@ -204,35 +211,29 @@ function IFrameEndpoint() {
   }
 
   function messageListener(message) {
-      // Anyone can send us a message. Only pay attention to messages from parent.
-      if (message.source !== window.parent) return;
+    // Anyone can send us a message. Only pay attention to messages from parent.
+    if (message.source !== window.parent) return;
+    var messageData = message.data;
+    if (typeof messageData === 'string') messageData = JSON.parse(messageData);
 
-      var messageData = message.data;
-
-      if (typeof messageData === 'string') messageData = JSON.parse(messageData);
-
-      // We don't know origin property of parent window until it tells us.
-      if (!connected && messageData.type === 'hello') {
-        // This is the return handshake from the embedding window.
-        parentOrigin = messageData.origin;
-        connected = true;
-        stopPostingHello();
-        while(postMessageQueue.length > 0) {
-          post(postMessageQueue.shift());
-        }
+    if (!connected && messageData.type === 'hello') {
+      connected = true;
+      stopPostingHello();
+      while (postMessageQueue.length > 0) {
+        post(postMessageQueue.shift());
       }
+    }
 
-      // Perhaps-redundantly insist on checking origin as well as source window of message.
-      if (message.origin === parentOrigin) {
-        if (listeners[messageData.type]) listeners[messageData.type](messageData.content);
-      }
-   }
+    if (connected && listeners[messageData.type]) {
+      listeners[messageData.type](messageData.content);
+    }
+  }
 
-   function disconnect() {
-     connected = false;
-     stopPostingHello();
-     window.removeEventListener('message', messsageListener);
-   }
+  function disconnect() {
+    connected = false;
+    stopPostingHello();
+    window.removeEventListener('message', messsageListener);
+  }
 
   /**
     Initialize communication with the parent frame. This should not be called until the app's custom
@@ -249,7 +250,6 @@ function IFrameEndpoint() {
 
     // We kick off communication with the parent window by sending a "hello" message. Then we wait
     // for a handshake (another "hello" message) from the parent window.
-    postHello();
     startPostingHello();
     window.addEventListener('message', messageListener, false);
   }
@@ -260,6 +260,8 @@ function IFrameEndpoint() {
     }
     helloInterval = window.setInterval(postHello, HELLO_INTERVAL_LENGTH);
     window.setTimeout(stopPostingHello, HELLO_TIMEOUT_LENGTH);
+    // Post the first msg immediately.
+    postHello();
   }
 
   function stopPostingHello() {
@@ -269,12 +271,12 @@ function IFrameEndpoint() {
 
   // Public API.
   return {
-    initialize        : initialize,
-    getListenerNames  : getListenerNames,
-    addListener       : addListener,
+    initialize: initialize,
+    getListenerNames: getListenerNames,
+    addListener: addListener,
     removeAllListeners: removeAllListeners,
-    disconnect        : disconnect,
-    post              : post
+    disconnect: disconnect,
+    post: post
   };
 }
 
@@ -287,96 +289,95 @@ module.exports = function getIFrameEndpoint() {
   }
   return instance;
 };
-},{"./structured-clone":5}],3:[function(require,module,exports){
-"use strict";
 
+},{"./structured-clone":5}],3:[function(require,module,exports){
 var ParentEndpoint = require('./parent-endpoint');
 var getIFrameEndpoint = require('./iframe-endpoint');
 
 // Not a real UUID as there's an RFC for that (needed for proper distributed computing).
 // But in this fairly parochial situation, we just need to be fairly sure to avoid repeats.
 function getPseudoUUID() {
-    var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    var len = chars.length;
-    var ret = [];
+  var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  var len = chars.length;
+  var ret = [];
 
-    for (var i = 0; i < 10; i++) {
-        ret.push(chars[Math.floor(Math.random() * len)]);
-    }
-    return ret.join('');
+  for (var i = 0; i < 10; i++) {
+    ret.push(chars[Math.floor(Math.random() * len)]);
+  }
+  return ret.join('');
 }
 
 module.exports = function IframePhoneRpcEndpoint(handler, namespace, targetWindow, targetOrigin, phone) {
-    var pendingCallbacks = Object.create({});
+  var pendingCallbacks = Object.create({});
 
-    // if it's a non-null object, rather than a function, 'handler' is really an options object
-    if (handler && typeof handler === 'object') {
-        namespace = handler.namespace;
-        targetWindow = handler.targetWindow;
-        targetOrigin = handler.targetOrigin;
-        phone = handler.phone;
-        handler = handler.handler;
+  // if it's a non-null object, rather than a function, 'handler' is really an options object
+  if (handler && typeof handler === 'object') {
+    namespace = handler.namespace;
+    targetWindow = handler.targetWindow;
+    targetOrigin = handler.targetOrigin;
+    phone = handler.phone;
+    handler = handler.handler;
+  }
+
+  if (!phone) {
+    if (targetWindow === window.parent) {
+      phone = getIFrameEndpoint();
+      phone.initialize();
+    } else {
+      phone = new ParentEndpoint(targetWindow, targetOrigin);
     }
+  }
 
-    if ( ! phone ) {
-        if (targetWindow === window.parent) {
-            phone = getIFrameEndpoint();
-            phone.initialize();
-        } else {
-            phone = new ParentEndpoint(targetWindow, targetOrigin);
-        }
-    }
+  phone.addListener(namespace, function (message) {
+    var callbackObj;
 
-    phone.addListener(namespace, function(message) {
-        var callbackObj;
-
-        if (message.messageType === 'call' && typeof this.handler === 'function') {
-            this.handler.call(undefined, message.value, function(returnValue) {
-                phone.post(namespace, {
-                    messageType: 'returnValue',
-                    uuid: message.uuid,
-                    value: returnValue
-                });
-            });
-        } else if (message.messageType === 'returnValue') {
-            callbackObj = pendingCallbacks[message.uuid];
-
-            if (callbackObj) {
-                window.clearTimeout(callbackObj.timeout);
-                if (callbackObj.callback) {
-                    callbackObj.callback.call(undefined, message.value);
-                }
-                pendingCallbacks[message.uuid] = null;
-            }
-        }
-    }.bind(this));
-
-    function call(message, callback) {
-        var uuid = getPseudoUUID();
-
-        pendingCallbacks[uuid] = {
-            callback: callback,
-            timeout: window.setTimeout(function() {
-                if (callback) {
-                    callback(undefined, new Error("IframePhone timed out waiting for reply"));
-                }
-            }, 2000)
-        };
-
+    if (message.messageType === 'call' && typeof this.handler === 'function') {
+      this.handler.call(undefined, message.value, function (returnValue) {
         phone.post(namespace, {
-            messageType: 'call',
-            uuid: uuid,
-            value: message
+          messageType: 'returnValue',
+          uuid: message.uuid,
+          value: returnValue
         });
-    }
+      });
+    } else if (message.messageType === 'returnValue') {
+      callbackObj = pendingCallbacks[message.uuid];
 
-    function disconnect() {
-        phone.disconnect();
+      if (callbackObj) {
+        window.clearTimeout(callbackObj.timeout);
+        if (callbackObj.callback) {
+          callbackObj.callback.call(undefined, message.value);
+        }
+        pendingCallbacks[message.uuid] = null;
+      }
     }
+  }.bind(this));
 
-    this.handler = handler;
-    this.call = call.bind(this);
-    this.disconnect = disconnect.bind(this);
+  function call(message, callback) {
+    var uuid = getPseudoUUID();
+
+    pendingCallbacks[uuid] = {
+      callback: callback,
+      timeout: window.setTimeout(function () {
+        if (callback) {
+          callback(undefined, new Error("IframePhone timed out waiting for reply"));
+        }
+      }, 2000)
+    };
+
+    phone.post(namespace, {
+      messageType: 'call',
+      uuid: uuid,
+      value: message
+    });
+  }
+
+  function disconnect() {
+    phone.disconnect();
+  }
+
+  this.handler = handler;
+  this.call = call.bind(this);
+  this.disconnect = disconnect.bind(this);
 };
 
 },{"./iframe-endpoint":2,"./parent-endpoint":4}],4:[function(require,module,exports){
@@ -416,13 +417,12 @@ var structuredClone = require('./structured-clone');
 */
 
 module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, afterConnectedCallback) {
-  var selfOrigin = window.location.href.match(/(.*?\/\/.*?)\//)[1];
   var postMessageQueue = [];
   var connected = false;
   var handlers = {};
   var targetWindowIsIframeElement;
 
-  function getOrigin(iframe) {
+  function getIframeOrigin(iframe) {
     return iframe.src.match(/(.*?\/\/.*?)\//)[1];
   }
 
@@ -441,7 +441,6 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
     if (connected) {
       var tWindow = getTargetWindow();
       // if we are laready connected ... send the message
-      message.origin = selfOrigin;
       // See http://dev.opera.com/articles/view/window-postmessage-messagechannel/#crossdoc
       //     https://github.com/Modernizr/Modernizr/issues/388
       //     http://jsfiddle.net/ryanseddon/uZTgD/2/
@@ -483,7 +482,7 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
 
   function receiveMessage(message) {
     var messageData;
-    if (message.source === getTargetWindow() && message.origin === targetOrigin) {
+    if (message.source === getTargetWindow() && (targetOrigin === '*' || message.origin === targetOrigin)) {
       messageData = message.data;
       if (typeof messageData === 'string') {
         messageData = JSON.parse(messageData);
@@ -516,16 +515,31 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
     // afterConnectionCallback)
     if (!targetOrigin || targetOrigin.constructor === Function) {
       afterConnectedCallback = targetOrigin;
-      targetOrigin = getOrigin(targetWindowOrIframeEl);
+      targetOrigin = getIframeOrigin(targetWindowOrIframeEl);
     }
   }
 
+  // Handle pages served through file:// protocol. Behaviour varies in different browsers. Safari sets origin
+  // to 'file://' and everything works fine, but Chrome and Safari set message.origin to null.
+  // Also, https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage says:
+  //  > Lastly, posting a message to a page at a file: URL currently requires that the targetOrigin argument be "*".
+  //  > file:// cannot be used as a security restriction; this restriction may be modified in the future.
+  // So, using '*' seems like the only possible solution.
+  if (targetOrigin === 'file://') {
+    targetOrigin = '*';
+  }
+
   // when we receive 'hello':
-  addListener('hello', function() {
+  addListener('hello', function () {
     connected = true;
 
     // send hello response
-    post('hello');
+    post({
+      type: 'hello',
+      // `origin` property isn't used by IframeEndpoint anymore (>= 1.2.0), but it's being sent to be
+      // backward compatible with old IframeEndpoint versions (< v1.2.0).
+      origin: window.location.href.match(/(.*?\/\/.*?)\//)[1]
+    });
 
     // give the user a chance to do things now that we are connected
     // note that is will happen before any queued messages
@@ -534,7 +548,7 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
     }
 
     // Now send any messages that have been queued up ...
-    while(postMessageQueue.length > 0) {
+    while (postMessageQueue.length > 0) {
       post(postMessageQueue.shift());
     }
   });
@@ -565,7 +579,7 @@ var featureSupported = false;
       // internal [[Class]] property of the message being passed through.
       // Safari will pass through DOM nodes as Null iOS safari on the other hand
       // passes it through as DOMWindow, gotcha.
-      window.onmessage = function(e){
+      window.onmessage = function (e) {
         var type = Object.prototype.toString.call(e.data);
         result = (type.indexOf("Null") != -1 || type.indexOf("DOMWindow") != -1) ? 1 : 0;
         featureSupported = {
@@ -574,8 +588,8 @@ var featureSupported = false;
       };
       // Spec states you can't transmit DOM nodes and it will throw an error
       // postMessage implimentations that support cloned data will throw.
-      window.postMessage(document.createElement("a"),"*");
-    } catch(e) {
+      window.postMessage(document.createElement("a"), "*");
+    } catch (e) {
       // BBOS6 throws but doesn't pass through the correct exception
       // so check error message
       result = (e.DATA_CLONE_ERR || e.message == "Cannot post cyclic structures.") ? 1 : 0;
@@ -626,21 +640,20 @@ module.exports = {
     }
 }(this, function () {
     "use strict";
+
+    // Slightly dubious tricks to cut down minimized file size
     var noop = function() {};
     var undefinedType = "undefined";
 
-    function realMethod(methodName) {
-        if (typeof console === undefinedType) {
-            return false; // We can't build a real method without a console to log to
-        } else if (console[methodName] !== undefined) {
-            return bindMethod(console, methodName);
-        } else if (console.log !== undefined) {
-            return bindMethod(console, 'log');
-        } else {
-            return noop;
-        }
-    }
+    var logMethods = [
+        "trace",
+        "debug",
+        "info",
+        "warn",
+        "error"
+    ];
 
+    // Cross-browser bind equivalent that works at least back to IE6
     function bindMethod(obj, methodName) {
         var method = obj[methodName];
         if (typeof method.bind === 'function') {
@@ -657,16 +670,25 @@ module.exports = {
         }
     }
 
-    // these private functions always need `this` to be set properly
+    // Build the best logging method possible for this env
+    // Wherever possible we want to bind, not wrap, to preserve stack traces
+    function realMethod(methodName) {
+        if (methodName === 'debug') {
+            methodName = 'log';
+        }
 
-    function enableLoggingWhenConsoleArrives(methodName, level, loggerName) {
-        return function () {
-            if (typeof console !== undefinedType) {
-                replaceLoggingMethods.call(this, level, loggerName);
-                this[methodName].apply(this, arguments);
-            }
-        };
+        if (typeof console === undefinedType) {
+            return false; // No method possible, for now - fixed later by enableLoggingWhenConsoleArrives
+        } else if (console[methodName] !== undefined) {
+            return bindMethod(console, methodName);
+        } else if (console.log !== undefined) {
+            return bindMethod(console, 'log');
+        } else {
+            return noop;
+        }
     }
+
+    // These private functions always need `this` to be set properly
 
     function replaceLoggingMethods(level, loggerName) {
         /*jshint validthis:true */
@@ -676,21 +698,29 @@ module.exports = {
                 noop :
                 this.methodFactory(methodName, level, loggerName);
         }
+
+        // Define log.log as an alias for log.debug
+        this.log = this.debug;
     }
 
+    // In old IE versions, the console isn't present until you first open it.
+    // We build realMethod() replacements here that regenerate logging methods
+    function enableLoggingWhenConsoleArrives(methodName, level, loggerName) {
+        return function () {
+            if (typeof console !== undefinedType) {
+                replaceLoggingMethods.call(this, level, loggerName);
+                this[methodName].apply(this, arguments);
+            }
+        };
+    }
+
+    // By default, we use closely bound real methods wherever possible, and
+    // otherwise we wait for a console to appear, and then try again.
     function defaultMethodFactory(methodName, level, loggerName) {
         /*jshint validthis:true */
         return realMethod(methodName) ||
                enableLoggingWhenConsoleArrives.apply(this, arguments);
     }
-
-    var logMethods = [
-        "trace",
-        "debug",
-        "info",
-        "warn",
-        "error"
-    ];
 
     function Logger(name, defaultLevel, factory) {
       var self = this;
@@ -702,6 +732,8 @@ module.exports = {
 
       function persistLevelIfPossible(levelNum) {
           var levelName = (logMethods[levelNum] || 'silent').toUpperCase();
+
+          if (typeof window === undefinedType) return;
 
           // Use localStorage if available
           try {
@@ -719,16 +751,19 @@ module.exports = {
       function getPersistedLevel() {
           var storedLevel;
 
+          if (typeof window === undefinedType) return;
+
           try {
               storedLevel = window.localStorage[storageKey];
           } catch (ignore) {}
 
+          // Fallback to cookies if local storage gives us nothing
           if (typeof storedLevel === undefinedType) {
               try {
                   var cookie = window.document.cookie;
                   var location = cookie.indexOf(
                       encodeURIComponent(storageKey) + "=");
-                  if (location) {
+                  if (location !== -1) {
                       storedLevel = /^([^;]+)/.exec(cookie.slice(location))[1];
                   }
               } catch (ignore) {}
@@ -744,9 +779,11 @@ module.exports = {
 
       /*
        *
-       * Public API
+       * Public logger API - see https://github.com/pimterry/loglevel for details
        *
        */
+
+      self.name = name;
 
       self.levels = { "TRACE": 0, "DEBUG": 1, "INFO": 2, "WARN": 3,
           "ERROR": 4, "SILENT": 5};
@@ -799,7 +836,7 @@ module.exports = {
 
     /*
      *
-     * Package-level API
+     * Top-level API
      *
      */
 
@@ -828,6 +865,10 @@ module.exports = {
         }
 
         return defaultLogger;
+    };
+
+    defaultLogger.getLoggers = function getLoggers() {
+        return _loggersByName;
     };
 
     return defaultLogger;
@@ -896,6 +937,6 @@ Log = (function() {
 
 module.exports = Log;
 
-
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL1VzZXJzL3NjeXRhY2tpL0RldmVsb3BtZW50L2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2xvZy5jb2ZmZWUiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIvVXNlcnMvc2N5dGFja2kvRGV2ZWxvcG1lbnQvbGFyYS1pbnRlcmFjdGl2ZS1hcGkvc3JjL2NvZGUvbG9nLmNvZmZlZSJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxJQUFBOztBQUFBLEdBQUEsR0FBTSxPQUFBLENBQVEsVUFBUjs7QUFFQTtFQUNKLEdBQUMsQ0FBQSxTQUFELEdBQWE7O0VBQ2IsR0FBQyxDQUFBLFFBQUQsR0FBVyxTQUFBOztNQUNULElBQUMsQ0FBQSxZQUFhLElBQUk7O1dBQ2xCLElBQUMsQ0FBQTtFQUZROztFQUdFLGFBQUMsTUFBRCxFQUFvQixHQUFwQixFQUFxQyxHQUFyQztJQUFDLElBQUMsQ0FBQSwwQkFBRCxTQUFRO0lBQVcsSUFBQyxDQUFBLG9CQUFELE1BQUs7SUFBWSxJQUFDLEVBQUEsRUFBQSxtQkFBRCxNQUFJO0VBQXpDOztnQkFFYixpQkFBQSxHQUFtQixTQUFDLE9BQUQsRUFBUyxRQUFUO0FBRWpCLFFBQUE7O01BRjBCLFdBQVM7O0lBRW5DLElBQUEsR0FBTyxDQUFBLENBQUUsSUFBQyxDQUFBLE1BQUg7SUFDUCxJQUFHLElBQUEsSUFBUyxJQUFJLENBQUMsTUFBTCxHQUFjLENBQTFCO01BQ0UsSUFBQSxHQUFPLENBQUEsQ0FBRSxlQUFBLEdBQWdCLFFBQWhCLEdBQXlCLFdBQXpCLEdBQW9DLE9BQXBDLEdBQTRDLGNBQTlDO01BQ1AsSUFBSSxDQUFDLE1BQUwsQ0FBWSxJQUFaO2FBQ0EsSUFBSyxDQUFBLENBQUEsQ0FBRSxDQUFDLFNBQVIsR0FBb0IsSUFBSyxDQUFBLENBQUEsQ0FBRSxDQUFDLGFBSDlCOztFQUhpQjs7Z0JBUW5CLElBQUEsR0FBTSxTQUFDLENBQUQ7SUFDSixJQUFDLENBQUEsaUJBQUQsQ0FBbUIsQ0FBbkIsRUFBc0IsTUFBdEI7V0FDQSxHQUFHLENBQUMsSUFBSixDQUFTLENBQVQ7RUFGSTs7Z0JBSU4sSUFBQSxHQUFNLFNBQUMsQ0FBRDtJQUNKLElBQUMsQ0FBQSxpQkFBRCxDQUFtQixDQUFuQixFQUFzQixNQUF0QjtXQUNBLEdBQUcsQ0FBQyxJQUFKLENBQVMsQ0FBVDtFQUZJOztnQkFJTixLQUFBLEdBQU8sU0FBQyxDQUFEO0lBQ0wsSUFBQyxDQUFBLGlCQUFELENBQW1CLENBQW5CLEVBQXNCLE9BQXRCO1dBQ0EsR0FBRyxDQUFDLEtBQUosQ0FBVSxDQUFWO0VBRks7O2dCQUlQLE1BQUEsR0FBUSxTQUFDLE9BQUQ7V0FDTixDQUFBLENBQUUsSUFBQyxFQUFBLEVBQUEsRUFBRSxDQUFDLElBQU4sQ0FBQSxDQUFZLE9BQVo7RUFETTs7Z0JBR1IsT0FBQSxHQUFTLFNBQUMsT0FBRDtXQUNQLENBQUEsQ0FBRSxJQUFDLENBQUEsR0FBRyxDQUFDLElBQVAsQ0FBQSxDQUFhLE9BQWI7RUFETzs7Ozs7O0FBR1gsTUFBTSxDQUFDLE9BQVAsR0FBaUIifQ==
 
 },{"loglevel":7}]},{},[1]);

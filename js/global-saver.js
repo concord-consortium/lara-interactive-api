@@ -60,7 +60,7 @@ module.exports = GlobalIframeSaver = (function() {
 
 window.GlobalIframeSaver = GlobalIframeSaver;
 
-
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL1VzZXJzL3NjeXRhY2tpL0RldmVsb3BtZW50L2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2dsb2JhbC1zYXZlci5jb2ZmZWUiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIvVXNlcnMvc2N5dGFja2kvRGV2ZWxvcG1lbnQvbGFyYS1pbnRlcmFjdGl2ZS1hcGkvc3JjL2NvZGUvZ2xvYmFsLXNhdmVyLmNvZmZlZSJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFRQSxJQUFBOztBQUFBLENBQUEsR0FBSSxPQUFBLENBQVEsVUFBUjs7QUFDSixXQUFBLEdBQWMsT0FBQSxDQUFRLGNBQVI7O0FBRWQsTUFBTSxDQUFDLE9BQVAsR0FBdUI7QUFDckIsTUFBQTs7RUFBQSxnQkFBQSxHQUFtQjs7RUFFTiwyQkFBQyxNQUFEO0lBQ1gsSUFBQyxDQUFBLFlBQUQsR0FBbUIsTUFBTSxDQUFDLFFBQVYsR0FBd0IsSUFBSSxDQUFDLEtBQUwsQ0FBVyxNQUFNLENBQUMsUUFBbEIsQ0FBeEIsR0FBeUQ7SUFFekUsSUFBQyxDQUFBLGFBQUQsR0FBaUI7SUFDakIsQ0FBQSxDQUFFLGdCQUFGLENBQW1CLENBQUMsSUFBcEIsQ0FBeUIsQ0FBQSxTQUFBLEtBQUE7YUFBQSxTQUFDLEdBQUQsRUFBTSxRQUFOO0FBQ3ZCLFlBQUE7ZUFBQSxLQUFBLEdBQVEsSUFBSSxXQUFXLENBQUMsY0FBaEIsQ0FBK0IsQ0FBQSxDQUFFLFFBQUYsQ0FBWSxDQUFBLENBQUEsQ0FBM0MsRUFBK0MsU0FBQTtpQkFDckQsS0FBQyxDQUFBLFdBQUQsQ0FBYSxLQUFiO1FBRHFELENBQS9DO01BRGU7SUFBQSxDQUFBLENBQUEsQ0FBQSxJQUFBLENBQXpCO0VBSlc7OzhCQVFiLFdBQUEsR0FBYSxTQUFDLEtBQUQ7SUFDWCxJQUFDLENBQUEsYUFBYSxDQUFDLElBQWYsQ0FBb0IsS0FBcEI7SUFDQSxJQUFDLENBQUEsb0JBQUQsQ0FBc0IsS0FBdEI7SUFDQSxJQUFHLElBQUMsQ0FBQSxZQUFKO2FBQ0UsSUFBQyxDQUFBLGdCQUFELENBQWtCLEtBQWxCLEVBREY7O0VBSFc7OzhCQU1iLG9CQUFBLEdBQXNCLFNBQUMsS0FBRDtXQUNwQixLQUFLLENBQUMsV0FBTixDQUFrQix3QkFBbEIsRUFBNEMsQ0FBQSxTQUFBLEtBQUE7YUFBQSxTQUFDLEtBQUQ7UUFDMUMsS0FBQyxDQUFBLFlBQUQsR0FBZ0I7ZUFDaEIsS0FBQyxDQUFBLHFCQUFELENBQXVCLEtBQXZCO01BRjBDO0lBQUEsQ0FBQSxDQUFBLENBQUEsSUFBQSxDQUE1QztFQURvQjs7OEJBS3RCLGdCQUFBLEdBQWtCLFNBQUMsS0FBRDtXQUNoQixLQUFLLENBQUMsSUFBTixDQUFXLHVCQUFYLEVBQW9DLElBQUMsQ0FBQSxZQUFyQztFQURnQjs7OEJBR2xCLHFCQUFBLEdBQXVCLFNBQUMsTUFBRDtXQUNyQixJQUFDLENBQUEsYUFBYSxDQUFDLE9BQWYsQ0FBdUIsQ0FBQSxTQUFBLEtBQUE7YUFBQSxTQUFDLEtBQUQ7UUFFckIsSUFBMkIsS0FBQSxLQUFXLE1BQXRDO2lCQUFBLEtBQUMsQ0FBQSxnQkFBRCxDQUFrQixLQUFsQixFQUFBOztNQUZxQjtJQUFBLENBQUEsQ0FBQSxDQUFBLElBQUEsQ0FBdkI7RUFEcUI7Ozs7OztBQUt6QixNQUFNLENBQUMsaUJBQVAsR0FBMkIifQ==
 
 },{"iframe-phone":6,"loglevel":7}],2:[function(require,module,exports){
 var structuredClone = require('./structured-clone');
@@ -68,21 +68,20 @@ var HELLO_INTERVAL_LENGTH = 200;
 var HELLO_TIMEOUT_LENGTH = 60000;
 
 function IFrameEndpoint() {
-  var parentOrigin;
   var listeners = {};
   var isInitialized = false;
   var connected = false;
   var postMessageQueue = [];
   var helloInterval;
 
-  function postToTarget(message, target) {
+  function postToParent(message) {
     // See http://dev.opera.com/articles/view/window-postmessage-messagechannel/#crossdoc
     //     https://github.com/Modernizr/Modernizr/issues/388
     //     http://jsfiddle.net/ryanseddon/uZTgD/2/
     if (structuredClone.supported()) {
-      window.parent.postMessage(message, target);
+      window.parent.postMessage(message, '*');
     } else {
-      window.parent.postMessage(JSON.stringify(message), target);
+      window.parent.postMessage(JSON.stringify(message), '*');
     }
   }
 
@@ -99,20 +98,16 @@ function IFrameEndpoint() {
       };
     }
     if (connected) {
-      postToTarget(message, parentOrigin);
+      postToParent(message);
     } else {
       postMessageQueue.push(message);
     }
   }
 
-  // Only the initial 'hello' message goes permissively to a '*' target (because due to cross origin
-  // restrictions we can't find out our parent's origin until they voluntarily send us a message
-  // with it.)
   function postHello() {
-    postToTarget({
-      type: 'hello',
-      origin: document.location.href.match(/(.*?\/\/.*?)\//)[1]
-    }, '*');
+    postToParent({
+      type: 'hello'
+    });
   }
 
   function addListener(type, fn) {
@@ -128,35 +123,29 @@ function IFrameEndpoint() {
   }
 
   function messageListener(message) {
-      // Anyone can send us a message. Only pay attention to messages from parent.
-      if (message.source !== window.parent) return;
+    // Anyone can send us a message. Only pay attention to messages from parent.
+    if (message.source !== window.parent) return;
+    var messageData = message.data;
+    if (typeof messageData === 'string') messageData = JSON.parse(messageData);
 
-      var messageData = message.data;
-
-      if (typeof messageData === 'string') messageData = JSON.parse(messageData);
-
-      // We don't know origin property of parent window until it tells us.
-      if (!connected && messageData.type === 'hello') {
-        // This is the return handshake from the embedding window.
-        parentOrigin = messageData.origin;
-        connected = true;
-        stopPostingHello();
-        while(postMessageQueue.length > 0) {
-          post(postMessageQueue.shift());
-        }
+    if (!connected && messageData.type === 'hello') {
+      connected = true;
+      stopPostingHello();
+      while (postMessageQueue.length > 0) {
+        post(postMessageQueue.shift());
       }
+    }
 
-      // Perhaps-redundantly insist on checking origin as well as source window of message.
-      if (message.origin === parentOrigin) {
-        if (listeners[messageData.type]) listeners[messageData.type](messageData.content);
-      }
-   }
+    if (connected && listeners[messageData.type]) {
+      listeners[messageData.type](messageData.content);
+    }
+  }
 
-   function disconnect() {
-     connected = false;
-     stopPostingHello();
-     window.removeEventListener('message', messsageListener);
-   }
+  function disconnect() {
+    connected = false;
+    stopPostingHello();
+    window.removeEventListener('message', messsageListener);
+  }
 
   /**
     Initialize communication with the parent frame. This should not be called until the app's custom
@@ -173,7 +162,6 @@ function IFrameEndpoint() {
 
     // We kick off communication with the parent window by sending a "hello" message. Then we wait
     // for a handshake (another "hello" message) from the parent window.
-    postHello();
     startPostingHello();
     window.addEventListener('message', messageListener, false);
   }
@@ -184,6 +172,8 @@ function IFrameEndpoint() {
     }
     helloInterval = window.setInterval(postHello, HELLO_INTERVAL_LENGTH);
     window.setTimeout(stopPostingHello, HELLO_TIMEOUT_LENGTH);
+    // Post the first msg immediately.
+    postHello();
   }
 
   function stopPostingHello() {
@@ -193,12 +183,12 @@ function IFrameEndpoint() {
 
   // Public API.
   return {
-    initialize        : initialize,
-    getListenerNames  : getListenerNames,
-    addListener       : addListener,
+    initialize: initialize,
+    getListenerNames: getListenerNames,
+    addListener: addListener,
     removeAllListeners: removeAllListeners,
-    disconnect        : disconnect,
-    post              : post
+    disconnect: disconnect,
+    post: post
   };
 }
 
@@ -211,96 +201,95 @@ module.exports = function getIFrameEndpoint() {
   }
   return instance;
 };
-},{"./structured-clone":5}],3:[function(require,module,exports){
-"use strict";
 
+},{"./structured-clone":5}],3:[function(require,module,exports){
 var ParentEndpoint = require('./parent-endpoint');
 var getIFrameEndpoint = require('./iframe-endpoint');
 
 // Not a real UUID as there's an RFC for that (needed for proper distributed computing).
 // But in this fairly parochial situation, we just need to be fairly sure to avoid repeats.
 function getPseudoUUID() {
-    var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    var len = chars.length;
-    var ret = [];
+  var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  var len = chars.length;
+  var ret = [];
 
-    for (var i = 0; i < 10; i++) {
-        ret.push(chars[Math.floor(Math.random() * len)]);
-    }
-    return ret.join('');
+  for (var i = 0; i < 10; i++) {
+    ret.push(chars[Math.floor(Math.random() * len)]);
+  }
+  return ret.join('');
 }
 
 module.exports = function IframePhoneRpcEndpoint(handler, namespace, targetWindow, targetOrigin, phone) {
-    var pendingCallbacks = Object.create({});
+  var pendingCallbacks = Object.create({});
 
-    // if it's a non-null object, rather than a function, 'handler' is really an options object
-    if (handler && typeof handler === 'object') {
-        namespace = handler.namespace;
-        targetWindow = handler.targetWindow;
-        targetOrigin = handler.targetOrigin;
-        phone = handler.phone;
-        handler = handler.handler;
+  // if it's a non-null object, rather than a function, 'handler' is really an options object
+  if (handler && typeof handler === 'object') {
+    namespace = handler.namespace;
+    targetWindow = handler.targetWindow;
+    targetOrigin = handler.targetOrigin;
+    phone = handler.phone;
+    handler = handler.handler;
+  }
+
+  if (!phone) {
+    if (targetWindow === window.parent) {
+      phone = getIFrameEndpoint();
+      phone.initialize();
+    } else {
+      phone = new ParentEndpoint(targetWindow, targetOrigin);
     }
+  }
 
-    if ( ! phone ) {
-        if (targetWindow === window.parent) {
-            phone = getIFrameEndpoint();
-            phone.initialize();
-        } else {
-            phone = new ParentEndpoint(targetWindow, targetOrigin);
-        }
-    }
+  phone.addListener(namespace, function (message) {
+    var callbackObj;
 
-    phone.addListener(namespace, function(message) {
-        var callbackObj;
-
-        if (message.messageType === 'call' && typeof this.handler === 'function') {
-            this.handler.call(undefined, message.value, function(returnValue) {
-                phone.post(namespace, {
-                    messageType: 'returnValue',
-                    uuid: message.uuid,
-                    value: returnValue
-                });
-            });
-        } else if (message.messageType === 'returnValue') {
-            callbackObj = pendingCallbacks[message.uuid];
-
-            if (callbackObj) {
-                window.clearTimeout(callbackObj.timeout);
-                if (callbackObj.callback) {
-                    callbackObj.callback.call(undefined, message.value);
-                }
-                pendingCallbacks[message.uuid] = null;
-            }
-        }
-    }.bind(this));
-
-    function call(message, callback) {
-        var uuid = getPseudoUUID();
-
-        pendingCallbacks[uuid] = {
-            callback: callback,
-            timeout: window.setTimeout(function() {
-                if (callback) {
-                    callback(undefined, new Error("IframePhone timed out waiting for reply"));
-                }
-            }, 2000)
-        };
-
+    if (message.messageType === 'call' && typeof this.handler === 'function') {
+      this.handler.call(undefined, message.value, function (returnValue) {
         phone.post(namespace, {
-            messageType: 'call',
-            uuid: uuid,
-            value: message
+          messageType: 'returnValue',
+          uuid: message.uuid,
+          value: returnValue
         });
-    }
+      });
+    } else if (message.messageType === 'returnValue') {
+      callbackObj = pendingCallbacks[message.uuid];
 
-    function disconnect() {
-        phone.disconnect();
+      if (callbackObj) {
+        window.clearTimeout(callbackObj.timeout);
+        if (callbackObj.callback) {
+          callbackObj.callback.call(undefined, message.value);
+        }
+        pendingCallbacks[message.uuid] = null;
+      }
     }
+  }.bind(this));
 
-    this.handler = handler;
-    this.call = call.bind(this);
-    this.disconnect = disconnect.bind(this);
+  function call(message, callback) {
+    var uuid = getPseudoUUID();
+
+    pendingCallbacks[uuid] = {
+      callback: callback,
+      timeout: window.setTimeout(function () {
+        if (callback) {
+          callback(undefined, new Error("IframePhone timed out waiting for reply"));
+        }
+      }, 2000)
+    };
+
+    phone.post(namespace, {
+      messageType: 'call',
+      uuid: uuid,
+      value: message
+    });
+  }
+
+  function disconnect() {
+    phone.disconnect();
+  }
+
+  this.handler = handler;
+  this.call = call.bind(this);
+  this.disconnect = disconnect.bind(this);
 };
 
 },{"./iframe-endpoint":2,"./parent-endpoint":4}],4:[function(require,module,exports){
@@ -340,13 +329,12 @@ var structuredClone = require('./structured-clone');
 */
 
 module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, afterConnectedCallback) {
-  var selfOrigin = window.location.href.match(/(.*?\/\/.*?)\//)[1];
   var postMessageQueue = [];
   var connected = false;
   var handlers = {};
   var targetWindowIsIframeElement;
 
-  function getOrigin(iframe) {
+  function getIframeOrigin(iframe) {
     return iframe.src.match(/(.*?\/\/.*?)\//)[1];
   }
 
@@ -365,7 +353,6 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
     if (connected) {
       var tWindow = getTargetWindow();
       // if we are laready connected ... send the message
-      message.origin = selfOrigin;
       // See http://dev.opera.com/articles/view/window-postmessage-messagechannel/#crossdoc
       //     https://github.com/Modernizr/Modernizr/issues/388
       //     http://jsfiddle.net/ryanseddon/uZTgD/2/
@@ -407,7 +394,7 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
 
   function receiveMessage(message) {
     var messageData;
-    if (message.source === getTargetWindow() && message.origin === targetOrigin) {
+    if (message.source === getTargetWindow() && (targetOrigin === '*' || message.origin === targetOrigin)) {
       messageData = message.data;
       if (typeof messageData === 'string') {
         messageData = JSON.parse(messageData);
@@ -440,16 +427,31 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
     // afterConnectionCallback)
     if (!targetOrigin || targetOrigin.constructor === Function) {
       afterConnectedCallback = targetOrigin;
-      targetOrigin = getOrigin(targetWindowOrIframeEl);
+      targetOrigin = getIframeOrigin(targetWindowOrIframeEl);
     }
   }
 
+  // Handle pages served through file:// protocol. Behaviour varies in different browsers. Safari sets origin
+  // to 'file://' and everything works fine, but Chrome and Safari set message.origin to null.
+  // Also, https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage says:
+  //  > Lastly, posting a message to a page at a file: URL currently requires that the targetOrigin argument be "*".
+  //  > file:// cannot be used as a security restriction; this restriction may be modified in the future.
+  // So, using '*' seems like the only possible solution.
+  if (targetOrigin === 'file://') {
+    targetOrigin = '*';
+  }
+
   // when we receive 'hello':
-  addListener('hello', function() {
+  addListener('hello', function () {
     connected = true;
 
     // send hello response
-    post('hello');
+    post({
+      type: 'hello',
+      // `origin` property isn't used by IframeEndpoint anymore (>= 1.2.0), but it's being sent to be
+      // backward compatible with old IframeEndpoint versions (< v1.2.0).
+      origin: window.location.href.match(/(.*?\/\/.*?)\//)[1]
+    });
 
     // give the user a chance to do things now that we are connected
     // note that is will happen before any queued messages
@@ -458,7 +460,7 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
     }
 
     // Now send any messages that have been queued up ...
-    while(postMessageQueue.length > 0) {
+    while (postMessageQueue.length > 0) {
       post(postMessageQueue.shift());
     }
   });
@@ -489,7 +491,7 @@ var featureSupported = false;
       // internal [[Class]] property of the message being passed through.
       // Safari will pass through DOM nodes as Null iOS safari on the other hand
       // passes it through as DOMWindow, gotcha.
-      window.onmessage = function(e){
+      window.onmessage = function (e) {
         var type = Object.prototype.toString.call(e.data);
         result = (type.indexOf("Null") != -1 || type.indexOf("DOMWindow") != -1) ? 1 : 0;
         featureSupported = {
@@ -498,8 +500,8 @@ var featureSupported = false;
       };
       // Spec states you can't transmit DOM nodes and it will throw an error
       // postMessage implimentations that support cloned data will throw.
-      window.postMessage(document.createElement("a"),"*");
-    } catch(e) {
+      window.postMessage(document.createElement("a"), "*");
+    } catch (e) {
       // BBOS6 throws but doesn't pass through the correct exception
       // so check error message
       result = (e.DATA_CLONE_ERR || e.message == "Cannot post cyclic structures.") ? 1 : 0;
@@ -550,21 +552,20 @@ module.exports = {
     }
 }(this, function () {
     "use strict";
+
+    // Slightly dubious tricks to cut down minimized file size
     var noop = function() {};
     var undefinedType = "undefined";
 
-    function realMethod(methodName) {
-        if (typeof console === undefinedType) {
-            return false; // We can't build a real method without a console to log to
-        } else if (console[methodName] !== undefined) {
-            return bindMethod(console, methodName);
-        } else if (console.log !== undefined) {
-            return bindMethod(console, 'log');
-        } else {
-            return noop;
-        }
-    }
+    var logMethods = [
+        "trace",
+        "debug",
+        "info",
+        "warn",
+        "error"
+    ];
 
+    // Cross-browser bind equivalent that works at least back to IE6
     function bindMethod(obj, methodName) {
         var method = obj[methodName];
         if (typeof method.bind === 'function') {
@@ -581,16 +582,25 @@ module.exports = {
         }
     }
 
-    // these private functions always need `this` to be set properly
+    // Build the best logging method possible for this env
+    // Wherever possible we want to bind, not wrap, to preserve stack traces
+    function realMethod(methodName) {
+        if (methodName === 'debug') {
+            methodName = 'log';
+        }
 
-    function enableLoggingWhenConsoleArrives(methodName, level, loggerName) {
-        return function () {
-            if (typeof console !== undefinedType) {
-                replaceLoggingMethods.call(this, level, loggerName);
-                this[methodName].apply(this, arguments);
-            }
-        };
+        if (typeof console === undefinedType) {
+            return false; // No method possible, for now - fixed later by enableLoggingWhenConsoleArrives
+        } else if (console[methodName] !== undefined) {
+            return bindMethod(console, methodName);
+        } else if (console.log !== undefined) {
+            return bindMethod(console, 'log');
+        } else {
+            return noop;
+        }
     }
+
+    // These private functions always need `this` to be set properly
 
     function replaceLoggingMethods(level, loggerName) {
         /*jshint validthis:true */
@@ -600,21 +610,29 @@ module.exports = {
                 noop :
                 this.methodFactory(methodName, level, loggerName);
         }
+
+        // Define log.log as an alias for log.debug
+        this.log = this.debug;
     }
 
+    // In old IE versions, the console isn't present until you first open it.
+    // We build realMethod() replacements here that regenerate logging methods
+    function enableLoggingWhenConsoleArrives(methodName, level, loggerName) {
+        return function () {
+            if (typeof console !== undefinedType) {
+                replaceLoggingMethods.call(this, level, loggerName);
+                this[methodName].apply(this, arguments);
+            }
+        };
+    }
+
+    // By default, we use closely bound real methods wherever possible, and
+    // otherwise we wait for a console to appear, and then try again.
     function defaultMethodFactory(methodName, level, loggerName) {
         /*jshint validthis:true */
         return realMethod(methodName) ||
                enableLoggingWhenConsoleArrives.apply(this, arguments);
     }
-
-    var logMethods = [
-        "trace",
-        "debug",
-        "info",
-        "warn",
-        "error"
-    ];
 
     function Logger(name, defaultLevel, factory) {
       var self = this;
@@ -626,6 +644,8 @@ module.exports = {
 
       function persistLevelIfPossible(levelNum) {
           var levelName = (logMethods[levelNum] || 'silent').toUpperCase();
+
+          if (typeof window === undefinedType) return;
 
           // Use localStorage if available
           try {
@@ -643,16 +663,19 @@ module.exports = {
       function getPersistedLevel() {
           var storedLevel;
 
+          if (typeof window === undefinedType) return;
+
           try {
               storedLevel = window.localStorage[storageKey];
           } catch (ignore) {}
 
+          // Fallback to cookies if local storage gives us nothing
           if (typeof storedLevel === undefinedType) {
               try {
                   var cookie = window.document.cookie;
                   var location = cookie.indexOf(
                       encodeURIComponent(storageKey) + "=");
-                  if (location) {
+                  if (location !== -1) {
                       storedLevel = /^([^;]+)/.exec(cookie.slice(location))[1];
                   }
               } catch (ignore) {}
@@ -668,9 +691,11 @@ module.exports = {
 
       /*
        *
-       * Public API
+       * Public logger API - see https://github.com/pimterry/loglevel for details
        *
        */
+
+      self.name = name;
 
       self.levels = { "TRACE": 0, "DEBUG": 1, "INFO": 2, "WARN": 3,
           "ERROR": 4, "SILENT": 5};
@@ -723,7 +748,7 @@ module.exports = {
 
     /*
      *
-     * Package-level API
+     * Top-level API
      *
      */
 
@@ -752,6 +777,10 @@ module.exports = {
         }
 
         return defaultLogger;
+    };
+
+    defaultLogger.getLoggers = function getLoggers() {
+        return _loggersByName;
     };
 
     return defaultLogger;

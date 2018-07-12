@@ -35,7 +35,7 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href="." class="icon icon-home"> LARA Interactive API</a>
+        <a href="implementing-interactive/" class="icon icon-home"> LARA Interactive API</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -45,63 +45,55 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
 	<ul class="current">
+	  
           
-            <li>
-    <li class="toctree-l1 current">
-        <a class="current" href=".">LARA Interactive API</a>
-        
-            <ul>
+            <li class="toctree-l1">
+		
+    <a class="" href="implementing-interactive/">Implementing Interactive</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href=".">LARA Interactive API</a>
+    <ul class="subnav">
             
-                <li class="toctree-l3"><a href="#lara-interactive-api">LARA Interactive API</a></li>
-                
-                    <li><a class="toctree-l4" href="#startup-and-initialization">Startup and Initialization</a></li>
-                
-                    <li><a class="toctree-l4" href="#iframe-savercoffee-messages">iframe-saver.coffee Messages</a></li>
-                
-                    <li><a class="toctree-l4" href="#global-iframe-savercoffee-messages">global-iframe-saver.coffee Messages</a></li>
-                
-                    <li><a class="toctree-l4" href="#loggerjs-messages">logger.js Messages</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l2"><a href="#lara-interactive-api">LARA Interactive API</a></li>
+    
+        <ul>
         
-    </li>
-<li>
+            <li><a class="toctree-l3" href="#startup-and-initialization">Startup and Initialization</a></li>
+        
+            <li><a class="toctree-l3" href="#iframe-savercoffee-messages">iframe-saver.coffee Messages</a></li>
+        
+            <li><a class="toctree-l3" href="#global-iframe-savercoffee-messages">global-iframe-saver.coffee Messages</a></li>
+        
+            <li><a class="toctree-l3" href="#loggerjs-messages">logger.js Messages</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="implementing-interactive/">Implementing Interactive</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="shutterbug/">Shutterbug API</a>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="shutterbug/">Shutterbug API</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="using-iframe-phone/">Using iFramePhone</a>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="using-iframe-phone/">Using iFramePhone</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="safari-cookies-redirects/">Safari / IE, cookies and iframe redirects</a>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="safari-cookies-redirects/">Safari / IE, cookies and iframe redirects</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="about-mkdocs/">About the documentation generator</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="about-mkdocs/">About the documentation generator</a>
+	    </li>
           
         </ul>
       </div>
@@ -113,7 +105,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href=".">LARA Interactive API</a>
+        <a href="implementing-interactive/">LARA Interactive API</a>
       </nav>
 
       
@@ -121,7 +113,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".">Docs</a> &raquo;</li>
+    <li><a href="implementing-interactive/">Docs</a> &raquo;</li>
     
       
     
@@ -138,7 +130,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="lara-interactive-api">LARA Interactive API</h1>
+                <h1 id="lara-interactive-api">LARA Interactive API<a class="headerlink" href="#lara-interactive-api" title="Permanent link"></a></h1>
 <p>Table of contents:</p>
 <div class="toc">
 <ul>
@@ -170,7 +162,7 @@
 </li>
 </ul>
 </div>
-<h2 id="startup-and-initialization">Startup and Initialization</h2>
+<h2 id="startup-and-initialization">Startup and Initialization<a class="headerlink" href="#startup-and-initialization" title="Permanent link"></a></h2>
 <p>LARA interactive iframes communicate by using <a href="https://github.com/concord-consortium/iframe-phone">iFramePhone</a> through three scripts loaded by the server in the browser:  <a href="https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/iframe-saver.coffee">iframe-saver.coffee</a>,
 <a href="https://github.com/concord-consortium/LARA/blob/master/app/assets/javascripts/global-iframe-saver.coffee">global-iframe-saver.coffee</a> and
 <a href="https://github.com/concord-consortium/lara/blob/b51f764600816844088a0d45dc4493c0510eefe0/app/assets/javascripts/logger.js">logger.js</a>.  The LARA logging service also uses iFramePhones <a href="https://github.com/concord-consortium/iframe-phone/blob/master/lib/iframe-phone-rpc-endpoint.js">RPC endpoint</a> to log events from the interactives.</p>
@@ -180,48 +172,51 @@ consistent startup a new message was added, <code>initInteractive</code> (docume
 <p>The global-iframe-saver.coffee script sets up a listener for the <code>interactiveStateGlobal</code> message and sends one message: <code>loadInteractiveGlobal</code>.</p>
 <p>The logger.js sets up a listener for the <code>log</code> message.</p>
 <p>Since the three scripts above and the interactive's code are both running in the browser we will use the term server to mean the code in scripts interfacing with LARA above and client to be the interactive.</p>
-<h2 id="iframe-savercoffee-messages">iframe-saver.coffee Messages</h2>
+<h2 id="iframe-savercoffee-messages">iframe-saver.coffee Messages<a class="headerlink" href="#iframe-savercoffee-messages" title="Permanent link"></a></h2>
 <p>The client-side API can be split into two parts: messages initiated by the server to inform the client or request data back from the client and those initiated by the client to inform the server or request data back from the server.  Some of the messages from the client can be both responses to the server when it queries for information and requests to the server to set that information.</p>
-<h3 id="getextendedsupport">getExtendedSupport</h3>
+<h3 id="getextendedsupport">getExtendedSupport<a class="headerlink" href="#getextendedsupport" title="Permanent link"></a></h3>
 <p>Sent automatically by the server at startup to query the client about their <code>extendedSupport</code> status.  This is the first message the client will receive and is sent before the call is made to
 the server to get the interactive state.  It has no payload data.</p>
-<h3 id="extendedsupport">extendedSupport</h3>
+<h3 id="extendedsupport">extendedSupport<a class="headerlink" href="#extendedsupport" title="Permanent link"></a></h3>
 <p>Can be thought of as <code>setExtendedSupport</code>. Sent by the client either in response to receiving a <code>getExtendedSupport</code> message or can be initiated by the client.  The payload for the message is an object with the following structure: <code>{reset: &lt;boolean&gt;}</code>.  If <code>reset</code> is true, we will allow the user to 'reset' the interactive via the <em>delete</em> button in the LARA runtime.</p>
-<h3 id="getlearnerurl">getLearnerUrl</h3>
+<h3 id="getlearnerurl">getLearnerUrl<a class="headerlink" href="#getlearnerurl" title="Permanent link"></a></h3>
+<p><strong>DEPRECATED</strong> instead you should use the messages that save and load interactive state: <code>initInteractive</code>, <code>getInteractiveState</code>, <code>interactiveState</code></p>
 <p>Sent automatically by the server at startup to query the client about their learner url (the client responds via <code>setLearnerUrl</code>).  This is the second message the client will receive and is sent before the call is made to the server to get the interactive state.  It has no payload data.</p>
-<h3 id="setlearnerurl">setLearnerUrl</h3>
+<h3 id="setlearnerurl">setLearnerUrl<a class="headerlink" href="#setlearnerurl" title="Permanent link"></a></h3>
+<p><strong>DEPRECATED</strong> instead you should use the messages that save and load interactive state: <code>initInteractive</code>, <code>getInteractiveState</code>, <code>interactiveState</code></p>
 <p>Sent by the client either in response to receiving a <code>getLearnerUrl</code> message or can be initiated by the client. The payload for the message is the string that denotes exact URL for the current student.</p>
-<h3 id="getinteractivestate">getInteractiveState</h3>
+<h3 id="getinteractivestate">getInteractiveState<a class="headerlink" href="#getinteractivestate" title="Permanent link"></a></h3>
 <p>Sent automatically by the server every 5 seconds to query the client about their interactive state. It has no payload data.</p>
-<h3 id="interactivestate">interactiveState</h3>
+<p>This is also sent by LARA before changing pages.  The client must respond with <code>initInteractive</code>.</p>
+<p><strong>IMPORTANT</strong> If the client does not respond with the <code>interactiveState</code> message then LARA will not change pages.</p>
+<h3 id="interactivestate">interactiveState<a class="headerlink" href="#interactivestate" title="Permanent link"></a></h3>
 <p>Can be thought of as <code>setInteractiveState</code>. Sent by the client either in response to receiving a <code>getInteractiveState</code> message or can be initiated by the client.  The payload for the message is an arbitrary serializable object that will be stored by the LARA server.</p>
-<h3 id="getauthinfo">getAuthInfo</h3>
+<h3 id="getauthinfo">getAuthInfo<a class="headerlink" href="#getauthinfo" title="Permanent link"></a></h3>
 <p>Sent by the client to the server to request the current users authentication information.  It has no payload data.</p>
-<h3 id="authinfo">authInfo</h3>
+<h3 id="authinfo">authInfo<a class="headerlink" href="#authinfo" title="Permanent link"></a></h3>
 <p>Sent by the server only in response to a <code>getAuthInfo</code> request by the client.  The payload is the object <code>{provider: &lt;string&gt;, loggedIn: &lt;boolean&gt;, email: &lt;string&gt;}</code> where <code>provider</code> and <code>loggedIn</code>
 are always set and <code>email</code> is only set if the user has an email address.</p>
-<h3 id="loadinteractive">loadInteractive</h3>
+<h3 id="loadinteractive">loadInteractive<a class="headerlink" href="#loadinteractive" title="Permanent link"></a></h3>
+<p><strong>DEPRECATED</strong> The <code>initInteractive</code> message includes the state, and should be used to get the state instead.</p>
 <p>Sent by the server at startup after the LARA server is queried about the interactive's state and <em>only</em> if the interactive has state.  The payload for the message is a arbitrary serialized object
 previously set by the <code>interactiveState</code> message.</p>
-<h3 id="initinteractive">initInteractive</h3>
-<p>Sent by the server at startup after the LARA server is queried about the interactive's state.  This message will always be sent, even if there is an error querying the server about the interactive state.
-The payload is the object:</p>
-<p><code>{version: 1, error: &lt;string&gt;, interactiveState: &lt;object&gt;, hasLinkedInteractive: &lt;boolean&gt;, linkedState: &lt;object&gt;}</code></p>
-<p>The <code>error</code> member will be a string denoting any error querying the server about the interactive state or will be null otherwise.  The <code>interactiveState</code> member will be null if there is no current state or will otherwise be the same object returned by <code>loadInteractive</code>.  The <code>hasLinkedInteractive</code> member will be true if the interactive is linked to another interactive in the authoring system and the <code>linkedState</code> will be the current interactive state of that linked interactive.  Linked interactives are currently in development.</p>
-<h2 id="global-iframe-savercoffee-messages">global-iframe-saver.coffee Messages</h2>
-<h4 id="interactivestateglobal">interactiveStateGlobal</h4>
+<h3 id="initinteractive">initInteractive<a class="headerlink" href="#initinteractive" title="Permanent link"></a></h3>
+<p>Sent by the server at startup after the LARA server is queried about the interactive's state.  This message will always be sent, even if there is an error querying the server about the interactive state.</p>
+<p>See the <a href="implementing-interactive/#handling-the-initinteractive-message">initInteractive section in Implementing Interactive</a> for details.</p>
+<h2 id="global-iframe-savercoffee-messages">global-iframe-saver.coffee Messages<a class="headerlink" href="#global-iframe-savercoffee-messages" title="Permanent link"></a></h2>
+<h4 id="interactivestateglobal">interactiveStateGlobal<a class="headerlink" href="#interactivestateglobal" title="Permanent link"></a></h4>
 <p>Sent by the client to the server and sets the global state that should be shared with all the interactives embedded in the current activity for the current student.  The payload for the message is
 an arbitrary serializable object. The global state is saved in database as text (stringified JSON) and LARA does not care about its content.</p>
 <p>Once this message is received, the server immediately posts <code>loadInteractiveGlobal</code> to all interactives on the same page (except from the sender of the original save message).</p>
-<h4 id="loadinteractiveglobal">loadInteractiveGlobal</h4>
+<h4 id="loadinteractiveglobal">loadInteractiveGlobal<a class="headerlink" href="#loadinteractiveglobal" title="Permanent link"></a></h4>
 <p>Sent by the server to all interactives on the current page (for current activity and student).  The payload for the message is an arbitrary serialized object.  It's interactive responsibility to interpret this message and load (or not) the given state.</p>
 <p>This message is sent by the server when:</p>
 <ul>
 <li>The <code>interactiveStateGlobal</code> message is received by the server</li>
 <li>The activity page is loaded <strong>and</strong> the global interactive state is available in LARA activity run (so only if <code>interactiveStateGlobal</code> has been received earlier)</li>
 </ul>
-<h2 id="loggerjs-messages">logger.js Messages</h2>
-<h3 id="log">log</h3>
+<h2 id="loggerjs-messages">logger.js Messages<a class="headerlink" href="#loggerjs-messages" title="Permanent link"></a></h2>
+<h3 id="log">log<a class="headerlink" href="#log" title="Permanent link"></a></h3>
 <p>This message proxies communication from the interactive → LARA → Logging server.  There is only one way communication between the interactive and LARA. The interactive is expected to post following messages using iframe phone:</p>
 <pre><code class="javascript">phone.post('log', {action: 'actionName', data: {someValue: 1, otherValue: 2})
 </code></pre>
@@ -234,8 +229,10 @@ an arbitrary serializable object. The global state is saved in database as text 
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="implementing-interactive/" class="btn btn-neutral float-right" title="Implementing Interactive">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="shutterbug/" class="btn btn-neutral float-right" title="Shutterbug API">Next <span class="icon icon-circle-arrow-right"></span></a>
       
+      
+        <a href="implementing-interactive/" class="btn btn-neutral" title="Implementing Interactive"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -249,29 +246,34 @@ an arbitrary serializable object. The global state is saved in database as text 
 
   Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
-	  
+      
         </div>
       </div>
 
     </section>
-    
+
   </div>
 
   <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
+        <span><a href="implementing-interactive/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
-        <span style="margin-left: 15px"><a href="implementing-interactive/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+        <span style="margin-left: 15px"><a href="shutterbug/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
+    <script>var base_url = '.';</script>
     <script src="./js/theme.js"></script>
+      <script src="./search/require.js"></script>
+      <script src="./search/search.js"></script>
 
 </body>
 </html>
 
 <!--
-MkDocs version : 0.16.1
-Build Date UTC : 2017-02-08 19:30:11
+MkDocs version : 0.17.3
+Build Date UTC : 2018-07-12 14:24:07
 -->

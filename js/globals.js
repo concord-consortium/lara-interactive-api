@@ -6,7 +6,7 @@ global._ = require('lodash');
 
 global.log = require('loglevel');
 
-
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL1VzZXJzL3NjeXRhY2tpL0RldmVsb3BtZW50L2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2dsb2JhbHMuY29mZmVlIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiL1VzZXJzL3NjeXRhY2tpL0RldmVsb3BtZW50L2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2dsb2JhbHMuY29mZmVlIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUVBLE1BQU0sQ0FBQyxNQUFQLEdBQWdCLE1BQU0sQ0FBQyxDQUFQLEdBQVcsT0FBQSxDQUFRLFFBQVI7O0FBQzNCLE1BQU0sQ0FBQyxDQUFQLEdBQVcsT0FBQSxDQUFRLFFBQVI7O0FBQ1gsTUFBTSxDQUFDLEdBQVAsR0FBYSxPQUFBLENBQVEsVUFBUiJ9
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"jquery":2,"lodash":3,"loglevel":4}],2:[function(require,module,exports){
@@ -22198,21 +22198,20 @@ return jQuery;
     }
 }(this, function () {
     "use strict";
+
+    // Slightly dubious tricks to cut down minimized file size
     var noop = function() {};
     var undefinedType = "undefined";
 
-    function realMethod(methodName) {
-        if (typeof console === undefinedType) {
-            return false; // We can't build a real method without a console to log to
-        } else if (console[methodName] !== undefined) {
-            return bindMethod(console, methodName);
-        } else if (console.log !== undefined) {
-            return bindMethod(console, 'log');
-        } else {
-            return noop;
-        }
-    }
+    var logMethods = [
+        "trace",
+        "debug",
+        "info",
+        "warn",
+        "error"
+    ];
 
+    // Cross-browser bind equivalent that works at least back to IE6
     function bindMethod(obj, methodName) {
         var method = obj[methodName];
         if (typeof method.bind === 'function') {
@@ -22229,16 +22228,25 @@ return jQuery;
         }
     }
 
-    // these private functions always need `this` to be set properly
+    // Build the best logging method possible for this env
+    // Wherever possible we want to bind, not wrap, to preserve stack traces
+    function realMethod(methodName) {
+        if (methodName === 'debug') {
+            methodName = 'log';
+        }
 
-    function enableLoggingWhenConsoleArrives(methodName, level, loggerName) {
-        return function () {
-            if (typeof console !== undefinedType) {
-                replaceLoggingMethods.call(this, level, loggerName);
-                this[methodName].apply(this, arguments);
-            }
-        };
+        if (typeof console === undefinedType) {
+            return false; // No method possible, for now - fixed later by enableLoggingWhenConsoleArrives
+        } else if (console[methodName] !== undefined) {
+            return bindMethod(console, methodName);
+        } else if (console.log !== undefined) {
+            return bindMethod(console, 'log');
+        } else {
+            return noop;
+        }
     }
+
+    // These private functions always need `this` to be set properly
 
     function replaceLoggingMethods(level, loggerName) {
         /*jshint validthis:true */
@@ -22248,21 +22256,29 @@ return jQuery;
                 noop :
                 this.methodFactory(methodName, level, loggerName);
         }
+
+        // Define log.log as an alias for log.debug
+        this.log = this.debug;
     }
 
+    // In old IE versions, the console isn't present until you first open it.
+    // We build realMethod() replacements here that regenerate logging methods
+    function enableLoggingWhenConsoleArrives(methodName, level, loggerName) {
+        return function () {
+            if (typeof console !== undefinedType) {
+                replaceLoggingMethods.call(this, level, loggerName);
+                this[methodName].apply(this, arguments);
+            }
+        };
+    }
+
+    // By default, we use closely bound real methods wherever possible, and
+    // otherwise we wait for a console to appear, and then try again.
     function defaultMethodFactory(methodName, level, loggerName) {
         /*jshint validthis:true */
         return realMethod(methodName) ||
                enableLoggingWhenConsoleArrives.apply(this, arguments);
     }
-
-    var logMethods = [
-        "trace",
-        "debug",
-        "info",
-        "warn",
-        "error"
-    ];
 
     function Logger(name, defaultLevel, factory) {
       var self = this;
@@ -22274,6 +22290,8 @@ return jQuery;
 
       function persistLevelIfPossible(levelNum) {
           var levelName = (logMethods[levelNum] || 'silent').toUpperCase();
+
+          if (typeof window === undefinedType) return;
 
           // Use localStorage if available
           try {
@@ -22291,16 +22309,19 @@ return jQuery;
       function getPersistedLevel() {
           var storedLevel;
 
+          if (typeof window === undefinedType) return;
+
           try {
               storedLevel = window.localStorage[storageKey];
           } catch (ignore) {}
 
+          // Fallback to cookies if local storage gives us nothing
           if (typeof storedLevel === undefinedType) {
               try {
                   var cookie = window.document.cookie;
                   var location = cookie.indexOf(
                       encodeURIComponent(storageKey) + "=");
-                  if (location) {
+                  if (location !== -1) {
                       storedLevel = /^([^;]+)/.exec(cookie.slice(location))[1];
                   }
               } catch (ignore) {}
@@ -22316,9 +22337,11 @@ return jQuery;
 
       /*
        *
-       * Public API
+       * Public logger API - see https://github.com/pimterry/loglevel for details
        *
        */
+
+      self.name = name;
 
       self.levels = { "TRACE": 0, "DEBUG": 1, "INFO": 2, "WARN": 3,
           "ERROR": 4, "SILENT": 5};
@@ -22371,7 +22394,7 @@ return jQuery;
 
     /*
      *
-     * Package-level API
+     * Top-level API
      *
      */
 
@@ -22400,6 +22423,10 @@ return jQuery;
         }
 
         return defaultLogger;
+    };
+
+    defaultLogger.getLoggers = function getLoggers() {
+        return _loggersByName;
     };
 
     return defaultLogger;

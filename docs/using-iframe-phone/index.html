@@ -35,7 +35,7 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> LARA Interactive API</a>
+        <a href="../implementing-interactive/" class="icon icon-home"> LARA Interactive API</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -45,65 +45,57 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
 	<ul class="current">
+	  
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="..">LARA Interactive API</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="../implementing-interactive/">Implementing Interactive</a>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../implementing-interactive/">Implementing Interactive</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="..">LARA Interactive API</a>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../shutterbug/">Shutterbug API</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="../shutterbug/">Shutterbug API</a>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 current">
-        <a class="current" href="./">Using iFramePhone</a>
-        
-            <ul>
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Using iFramePhone</a>
+    <ul class="subnav">
             
-                <li class="toctree-l3"><a href="#using-iframephone">Using iFramePhone</a></li>
-                
-                    <li><a class="toctree-l4" href="#parent-setup">Parent Setup</a></li>
-                
-                    <li><a class="toctree-l4" href="#iframe-child-setup">Iframe (child) Setup</a></li>
-                
-                    <li><a class="toctree-l4" href="#hello-messages">Hello Messages</a></li>
-                
-                    <li><a class="toctree-l4" href="#other-messages">Other Messages</a></li>
-                
-                    <li><a class="toctree-l4" href="#message-posting-implementation">Message Posting Implementation</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l2"><a href="#using-iframephone">Using iFramePhone</a></li>
+    
+        <ul>
         
-    </li>
-<li>
+            <li><a class="toctree-l3" href="#parent-setup">Parent Setup</a></li>
+        
+            <li><a class="toctree-l3" href="#iframe-child-setup">Iframe (child) Setup</a></li>
+        
+            <li><a class="toctree-l3" href="#hello-messages">Hello Messages</a></li>
+        
+            <li><a class="toctree-l3" href="#other-messages">Other Messages</a></li>
+        
+            <li><a class="toctree-l3" href="#message-posting-implementation">Message Posting Implementation</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../safari-cookies-redirects/">Safari / IE, cookies and iframe redirects</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="../safari-cookies-redirects/">Safari / IE, cookies and iframe redirects</a>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../about-mkdocs/">About the documentation generator</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="../about-mkdocs/">About the documentation generator</a>
+	    </li>
           
         </ul>
       </div>
@@ -115,7 +107,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">LARA Interactive API</a>
+        <a href="../implementing-interactive/">LARA Interactive API</a>
       </nav>
 
       
@@ -123,7 +115,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="..">Docs</a> &raquo;</li>
+    <li><a href="../implementing-interactive/">Docs</a> &raquo;</li>
     
       
     
@@ -140,10 +132,10 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="using-iframephone">Using iFramePhone</h1>
+                <h1 id="using-iframephone">Using iFramePhone<a class="headerlink" href="#using-iframephone" title="Permanent link"></a></h1>
 <p>As mentioned <a href="https://github.com/concord-consortium/iframe-phone">iFramePhone</a> is the service which LARA uses for much of its iFrame communication.   It is also used by Lab Interactives internally. Most of the Lab messages are ignored by LARA.</p>
 <p>Here for reference is what the implementation looks like. Taken from the <a href="https://github.com/concord-consortium/iframe-phone">iFramePhone Readme</a>:</p>
-<h4 id="parent-setup">Parent Setup</h4>
+<h4 id="parent-setup">Parent Setup<a class="headerlink" href="#parent-setup" title="Permanent link"></a></h4>
 <pre><code class="javascript">var phone = new iframePhone.ParentEndpoint(iframeElement, function () {
   console.log(&quot;connection with iframe established&quot;);
 });
@@ -153,7 +145,7 @@ phone.addListener('response', function (content) {
 });
 </code></pre>
 
-<h4 id="iframe-child-setup">Iframe (child) Setup</h4>
+<h4 id="iframe-child-setup">Iframe (child) Setup<a class="headerlink" href="#iframe-child-setup" title="Permanent link"></a></h4>
 <pre><code class="javascript">var phone = iframePhone.getIFrameEndpoint();
 phone.addListener('testMessage', function (content) {
   console.log(&quot;iframe received message: &quot; + content);
@@ -164,7 +156,7 @@ phone.addListener('testMessage', function (content) {
 phone.initialize();
 </code></pre>
 
-<h4 id="hello-messages">Hello Messages</h4>
+<h4 id="hello-messages">Hello Messages<a class="headerlink" href="#hello-messages" title="Permanent link"></a></h4>
 <p>iFramePhone uses a <code>hello</code> messages to start communication with a specified origin. These messages get sent using the PostMessage API and look like this:</p>
 <pre><code class="javascript">var message = {
   type: &quot;hello&quot;,
@@ -172,7 +164,7 @@ phone.initialize();
 };
 </code></pre>
 
-<h4 id="other-messages">Other Messages</h4>
+<h4 id="other-messages">Other Messages<a class="headerlink" href="#other-messages" title="Permanent link"></a></h4>
 <p>Subsequent messages follow a similar pattern, specifiying <code>type</code> which helps determine which listeners to notify:</p>
 <pre><code class="javascript">var message = {
   type:&quot;modelLoaded&quot;,
@@ -180,7 +172,7 @@ phone.initialize();
 };
 </code></pre>
 
-<h4 id="message-posting-implementation">Message Posting Implementation</h4>
+<h4 id="message-posting-implementation">Message Posting Implementation<a class="headerlink" href="#message-posting-implementation" title="Permanent link"></a></h4>
 <p>The post messages looks like this as they are being sent out through iFramePhone. You don't need to worry about this; it is here for reference.</p>
 <pre><code class="javascript">message = {
   type: &quot;getLearnerUrl&quot;,
@@ -213,12 +205,12 @@ Window.postMessage(JSON.stringify(message), targetOrigin);
 
   Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
-	  
+      
         </div>
       </div>
 
     </section>
-    
+
   </div>
 
   <div class="rst-versions" role="note" style="cursor: pointer">
@@ -232,7 +224,10 @@ Window.postMessage(JSON.stringify(message), targetOrigin);
       
     </span>
 </div>
+    <script>var base_url = '..';</script>
     <script src="../js/theme.js"></script>
+      <script src="../search/require.js"></script>
+      <script src="../search/search.js"></script>
 
 </body>
 </html>

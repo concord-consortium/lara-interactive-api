@@ -1,13 +1,29 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var IframePhone, showUserInfo;
+var IframePhone, toggleForwardNav;
 
 IframePhone = require("iframe-phone");
 
-showUserInfo = function() {
-  var app, iframePhone, render;
+toggleForwardNav = function() {
+  var app, disableMessage, enableForwardNav, iframePhone, render, renderApp;
+  enableForwardNav = true;
+  disableMessage = "";
   app = document.getElementById("app");
   render = function(html) {
     return app.innerHTML = html;
+  };
+  renderApp = function() {
+    var message, messageValue, state, toggle;
+    if (enableForwardNav) {
+      state = "ENABLED";
+      toggle = "DISABLE";
+      messageValue = escape(disableMessage);
+      message = "<div><input id='message' type='text' placeholder='Enter disable message here' value='" + messageValue + "' /></div>";
+    } else {
+      state = "DISABLED";
+      toggle = "ENABLE";
+      message = "";
+    }
+    return render("<div>\n  <div>Forward navigation is " + state + "</div>\n  " + message + "\n  <div><button>" + toggle + "</button></div>\n</div>");
   };
   if (window.parent === window) {
     render("<span class='error'>This must be run within a LARA iframe interactive</span>");
@@ -15,18 +31,27 @@ showUserInfo = function() {
   }
   render("Connecting to LARA...");
   iframePhone = new IframePhone.getIFrameEndpoint();
-  iframePhone.addListener("authInfo", function(user) {
-    var email;
-    email = user.loggedIn ? user.email : "anonymous";
-    return render("The current user is <span class='user-email'>" + email + "</span>");
+  iframePhone.addListener("initInteractive", function() {
+    app.addEventListener("click", function(e) {
+      var message;
+      if (e.target.nodeName === "BUTTON") {
+        message = document.getElementById("message");
+        enableForwardNav = !enableForwardNav;
+        iframePhone.post("navigation", {
+          enableForwardNav: enableForwardNav,
+          message: message != null ? message.value : void 0
+        });
+        return renderApp();
+      }
+    });
+    return renderApp();
   });
-  iframePhone.initialize();
-  return iframePhone.post("getAuthInfo");
+  return iframePhone.initialize();
 };
 
-showUserInfo();
+toggleForwardNav();
 
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL1VzZXJzL3NjeXRhY2tpL0RldmVsb3BtZW50L2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2ludGVyYWN0aXZlcy91c2VyLWluZm8uY29mZmVlIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiL1VzZXJzL3NjeXRhY2tpL0RldmVsb3BtZW50L2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2ludGVyYWN0aXZlcy91c2VyLWluZm8uY29mZmVlIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLElBQUE7O0FBQUEsV0FBQSxHQUFjLE9BQUEsQ0FBUSxjQUFSOztBQUVkLFlBQUEsR0FBZSxTQUFBO0FBQ2IsTUFBQTtFQUFBLEdBQUEsR0FBTSxRQUFRLENBQUMsY0FBVCxDQUF3QixLQUF4QjtFQUNOLE1BQUEsR0FBUyxTQUFDLElBQUQ7V0FDUCxHQUFHLENBQUMsU0FBSixHQUFnQjtFQURUO0VBR1QsSUFBRyxNQUFNLENBQUMsTUFBUCxLQUFpQixNQUFwQjtJQUNFLE1BQUEsQ0FBTyw4RUFBUDtBQUNBLFdBRkY7O0VBSUEsTUFBQSxDQUFPLHVCQUFQO0VBT0EsV0FBQSxHQUFjLElBQUksV0FBVyxDQUFDLGlCQUFoQixDQUFBO0VBRWQsV0FBVyxDQUFDLFdBQVosQ0FBd0IsVUFBeEIsRUFBb0MsU0FBQyxJQUFEO0FBQ2xDLFFBQUE7SUFBQSxLQUFBLEdBQVcsSUFBSSxDQUFDLFFBQVIsR0FBc0IsSUFBSSxDQUFDLEtBQTNCLEdBQXNDO1dBQzlDLE1BQUEsQ0FBTywrQ0FBQSxHQUFnRCxLQUFoRCxHQUFzRCxTQUE3RDtFQUZrQyxDQUFwQztFQUlBLFdBQVcsQ0FBQyxVQUFaLENBQUE7U0FHQSxXQUFXLENBQUMsSUFBWixDQUFpQixhQUFqQjtBQXpCYTs7QUEyQmYsWUFBQSxDQUFBIn0=
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL1VzZXJzL3NjeXRhY2tpL0RldmVsb3BtZW50L2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2ludGVyYWN0aXZlcy90b2dnbGUtZm9yd2FyZC1uYXYuY29mZmVlIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiL1VzZXJzL3NjeXRhY2tpL0RldmVsb3BtZW50L2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2ludGVyYWN0aXZlcy90b2dnbGUtZm9yd2FyZC1uYXYuY29mZmVlIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLElBQUE7O0FBQUEsV0FBQSxHQUFjLE9BQUEsQ0FBUSxjQUFSOztBQUVkLGdCQUFBLEdBQW1CLFNBQUE7QUFDakIsTUFBQTtFQUFBLGdCQUFBLEdBQW1CO0VBQ25CLGNBQUEsR0FBaUI7RUFFakIsR0FBQSxHQUFNLFFBQVEsQ0FBQyxjQUFULENBQXdCLEtBQXhCO0VBQ04sTUFBQSxHQUFTLFNBQUMsSUFBRDtXQUNQLEdBQUcsQ0FBQyxTQUFKLEdBQWdCO0VBRFQ7RUFHVCxTQUFBLEdBQVksU0FBQTtBQUNWLFFBQUE7SUFBQSxJQUFHLGdCQUFIO01BQ0UsS0FBQSxHQUFRO01BQ1IsTUFBQSxHQUFTO01BQ1QsWUFBQSxHQUFlLE1BQUEsQ0FBTyxjQUFQO01BQ2YsT0FBQSxHQUFVLHVGQUFBLEdBQXdGLFlBQXhGLEdBQXFHLGFBSmpIO0tBQUEsTUFBQTtNQU1FLEtBQUEsR0FBUTtNQUNSLE1BQUEsR0FBUztNQUNULE9BQUEsR0FBVSxHQVJaOztXQVNBLE1BQUEsQ0FBTyxzQ0FBQSxHQUUwQixLQUYxQixHQUVnQyxZQUZoQyxHQUdELE9BSEMsR0FHTyxtQkFIUCxHQUlZLE1BSlosR0FJbUIseUJBSjFCO0VBVlU7RUFrQlosSUFBRyxNQUFNLENBQUMsTUFBUCxLQUFpQixNQUFwQjtJQUNFLE1BQUEsQ0FBTyw4RUFBUDtBQUNBLFdBRkY7O0VBSUEsTUFBQSxDQUFPLHVCQUFQO0VBQ0EsV0FBQSxHQUFjLElBQUksV0FBVyxDQUFDLGlCQUFoQixDQUFBO0VBRWQsV0FBVyxDQUFDLFdBQVosQ0FBd0IsaUJBQXhCLEVBQTJDLFNBQUE7SUFDekMsR0FBRyxDQUFDLGdCQUFKLENBQXFCLE9BQXJCLEVBQThCLFNBQUMsQ0FBRDtBQUM1QixVQUFBO01BQUEsSUFBRyxDQUFDLENBQUMsTUFBTSxDQUFDLFFBQVQsS0FBcUIsUUFBeEI7UUFDRSxPQUFBLEdBQVUsUUFBUSxDQUFDLGNBQVQsQ0FBd0IsU0FBeEI7UUFDVixnQkFBQSxHQUFtQixDQUFDO1FBQ3BCLFdBQVcsQ0FBQyxJQUFaLENBQWlCLFlBQWpCLEVBQStCO1VBQUMsZ0JBQUEsRUFBa0IsZ0JBQW5CO1VBQXFDLE9BQUEsb0JBQVMsT0FBTyxDQUFFLGNBQXZEO1NBQS9CO2VBQ0EsU0FBQSxDQUFBLEVBSkY7O0lBRDRCLENBQTlCO1dBTUEsU0FBQSxDQUFBO0VBUHlDLENBQTNDO1NBU0EsV0FBVyxDQUFDLFVBQVosQ0FBQTtBQTFDaUI7O0FBNENuQixnQkFBQSxDQUFBIn0=
 
 },{"iframe-phone":6}],2:[function(require,module,exports){
 var structuredClone = require('./structured-clone');

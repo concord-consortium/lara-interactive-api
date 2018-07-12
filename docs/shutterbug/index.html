@@ -35,7 +35,7 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> LARA Interactive API</a>
+        <a href="../implementing-interactive/" class="icon icon-home"> LARA Interactive API</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -45,57 +45,49 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
 	<ul class="current">
+	  
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="..">LARA Interactive API</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="../implementing-interactive/">Implementing Interactive</a>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../implementing-interactive/">Implementing Interactive</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="..">LARA Interactive API</a>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 current">
-        <a class="current" href="./">Shutterbug API</a>
-        
-            <ul>
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Shutterbug API</a>
+    <ul class="subnav">
             
-                <li class="toctree-l3"><a href="#shutterbug-api">Shutterbug API</a></li>
-                
-                    <li><a class="toctree-l4" href="#shutterbug-messages">Shutterbug Messages</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l2"><a href="#shutterbug-api">Shutterbug API</a></li>
+    
+        <ul>
         
-    </li>
-<li>
+            <li><a class="toctree-l3" href="#shutterbug-messages">Shutterbug Messages</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../using-iframe-phone/">Using iFramePhone</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="../using-iframe-phone/">Using iFramePhone</a>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../safari-cookies-redirects/">Safari / IE, cookies and iframe redirects</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="../safari-cookies-redirects/">Safari / IE, cookies and iframe redirects</a>
+	    </li>
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../about-mkdocs/">About the documentation generator</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="../about-mkdocs/">About the documentation generator</a>
+	    </li>
           
         </ul>
       </div>
@@ -107,7 +99,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">LARA Interactive API</a>
+        <a href="../implementing-interactive/">LARA Interactive API</a>
       </nav>
 
       
@@ -115,7 +107,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="..">Docs</a> &raquo;</li>
+    <li><a href="../implementing-interactive/">Docs</a> &raquo;</li>
     
       
     
@@ -132,11 +124,11 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="shutterbug-api">Shutterbug API</h1>
+                <h1 id="shutterbug-api">Shutterbug API<a class="headerlink" href="#shutterbug-api" title="Permanent link"></a></h1>
 <p><a href="https://github.com/concord-consortium/shutterbug.js">Shutterbug</a> is used widely in Lab and in LARA, it uses <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage">postMessage</a> to request child iFrames HTML content for snapshotting.</p>
 <p>The basic PostMessage API Calls that are used in the shutterbug javascript project are <a href="https://github.com/concord-consortium/shutterbug.js/blob/master/app/scripts/shutterbug-worker.js#L276-L343">documented in the github repo</a></p>
-<h2 id="shutterbug-messages">Shutterbug Messages</h2>
-<h3 id="htmlfragrequest"><code>htmlFragRequest</code></h3>
+<h2 id="shutterbug-messages">Shutterbug Messages<a class="headerlink" href="#shutterbug-messages" title="Permanent link"></a></h2>
+<h3 id="htmlfragrequest"><code>htmlFragRequest</code><a class="headerlink" href="#htmlfragrequest" title="Permanent link"></a></h3>
 <p>Parent asks iframes about their content:</p>
 <pre><code class="javascript"> var message  = {
    type:        'htmlFragRequest',
@@ -166,7 +158,7 @@ source.postMessage(JSON.stringify(response), &quot;*&quot;);
         <a href="../using-iframe-phone/" class="btn btn-neutral float-right" title="Using iFramePhone">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../implementing-interactive/" class="btn btn-neutral" title="Implementing Interactive"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href=".." class="btn btn-neutral" title="LARA Interactive API"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -180,26 +172,29 @@ source.postMessage(JSON.stringify(response), &quot;*&quot;);
 
   Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
-	  
+      
         </div>
       </div>
 
     </section>
-    
+
   </div>
 
   <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../implementing-interactive/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
         <span style="margin-left: 15px"><a href="../using-iframe-phone/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
+    <script>var base_url = '..';</script>
     <script src="../js/theme.js"></script>
+      <script src="../search/require.js"></script>
+      <script src="../search/search.js"></script>
 
 </body>
 </html>
