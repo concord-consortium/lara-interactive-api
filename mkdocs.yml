@@ -9,5 +9,6 @@ pages:
 - Implementing Interactive: 'implementing-interactive.md'
 - Shutterbug API: 'shutterbug.md'
 - Using iFramePhone: 'using-iframe-phone.md'
+- LARA Implementation of Interactive API: 'lara-developers.md'
 - Safari / IE, cookies and iframe redirects: 'safari-cookies-redirects.md'
 - About the documentation generator: 'about-mkdocs.md'
