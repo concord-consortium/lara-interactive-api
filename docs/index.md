@@ -79,6 +79,10 @@ Sent by the server at startup after the LARA server is queried about the interac
 
 See the [initInteractive section in Implementing Interactive](implementing-interactive.md#handling-the-initinteractive-message) for details.
 
+### navigation
+
+Sent by the client to enable/disable page navigation.  The payload is the object `{enableForwardNav: <boolean>, message: string}` where `message` is an optional message shown in an jQuery alert box when the forward navigation is clicked when disabled.
+
 ## global-iframe-saver.coffee Messages
 
 #### interactiveStateGlobal
