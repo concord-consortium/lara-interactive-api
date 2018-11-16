@@ -58,7 +58,17 @@ phone.addListener('initInteractive', function (data) {
  - **linkedState [optional]** - JSON that has been saved by the linked interactive. If no state has been saved this will be falsy.
  - **interactiveStateUrl [optional]** - Fully qualified URL to access the interactive state externally. See [Accessing Interactive State with HTTP](#accessing-interactive-state-with-http) for more information.
  - **collaboratorUrls [optional]** - Fully qualified URL to access the interactive state of each collaborator working with the current student. These URLs can be used to save a copy of the work into each collaborator's interactive state.
-
+ - **classInfoUrl** - URL to request more information about the class of the student that is running the interactive. TODO: what happens when run without a class, what info is returned by this URL, what about authorization for this URL?
+ - **interactive** - The value of this is
+```
+   {id: [id of interactive in LARA], name: [name of interactive in LARA]}
+```
+ - **authInfo** - The value of this is
+```
+   {provider: [domain of authentication provider],
+    loggedIn: [whether the current user is logged in],
+    email:    [email address for the current user]}
+```
 
 ## Interactive customization
 
