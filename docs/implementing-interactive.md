@@ -58,7 +58,7 @@ phone.addListener('initInteractive', function (data) {
  - **linkedState [optional]** - JSON that has been saved by the linked interactive. If no state has been saved this will be falsy.
  - **interactiveStateUrl [optional]** - Fully qualified URL to access the interactive state externally. See [Accessing Interactive State with HTTP](#accessing-interactive-state-with-http) for more information.
  - **collaboratorUrls [optional]** - Fully qualified URL to access the interactive state of each collaborator working with the current student. These URLs can be used to save a copy of the work into each collaborator's interactive state.
- - **classInfoUrl** - URL to request more information about the class of the student that is running the interactive. TODO: what happens when run without a class, what info is returned by this URL, what about authorization for this URL?
+ - **classInfoUrl** - URL to request more information about the class of the student that is running the interactive. When run as a student in the portal this URL is of form: `https://learn.staging.concord.org/api/v1/classes/[class_id]` it provides information about the teachers and students of the class. As well as a class_hash that can be used to store info about the class in a external system (like Firebase). The URL is protected by cookie based authentication. withCredentials should be used to access it. TODO: what happens when the activity is run without a class? For example when it is run anonymously.
  - **interactive** - The value of this is
 ```
    {id: [id of interactive in LARA], name: [name of interactive in LARA]}
