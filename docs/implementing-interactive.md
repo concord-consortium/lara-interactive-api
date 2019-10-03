@@ -138,6 +138,22 @@ phone.addListener('getInteractiveState', function () {
 
 There is a special value `"nochange"`, that can be sent as the interactiveState data. This tells LARA the interactiveState has not changed since the last time. This is useful when responding to getInteractiveState
 
+## Interactive aspectRatio
+
+If interactive wants to tell LARA what aspect ratio use, it should inform LARA about it using `supportedFeatures` message:
+
+```javascript
+phone.post('supportedFeatures', {
+  apiVersion: 1,
+  features: {
+    aspectRatio: 1.67
+    // + other supported features
+  }
+});
+```
+
+The LARA author needs to select "Default aspect ratio, or set by interactive" in the interactive authoring dialog box, otherwise this setting will be ignored. More info about the interactive sizing can be found in the [LARA Authoring User Manual](https://docs.google.com/document/d/1d-06qDtpxi-l9eOc1wfYGZzY93Pww32IfZxBJaBXlWM/edit#heading=h.gh1cimnir3mk).
+
 ## Custom learner URL
 
 **DEPRECATED** This feature is related to student progress saving. Interactive can provide versioned URL to make sure that the given data format is always supported. Otherwise the interactive might be updated and not be able to open the old state format.
