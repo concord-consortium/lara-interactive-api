@@ -34,7 +34,7 @@ phone.post('supportedFeatures', {
 ## Handling the `initInteractive` message
 
 This is one of the most important messages sent by LARA. It provides most of the information stored by LARA.
-It tells the interactive what is the current API version, mode (`runtime` or `authoring`), `authoredState`
+It tells the interactive what is the current API version, mode (`runtime`, `authoring` or `report`), `authoredState`
 (state defined by author), `interactiveState` (state based on student work) and so on. Interactive should
 add `initInteractive` handler that reads values stored in `data` Object / hash:
 
@@ -50,7 +50,7 @@ phone.addListener('initInteractive', function (data) {
 ### Data passed to initInteractive
 
  - **error** - `null` if everything is okay, error message otherwise (e.g. data fetching might fail).
- - **mode** - `"authoring"` or `"runtime"`. Interactive can be displayed in one of those two modes, but it's up to interactive whether it supports authoring mode. Runtime is basic mode which is presented to students. Authoring mode can be used by authors to customize interactive.
+ - **mode** - `"authoring"`, `"runtime"` or `"report"`. Interactive can be displayed in one of those three modes, but it's up to interactive whether it supports authoring mode. Runtime is basic mode which is presented to students. Authoring mode can be used by authors to customize interactive.  Report mode is used when embedding the interactive in a report.
  - **authoredState [optional]** - JSON that has been saved by interactive earlier in authoring mode using `authoredState` message (described below in other section). If it's not defined, it would be falsy value (null or empty string).
  - **interactiveState [optional]** - JSON that has been saved by interactive earlier in runtime mode using `interactiveState` message. More detail in [Saving Student Progress section](#saving-student-progress). Provided only in runtime mode. If it's not defined, it would be falsy value (null or empty string).
  - **globalInteractiveState [optional]** - JSON that has been saved by any interactive in the same activity earlier in runtime mode using [globalInteractiveState message](#global-interactive-state). Provided only in runtime mode. If it's not defined, it would be falsy value (null or empty string).
@@ -210,7 +210,7 @@ LARA responds using `authInfo` message:
 ```javascript
 phone.addListener('authInfo', function (info) {
   // ...
-});  
+});
 ```
 
 The payload is the object `{provider: <string>, loggedIn: <boolean>, email: <string>}` where `provider` and `loggedIn` are always set and `email` is only set if the user has an email address.
