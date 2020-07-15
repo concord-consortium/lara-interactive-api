@@ -11,7 +11,7 @@
     "iframe-phone": "git://github.com/concord-consortium/iframe-phone",
     "jquery": "^2.1.3",
     "jquery-ui": "^1.10.5",
-    "lodash": "^3.3.0",
+    "lodash": "^4.17.19",
     "loglevel": "^1.2.0",
     "react": "^0.13.1"
   },
