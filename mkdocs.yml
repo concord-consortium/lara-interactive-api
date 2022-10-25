@@ -4,7 +4,7 @@ site_dir: dist/docs
 repo_name: Github
 repo_url: https://github.com/concord-consortium/lara-interactive-api
 site_url: http://concord-consortium.github.io/lara-interactive-api/
-pages:
+nav:
 - Implementing Interactive: 'implementing-interactive.md'
 - LARA Interactive API: 'index.md'
 - Shutterbug API: 'shutterbug.md'
