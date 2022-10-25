@@ -83,7 +83,6 @@ class App
           dstSelector: dest
           fail: () ->
             l.info("App: snapshot fail")
-          server: "//snapshot.concord.org/shutterbug"
       else
         alert "shutterbug.js must be installed on the page"
     $button2 = $("#takeSnapshotDev")
@@ -94,7 +93,7 @@ class App
           dstSelector: dest
           fail: () ->
             l.info("App: snapshot fail")
-          server: "//snapshotdev.concord.org/shutterbug"
+          server: "https://api.concord.org/shutterbug-staging"
       else
         alert "shutterbug.js must be installed on the page"
   ##
