@@ -16,7 +16,7 @@
     "react": "^0.13.3"
   },
   "devDependencies": {
-    "browserify": "^9.0.8",
+    "browserify": "^17.0.0",
     "coffeeify": "^1.0.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
