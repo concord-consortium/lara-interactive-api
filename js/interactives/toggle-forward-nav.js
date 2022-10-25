@@ -51,7 +51,7 @@ toggleForwardNav = function() {
 
 toggleForwardNav();
 
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL1VzZXJzL3NjeXRhY2tpL0RldmVsb3BtZW50L2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2ludGVyYWN0aXZlcy90b2dnbGUtZm9yd2FyZC1uYXYuY29mZmVlIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiL1VzZXJzL3NjeXRhY2tpL0RldmVsb3BtZW50L2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2ludGVyYWN0aXZlcy90b2dnbGUtZm9yd2FyZC1uYXYuY29mZmVlIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLElBQUE7O0FBQUEsV0FBQSxHQUFjLE9BQUEsQ0FBUSxjQUFSOztBQUVkLGdCQUFBLEdBQW1CLFNBQUE7QUFDakIsTUFBQTtFQUFBLGdCQUFBLEdBQW1CO0VBQ25CLGNBQUEsR0FBaUI7RUFFakIsR0FBQSxHQUFNLFFBQVEsQ0FBQyxjQUFULENBQXdCLEtBQXhCO0VBQ04sTUFBQSxHQUFTLFNBQUMsSUFBRDtXQUNQLEdBQUcsQ0FBQyxTQUFKLEdBQWdCO0VBRFQ7RUFHVCxTQUFBLEdBQVksU0FBQTtBQUNWLFFBQUE7SUFBQSxJQUFHLGdCQUFIO01BQ0UsS0FBQSxHQUFRO01BQ1IsTUFBQSxHQUFTO01BQ1QsWUFBQSxHQUFlLE1BQUEsQ0FBTyxjQUFQO01BQ2YsT0FBQSxHQUFVLHVGQUFBLEdBQXdGLFlBQXhGLEdBQXFHLGFBSmpIO0tBQUEsTUFBQTtNQU1FLEtBQUEsR0FBUTtNQUNSLE1BQUEsR0FBUztNQUNULE9BQUEsR0FBVSxHQVJaOztXQVNBLE1BQUEsQ0FBTyxzQ0FBQSxHQUUwQixLQUYxQixHQUVnQyxZQUZoQyxHQUdELE9BSEMsR0FHTyxtQkFIUCxHQUlZLE1BSlosR0FJbUIseUJBSjFCO0VBVlU7RUFrQlosSUFBRyxNQUFNLENBQUMsTUFBUCxLQUFpQixNQUFwQjtJQUNFLE1BQUEsQ0FBTyw4RUFBUDtBQUNBLFdBRkY7O0VBSUEsTUFBQSxDQUFPLHVCQUFQO0VBQ0EsV0FBQSxHQUFjLElBQUksV0FBVyxDQUFDLGlCQUFoQixDQUFBO0VBRWQsV0FBVyxDQUFDLFdBQVosQ0FBd0IsaUJBQXhCLEVBQTJDLFNBQUE7SUFDekMsR0FBRyxDQUFDLGdCQUFKLENBQXFCLE9BQXJCLEVBQThCLFNBQUMsQ0FBRDtBQUM1QixVQUFBO01BQUEsSUFBRyxDQUFDLENBQUMsTUFBTSxDQUFDLFFBQVQsS0FBcUIsUUFBeEI7UUFDRSxPQUFBLEdBQVUsUUFBUSxDQUFDLGNBQVQsQ0FBd0IsU0FBeEI7UUFDVixnQkFBQSxHQUFtQixDQUFDO1FBQ3BCLFdBQVcsQ0FBQyxJQUFaLENBQWlCLFlBQWpCLEVBQStCO1VBQUMsZ0JBQUEsRUFBa0IsZ0JBQW5CO1VBQXFDLE9BQUEsb0JBQVMsT0FBTyxDQUFFLGNBQXZEO1NBQS9CO2VBQ0EsU0FBQSxDQUFBLEVBSkY7O0lBRDRCLENBQTlCO1dBTUEsU0FBQSxDQUFBO0VBUHlDLENBQTNDO1NBU0EsV0FBVyxDQUFDLFVBQVosQ0FBQTtBQTFDaUI7O0FBNENuQixnQkFBQSxDQUFBIn0=
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL1VzZXJzL3BqYW5pay9Db25jb3JkL2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2ludGVyYWN0aXZlcy90b2dnbGUtZm9yd2FyZC1uYXYuY29mZmVlIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiL1VzZXJzL3BqYW5pay9Db25jb3JkL2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2ludGVyYWN0aXZlcy90b2dnbGUtZm9yd2FyZC1uYXYuY29mZmVlIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLElBQUE7O0FBQUEsV0FBQSxHQUFjLE9BQUEsQ0FBUSxjQUFSOztBQUVkLGdCQUFBLEdBQW1CLFNBQUE7QUFDakIsTUFBQTtFQUFBLGdCQUFBLEdBQW1CO0VBQ25CLGNBQUEsR0FBaUI7RUFFakIsR0FBQSxHQUFNLFFBQVEsQ0FBQyxjQUFULENBQXdCLEtBQXhCO0VBQ04sTUFBQSxHQUFTLFNBQUMsSUFBRDtXQUNQLEdBQUcsQ0FBQyxTQUFKLEdBQWdCO0VBRFQ7RUFHVCxTQUFBLEdBQVksU0FBQTtBQUNWLFFBQUE7SUFBQSxJQUFHLGdCQUFIO01BQ0UsS0FBQSxHQUFRO01BQ1IsTUFBQSxHQUFTO01BQ1QsWUFBQSxHQUFlLE1BQUEsQ0FBTyxjQUFQO01BQ2YsT0FBQSxHQUFVLHVGQUFBLEdBQXdGLFlBQXhGLEdBQXFHLGFBSmpIO0tBQUEsTUFBQTtNQU1FLEtBQUEsR0FBUTtNQUNSLE1BQUEsR0FBUztNQUNULE9BQUEsR0FBVSxHQVJaOztXQVNBLE1BQUEsQ0FBTyxzQ0FBQSxHQUUwQixLQUYxQixHQUVnQyxZQUZoQyxHQUdELE9BSEMsR0FHTyxtQkFIUCxHQUlZLE1BSlosR0FJbUIseUJBSjFCO0VBVlU7RUFrQlosSUFBRyxNQUFNLENBQUMsTUFBUCxLQUFpQixNQUFwQjtJQUNFLE1BQUEsQ0FBTyw4RUFBUDtBQUNBLFdBRkY7O0VBSUEsTUFBQSxDQUFPLHVCQUFQO0VBQ0EsV0FBQSxHQUFjLElBQUksV0FBVyxDQUFDLGlCQUFoQixDQUFBO0VBRWQsV0FBVyxDQUFDLFdBQVosQ0FBd0IsaUJBQXhCLEVBQTJDLFNBQUE7SUFDekMsR0FBRyxDQUFDLGdCQUFKLENBQXFCLE9BQXJCLEVBQThCLFNBQUMsQ0FBRDtBQUM1QixVQUFBO01BQUEsSUFBRyxDQUFDLENBQUMsTUFBTSxDQUFDLFFBQVQsS0FBcUIsUUFBeEI7UUFDRSxPQUFBLEdBQVUsUUFBUSxDQUFDLGNBQVQsQ0FBd0IsU0FBeEI7UUFDVixnQkFBQSxHQUFtQixDQUFDO1FBQ3BCLFdBQVcsQ0FBQyxJQUFaLENBQWlCLFlBQWpCLEVBQStCO1VBQUMsZ0JBQUEsRUFBa0IsZ0JBQW5CO1VBQXFDLE9BQUEsb0JBQVMsT0FBTyxDQUFFLGNBQXZEO1NBQS9CO2VBQ0EsU0FBQSxDQUFBLEVBSkY7O0lBRDRCLENBQTlCO1dBTUEsU0FBQSxDQUFBO0VBUHlDLENBQTNDO1NBU0EsV0FBVyxDQUFDLFVBQVosQ0FBQTtBQTFDaUI7O0FBNENuQixnQkFBQSxDQUFBIn0=
 
 },{"iframe-phone":6}],2:[function(require,module,exports){
 var structuredClone = require('./structured-clone');
@@ -105,6 +105,10 @@ function IFrameEndpoint() {
     listeners[type] = fn;
   }
 
+  function removeListener(type) {
+    delete listeners[type];
+  }
+
   function removeAllListeners() {
     listeners = {};
   }
@@ -135,7 +139,8 @@ function IFrameEndpoint() {
   function disconnect() {
     connected = false;
     stopPostingHello();
-    window.removeEventListener('message', messsageListener);
+    removeAllListeners();
+    window.removeEventListener('message', messageListener);
   }
 
   /**
@@ -177,6 +182,7 @@ function IFrameEndpoint() {
     initialize: initialize,
     getListenerNames: getListenerNames,
     addListener: addListener,
+    removeListener: removeListener,
     removeAllListeners: removeAllListeners,
     disconnect: disconnect,
     post: post
@@ -363,7 +369,11 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
   }
 
   function removeListener(messageName) {
-    handlers[messageName] = null;
+    delete handlers[messageName];
+  }
+
+  function removeAllListeners() {
+    handlers = {};
   }
 
   // Note that this function can't be used when IFrame element hasn't been added to DOM yet
@@ -400,6 +410,7 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
 
   function disconnect() {
     connected = false;
+    removeAllListeners();
     window.removeEventListener('message', receiveMessage);
   }
 
@@ -463,6 +474,7 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
     post: post,
     addListener: addListener,
     removeListener: removeListener,
+    removeAllListeners: removeAllListeners,
     disconnect: disconnect,
     getTargetWindow: getTargetWindow,
     targetOrigin: targetOrigin
@@ -470,32 +482,22 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
 };
 
 },{"./structured-clone":5}],5:[function(require,module,exports){
-var featureSupported = false;
+var featureSupported = {
+  'structuredClones': 0
+};
 
 (function () {
   var result = 0;
 
   if (!!window.postMessage) {
     try {
-      // Safari 5.1 will sometimes throw an exception and sometimes won't, lolwut?
-      // When it doesn't we capture the message event and check the
-      // internal [[Class]] property of the message being passed through.
-      // Safari will pass through DOM nodes as Null iOS safari on the other hand
-      // passes it through as DOMWindow, gotcha.
-      window.onmessage = function (e) {
-        var type = Object.prototype.toString.call(e.data);
-        result = (type.indexOf("Null") != -1 || type.indexOf("DOMWindow") != -1) ? 1 : 0;
-        featureSupported = {
-          'structuredClones': result
-        };
-      };
       // Spec states you can't transmit DOM nodes and it will throw an error
-      // postMessage implimentations that support cloned data will throw.
+      // postMessage implementations that support cloned data will throw.
       window.postMessage(document.createElement("a"), "*");
     } catch (e) {
       // BBOS6 throws but doesn't pass through the correct exception
       // so check error message
-      result = (e.DATA_CLONE_ERR || e.message == "Cannot post cyclic structures.") ? 1 : 0;
+      result = (e.DATA_CLONE_ERR || e.message === "Cannot post cyclic structures.") ? 1 : 0;
       featureSupported = {
         'structuredClones': result
       };

@@ -60,7 +60,7 @@ module.exports = GlobalIframeSaver = (function() {
 
 window.GlobalIframeSaver = GlobalIframeSaver;
 
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL1VzZXJzL3NjeXRhY2tpL0RldmVsb3BtZW50L2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2dsb2JhbC1zYXZlci5jb2ZmZWUiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIvVXNlcnMvc2N5dGFja2kvRGV2ZWxvcG1lbnQvbGFyYS1pbnRlcmFjdGl2ZS1hcGkvc3JjL2NvZGUvZ2xvYmFsLXNhdmVyLmNvZmZlZSJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFRQSxJQUFBOztBQUFBLENBQUEsR0FBSSxPQUFBLENBQVEsVUFBUjs7QUFDSixXQUFBLEdBQWMsT0FBQSxDQUFRLGNBQVI7O0FBRWQsTUFBTSxDQUFDLE9BQVAsR0FBdUI7QUFDckIsTUFBQTs7RUFBQSxnQkFBQSxHQUFtQjs7RUFFTiwyQkFBQyxNQUFEO0lBQ1gsSUFBQyxDQUFBLFlBQUQsR0FBbUIsTUFBTSxDQUFDLFFBQVYsR0FBd0IsSUFBSSxDQUFDLEtBQUwsQ0FBVyxNQUFNLENBQUMsUUFBbEIsQ0FBeEIsR0FBeUQ7SUFFekUsSUFBQyxDQUFBLGFBQUQsR0FBaUI7SUFDakIsQ0FBQSxDQUFFLGdCQUFGLENBQW1CLENBQUMsSUFBcEIsQ0FBeUIsQ0FBQSxTQUFBLEtBQUE7YUFBQSxTQUFDLEdBQUQsRUFBTSxRQUFOO0FBQ3ZCLFlBQUE7ZUFBQSxLQUFBLEdBQVEsSUFBSSxXQUFXLENBQUMsY0FBaEIsQ0FBK0IsQ0FBQSxDQUFFLFFBQUYsQ0FBWSxDQUFBLENBQUEsQ0FBM0MsRUFBK0MsU0FBQTtpQkFDckQsS0FBQyxDQUFBLFdBQUQsQ0FBYSxLQUFiO1FBRHFELENBQS9DO01BRGU7SUFBQSxDQUFBLENBQUEsQ0FBQSxJQUFBLENBQXpCO0VBSlc7OzhCQVFiLFdBQUEsR0FBYSxTQUFDLEtBQUQ7SUFDWCxJQUFDLENBQUEsYUFBYSxDQUFDLElBQWYsQ0FBb0IsS0FBcEI7SUFDQSxJQUFDLENBQUEsb0JBQUQsQ0FBc0IsS0FBdEI7SUFDQSxJQUFHLElBQUMsQ0FBQSxZQUFKO2FBQ0UsSUFBQyxDQUFBLGdCQUFELENBQWtCLEtBQWxCLEVBREY7O0VBSFc7OzhCQU1iLG9CQUFBLEdBQXNCLFNBQUMsS0FBRDtXQUNwQixLQUFLLENBQUMsV0FBTixDQUFrQix3QkFBbEIsRUFBNEMsQ0FBQSxTQUFBLEtBQUE7YUFBQSxTQUFDLEtBQUQ7UUFDMUMsS0FBQyxDQUFBLFlBQUQsR0FBZ0I7ZUFDaEIsS0FBQyxDQUFBLHFCQUFELENBQXVCLEtBQXZCO01BRjBDO0lBQUEsQ0FBQSxDQUFBLENBQUEsSUFBQSxDQUE1QztFQURvQjs7OEJBS3RCLGdCQUFBLEdBQWtCLFNBQUMsS0FBRDtXQUNoQixLQUFLLENBQUMsSUFBTixDQUFXLHVCQUFYLEVBQW9DLElBQUMsQ0FBQSxZQUFyQztFQURnQjs7OEJBR2xCLHFCQUFBLEdBQXVCLFNBQUMsTUFBRDtXQUNyQixJQUFDLENBQUEsYUFBYSxDQUFDLE9BQWYsQ0FBdUIsQ0FBQSxTQUFBLEtBQUE7YUFBQSxTQUFDLEtBQUQ7UUFFckIsSUFBMkIsS0FBQSxLQUFXLE1BQXRDO2lCQUFBLEtBQUMsQ0FBQSxnQkFBRCxDQUFrQixLQUFsQixFQUFBOztNQUZxQjtJQUFBLENBQUEsQ0FBQSxDQUFBLElBQUEsQ0FBdkI7RUFEcUI7Ozs7OztBQUt6QixNQUFNLENBQUMsaUJBQVAsR0FBMkIifQ==
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL1VzZXJzL3BqYW5pay9Db25jb3JkL2xhcmEtaW50ZXJhY3RpdmUtYXBpL3NyYy9jb2RlL2dsb2JhbC1zYXZlci5jb2ZmZWUiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIvVXNlcnMvcGphbmlrL0NvbmNvcmQvbGFyYS1pbnRlcmFjdGl2ZS1hcGkvc3JjL2NvZGUvZ2xvYmFsLXNhdmVyLmNvZmZlZSJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFRQSxJQUFBOztBQUFBLENBQUEsR0FBSSxPQUFBLENBQVEsVUFBUjs7QUFDSixXQUFBLEdBQWMsT0FBQSxDQUFRLGNBQVI7O0FBRWQsTUFBTSxDQUFDLE9BQVAsR0FBdUI7QUFDckIsTUFBQTs7RUFBQSxnQkFBQSxHQUFtQjs7RUFFTiwyQkFBQyxNQUFEO0lBQ1gsSUFBQyxDQUFBLFlBQUQsR0FBbUIsTUFBTSxDQUFDLFFBQVYsR0FBd0IsSUFBSSxDQUFDLEtBQUwsQ0FBVyxNQUFNLENBQUMsUUFBbEIsQ0FBeEIsR0FBeUQ7SUFFekUsSUFBQyxDQUFBLGFBQUQsR0FBaUI7SUFDakIsQ0FBQSxDQUFFLGdCQUFGLENBQW1CLENBQUMsSUFBcEIsQ0FBeUIsQ0FBQSxTQUFBLEtBQUE7YUFBQSxTQUFDLEdBQUQsRUFBTSxRQUFOO0FBQ3ZCLFlBQUE7ZUFBQSxLQUFBLEdBQVEsSUFBSSxXQUFXLENBQUMsY0FBaEIsQ0FBK0IsQ0FBQSxDQUFFLFFBQUYsQ0FBWSxDQUFBLENBQUEsQ0FBM0MsRUFBK0MsU0FBQTtpQkFDckQsS0FBQyxDQUFBLFdBQUQsQ0FBYSxLQUFiO1FBRHFELENBQS9DO01BRGU7SUFBQSxDQUFBLENBQUEsQ0FBQSxJQUFBLENBQXpCO0VBSlc7OzhCQVFiLFdBQUEsR0FBYSxTQUFDLEtBQUQ7SUFDWCxJQUFDLENBQUEsYUFBYSxDQUFDLElBQWYsQ0FBb0IsS0FBcEI7SUFDQSxJQUFDLENBQUEsb0JBQUQsQ0FBc0IsS0FBdEI7SUFDQSxJQUFHLElBQUMsQ0FBQSxZQUFKO2FBQ0UsSUFBQyxDQUFBLGdCQUFELENBQWtCLEtBQWxCLEVBREY7O0VBSFc7OzhCQU1iLG9CQUFBLEdBQXNCLFNBQUMsS0FBRDtXQUNwQixLQUFLLENBQUMsV0FBTixDQUFrQix3QkFBbEIsRUFBNEMsQ0FBQSxTQUFBLEtBQUE7YUFBQSxTQUFDLEtBQUQ7UUFDMUMsS0FBQyxDQUFBLFlBQUQsR0FBZ0I7ZUFDaEIsS0FBQyxDQUFBLHFCQUFELENBQXVCLEtBQXZCO01BRjBDO0lBQUEsQ0FBQSxDQUFBLENBQUEsSUFBQSxDQUE1QztFQURvQjs7OEJBS3RCLGdCQUFBLEdBQWtCLFNBQUMsS0FBRDtXQUNoQixLQUFLLENBQUMsSUFBTixDQUFXLHVCQUFYLEVBQW9DLElBQUMsQ0FBQSxZQUFyQztFQURnQjs7OEJBR2xCLHFCQUFBLEdBQXVCLFNBQUMsTUFBRDtXQUNyQixJQUFDLENBQUEsYUFBYSxDQUFDLE9BQWYsQ0FBdUIsQ0FBQSxTQUFBLEtBQUE7YUFBQSxTQUFDLEtBQUQ7UUFFckIsSUFBMkIsS0FBQSxLQUFXLE1BQXRDO2lCQUFBLEtBQUMsQ0FBQSxnQkFBRCxDQUFrQixLQUFsQixFQUFBOztNQUZxQjtJQUFBLENBQUEsQ0FBQSxDQUFBLElBQUEsQ0FBdkI7RUFEcUI7Ozs7OztBQUt6QixNQUFNLENBQUMsaUJBQVAsR0FBMkIifQ==
 
 },{"iframe-phone":6,"loglevel":7}],2:[function(require,module,exports){
 var structuredClone = require('./structured-clone');
@@ -114,6 +114,10 @@ function IFrameEndpoint() {
     listeners[type] = fn;
   }
 
+  function removeListener(type) {
+    delete listeners[type];
+  }
+
   function removeAllListeners() {
     listeners = {};
   }
@@ -144,7 +148,8 @@ function IFrameEndpoint() {
   function disconnect() {
     connected = false;
     stopPostingHello();
-    window.removeEventListener('message', messsageListener);
+    removeAllListeners();
+    window.removeEventListener('message', messageListener);
   }
 
   /**
@@ -186,6 +191,7 @@ function IFrameEndpoint() {
     initialize: initialize,
     getListenerNames: getListenerNames,
     addListener: addListener,
+    removeListener: removeListener,
     removeAllListeners: removeAllListeners,
     disconnect: disconnect,
     post: post
@@ -372,7 +378,11 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
   }
 
   function removeListener(messageName) {
-    handlers[messageName] = null;
+    delete handlers[messageName];
+  }
+
+  function removeAllListeners() {
+    handlers = {};
   }
 
   // Note that this function can't be used when IFrame element hasn't been added to DOM yet
@@ -409,6 +419,7 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
 
   function disconnect() {
     connected = false;
+    removeAllListeners();
     window.removeEventListener('message', receiveMessage);
   }
 
@@ -472,6 +483,7 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
     post: post,
     addListener: addListener,
     removeListener: removeListener,
+    removeAllListeners: removeAllListeners,
     disconnect: disconnect,
     getTargetWindow: getTargetWindow,
     targetOrigin: targetOrigin
@@ -479,32 +491,22 @@ module.exports = function ParentEndpoint(targetWindowOrIframeEl, targetOrigin, a
 };
 
 },{"./structured-clone":5}],5:[function(require,module,exports){
-var featureSupported = false;
+var featureSupported = {
+  'structuredClones': 0
+};
 
 (function () {
   var result = 0;
 
   if (!!window.postMessage) {
     try {
-      // Safari 5.1 will sometimes throw an exception and sometimes won't, lolwut?
-      // When it doesn't we capture the message event and check the
-      // internal [[Class]] property of the message being passed through.
-      // Safari will pass through DOM nodes as Null iOS safari on the other hand
-      // passes it through as DOMWindow, gotcha.
-      window.onmessage = function (e) {
-        var type = Object.prototype.toString.call(e.data);
-        result = (type.indexOf("Null") != -1 || type.indexOf("DOMWindow") != -1) ? 1 : 0;
-        featureSupported = {
-          'structuredClones': result
-        };
-      };
       // Spec states you can't transmit DOM nodes and it will throw an error
-      // postMessage implimentations that support cloned data will throw.
+      // postMessage implementations that support cloned data will throw.
       window.postMessage(document.createElement("a"), "*");
     } catch (e) {
       // BBOS6 throws but doesn't pass through the correct exception
       // so check error message
-      result = (e.DATA_CLONE_ERR || e.message == "Cannot post cyclic structures.") ? 1 : 0;
+      result = (e.DATA_CLONE_ERR || e.message === "Cannot post cyclic structures.") ? 1 : 0;
       featureSupported = {
         'structuredClones': result
       };
@@ -556,6 +558,9 @@ module.exports = {
     // Slightly dubious tricks to cut down minimized file size
     var noop = function() {};
     var undefinedType = "undefined";
+    var isIE = (typeof window !== undefinedType) && (typeof window.navigator !== undefinedType) && (
+        /Trident\/|MSIE /.test(window.navigator.userAgent)
+    );
 
     var logMethods = [
         "trace",
@@ -582,6 +587,19 @@ module.exports = {
         }
     }
 
+    // Trace() doesn't print the message in IE, so for that case we need to wrap it
+    function traceForIE() {
+        if (console.log) {
+            if (console.log.apply) {
+                console.log.apply(console, arguments);
+            } else {
+                // In old IE, native console methods themselves don't have apply().
+                Function.prototype.apply.apply(console.log, [console, arguments]);
+            }
+        }
+        if (console.trace) console.trace();
+    }
+
     // Build the best logging method possible for this env
     // Wherever possible we want to bind, not wrap, to preserve stack traces
     function realMethod(methodName) {
@@ -591,6 +609,8 @@ module.exports = {
 
         if (typeof console === undefinedType) {
             return false; // No method possible, for now - fixed later by enableLoggingWhenConsoleArrives
+        } else if (methodName === 'trace' && isIE) {
+            return traceForIE;
         } else if (console[methodName] !== undefined) {
             return bindMethod(console, methodName);
         } else if (console.log !== undefined) {
@@ -637,15 +657,19 @@ module.exports = {
     function Logger(name, defaultLevel, factory) {
       var self = this;
       var currentLevel;
+      defaultLevel = defaultLevel == null ? "WARN" : defaultLevel;
+
       var storageKey = "loglevel";
-      if (name) {
+      if (typeof name === "string") {
         storageKey += ":" + name;
+      } else if (typeof name === "symbol") {
+        storageKey = undefined;
       }
 
       function persistLevelIfPossible(levelNum) {
           var levelName = (logMethods[levelNum] || 'silent').toUpperCase();
 
-          if (typeof window === undefinedType) return;
+          if (typeof window === undefinedType || !storageKey) return;
 
           // Use localStorage if available
           try {
@@ -663,7 +687,7 @@ module.exports = {
       function getPersistedLevel() {
           var storedLevel;
 
-          if (typeof window === undefinedType) return;
+          if (typeof window === undefinedType || !storageKey) return;
 
           try {
               storedLevel = window.localStorage[storageKey];
@@ -687,6 +711,22 @@ module.exports = {
           }
 
           return storedLevel;
+      }
+
+      function clearPersistedLevel() {
+          if (typeof window === undefinedType || !storageKey) return;
+
+          // Use localStorage if available
+          try {
+              window.localStorage.removeItem(storageKey);
+              return;
+          } catch (ignore) {}
+
+          // Use session cookie as fallback
+          try {
+              window.document.cookie =
+                encodeURIComponent(storageKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+          } catch (ignore) {}
       }
 
       /*
@@ -725,9 +765,15 @@ module.exports = {
       };
 
       self.setDefaultLevel = function (level) {
+          defaultLevel = level;
           if (!getPersistedLevel()) {
               self.setLevel(level, false);
           }
+      };
+
+      self.resetLevel = function () {
+          self.setLevel(defaultLevel, false);
+          clearPersistedLevel();
       };
 
       self.enableAll = function(persist) {
@@ -741,7 +787,7 @@ module.exports = {
       // Initialize with the right level
       var initialLevel = getPersistedLevel();
       if (initialLevel == null) {
-          initialLevel = defaultLevel == null ? "WARN" : defaultLevel;
+          initialLevel = defaultLevel;
       }
       self.setLevel(initialLevel, false);
     }
@@ -756,7 +802,7 @@ module.exports = {
 
     var _loggersByName = {};
     defaultLogger.getLogger = function getLogger(name) {
-        if (typeof name !== "string" || name === "") {
+        if ((typeof name !== "symbol" && typeof name !== "string") || name === "") {
           throw new TypeError("You must supply a name when creating a logger.");
         }
 
@@ -782,6 +828,9 @@ module.exports = {
     defaultLogger.getLoggers = function getLoggers() {
         return _loggersByName;
     };
+
+    // ES6 default export, for compatibility
+    defaultLogger['default'] = defaultLogger;
 
     return defaultLogger;
 }));

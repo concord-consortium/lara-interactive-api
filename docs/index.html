@@ -1,134 +1,136 @@
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="None">
-  
-  <link rel="shortcut icon" href="./img/favicon.ico">
-  <title>LARA Interactive API - LARA Interactive API</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
-  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="./css/highlight.css">
-  
-  <script>
-    // Current page data
-    var mkdocs_page_name = "LARA Interactive API";
-    var mkdocs_page_input_path = "index.md";
-    var mkdocs_page_url = "/";
-  </script>
-  
-  <script src="./js/jquery-2.1.1.min.js"></script>
-  <script src="./js/modernizr-2.8.3.min.js"></script>
-  <script type="text/javascript" src="./js/highlight.pack.js"></script> 
-  
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" /><link rel="canonical" href="http://concord-consortium.github.io/lara-interactive-api/" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>LARA Interactive API</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "LARA Interactive API";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = "/lara-interactive-api/";
+      </script>
+    
+    <script src="js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
 
   <div class="wy-grid-for-nav">
-
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href="implementing-interactive/" class="icon icon-home"> LARA Interactive API</a>
-        <div role="search">
+          <a href="." class="icon icon-home"> LARA Interactive API
+        </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="implementing-interactive/">Implementing Interactive</a>
-	    </li>
-          
-            <li class="toctree-l1 current">
-		
-    <a class="current" href=".">LARA Interactive API</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#lara-interactive-api">LARA Interactive API</a></li>
-    
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="implementing-interactive/">Implementing Interactive</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">LARA Interactive API</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#startup-and-initialization">Startup and Initialization</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#iframe-savercoffee-messages">iframe-saver.coffee Messages</a>
         <ul>
-        
-            <li><a class="toctree-l3" href="#startup-and-initialization">Startup and Initialization</a></li>
-        
-            <li><a class="toctree-l3" href="#iframe-savercoffee-messages">iframe-saver.coffee Messages</a></li>
-        
-            <li><a class="toctree-l3" href="#global-iframe-savercoffee-messages">global-iframe-saver.coffee Messages</a></li>
-        
-            <li><a class="toctree-l3" href="#loggerjs-messages">logger.js Messages</a></li>
-        
+    <li class="toctree-l3"><a class="reference internal" href="#getextendedsupport">getExtendedSupport</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#extendedsupport">extendedSupport</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#getlearnerurl">getLearnerUrl</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#setlearnerurl">setLearnerUrl</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#getinteractivestate">getInteractiveState</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#interactivestate">interactiveState</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#getauthinfo">getAuthInfo</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#authinfo">authInfo</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#loadinteractive">loadInteractive</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#initinteractive">initInteractive</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#navigation">navigation</a>
+    </li>
         </ul>
-    
-
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#global-iframe-savercoffee-messages">global-iframe-saver.coffee Messages</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#interactivestateglobal">interactiveStateGlobal</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#loadinteractiveglobal">loadInteractiveGlobal</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#loggerjs-messages">logger.js Messages</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#log">log</a>
+    </li>
+        </ul>
+    </li>
     </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="shutterbug/">Shutterbug API</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="using-iframe-phone/">Using iFramePhone</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="safari-cookies-redirects/">Safari / IE, cookies and iframe redirects</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="about-mkdocs/">About the documentation generator</a>
-	    </li>
-          
-        </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="shutterbug/">Shutterbug API</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="using-iframe-phone/">Using iFramePhone</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="safari-cookies-redirects/">Safari / IE, cookies and iframe redirects</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="about-mkdocs/">About the documentation generator</a>
+                </li>
+              </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="implementing-interactive/">LARA Interactive API</a>
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">LARA Interactive API</a>
+        
       </nav>
-
-      
       <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="implementing-interactive/">Docs</a> &raquo;</li>
-    
-      
-    
-    <li>LARA Interactive API</li>
+    <li><a href="." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>LARA Interactive API</li>
     <li class="wy-breadcrumbs-aside">
-      
-        <a href="https://github.com/concord-consortium/lara-interactive-api/edit/master/docs/index.md"
-          class="icon icon-github"> Edit on Github</a>
-      
+          <a href="https://github.com/concord-consortium/lara-interactive-api/edit/master/docs/index.md" class="icon icon-github"> Edit on Github</a>
     </li>
   </ul>
   <hr/>
 </div>
-          <div role="main">
-            <div class="section">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
               
                 <h1 id="lara-interactive-api">LARA Interactive API<a class="headerlink" href="#lara-interactive-api" title="Permanent link"></a></h1>
 <p>Table of contents:</p>
@@ -147,6 +149,7 @@
 <li><a href="#authinfo">authInfo</a></li>
 <li><a href="#loadinteractive">loadInteractive</a></li>
 <li><a href="#initinteractive">initInteractive</a></li>
+<li><a href="#navigation">navigation</a></li>
 </ul>
 </li>
 <li><a href="#global-iframe-savercoffee-messages">global-iframe-saver.coffee Messages</a><ul>
@@ -203,6 +206,8 @@ previously set by the <code>interactiveState</code> message.</p>
 <h3 id="initinteractive">initInteractive<a class="headerlink" href="#initinteractive" title="Permanent link"></a></h3>
 <p>Sent by the server at startup after the LARA server is queried about the interactive's state.  This message will always be sent, even if there is an error querying the server about the interactive state.</p>
 <p>See the <a href="implementing-interactive/#handling-the-initinteractive-message">initInteractive section in Implementing Interactive</a> for details.</p>
+<h3 id="navigation">navigation<a class="headerlink" href="#navigation" title="Permanent link"></a></h3>
+<p>Sent by the client to enable/disable page navigation.  The payload is the object <code>{enableForwardNav: &lt;boolean&gt;, message: string}</code> where <code>message</code> is an optional message shown in an jQuery alert box when the forward navigation is clicked when disabled.</p>
 <h2 id="global-iframe-savercoffee-messages">global-iframe-saver.coffee Messages<a class="headerlink" href="#global-iframe-savercoffee-messages" title="Permanent link"></a></h2>
 <h4 id="interactivestateglobal">interactiveStateGlobal<a class="headerlink" href="#interactivestateglobal" title="Permanent link"></a></h4>
 <p>Sent by the client to the server and sets the global state that should be shared with all the interactives embedded in the current activity for the current student.  The payload for the message is
@@ -218,35 +223,26 @@ an arbitrary serializable object. The global state is saved in database as text 
 <h2 id="loggerjs-messages">logger.js Messages<a class="headerlink" href="#loggerjs-messages" title="Permanent link"></a></h2>
 <h3 id="log">log<a class="headerlink" href="#log" title="Permanent link"></a></h3>
 <p>This message proxies communication from the interactive → LARA → Logging server.  There is only one way communication between the interactive and LARA. The interactive is expected to post following messages using iframe phone:</p>
-<pre><code class="javascript">phone.post('log', {action: 'actionName', data: {someValue: 1, otherValue: 2})
+<pre><code class="language-javascript">phone.post('log', {action: 'actionName', data: {someValue: 1, otherValue: 2})
 </code></pre>
-
 <p>LARA listens to these events only when logging is enabled (they will be ignored otherwise). When a <code>log</code> message is received, LARA issues a POST request to the Logging server. LARA uses provided action name and data, but also adds additional information to the event (context that might useful for researchers, e.g. user name, activity name, url, session ID, etc.).</p>
               
             </div>
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="implementing-interactive/" class="btn btn-neutral float-left" title="Implementing Interactive"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="shutterbug/" class="btn btn-neutral float-right" title="Shutterbug API">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
-      
-        <a href="implementing-interactive/" class="btn btn-neutral" title="Implementing Interactive"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-      
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <!-- Copyright etc -->
-    
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
-      
+          
         </div>
       </div>
 
@@ -254,26 +250,31 @@ an arbitrary serializable object. The global state is saved in database as text 
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="implementing-interactive/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="shutterbug/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="implementing-interactive/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="shutterbug/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '.';</script>
-    <script src="./js/theme.js"></script>
-      <script src="./search/require.js"></script>
-      <script src="./search/search.js"></script>
+    <script src="js/theme_extra.js" defer></script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>
 
 <!--
-MkDocs version : 0.17.3
-Build Date UTC : 2018-07-12 14:24:07
+MkDocs version : 1.4.1
+Build Date UTC : 2022-10-25 13:27:17.308594+00:00
 -->

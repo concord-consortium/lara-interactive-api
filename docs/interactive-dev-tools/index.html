@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="http://concord-consortium.github.io/lara-interactive-api/about-mkdocs/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="http://concord-consortium.github.io/lara-interactive-api/interactive-dev-tools/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>About the documentation generator - LARA Interactive API</title>
+    <title>Interactive dev tools - LARA Interactive API</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "About the documentation generator";
-        var mkdocs_page_input_path = "about-mkdocs.md";
-        var mkdocs_page_url = "/lara-interactive-api/about-mkdocs/";
+        var mkdocs_page_name = "Interactive dev tools";
+        var mkdocs_page_input_path = "interactive-dev-tools.md";
+        var mkdocs_page_url = "/lara-interactive-api/interactive-dev-tools/";
       </script>
     
     <script src="../js/jquery-3.6.0.min.js" defer></script>
@@ -60,18 +60,8 @@
                 <li class="toctree-l1"><a class="reference internal" href="../safari-cookies-redirects/">Safari / IE, cookies and iframe redirects</a>
                 </li>
               </ul>
-              <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">About the documentation generator</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements:</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#build">Build</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#other-commands">Other Commands</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#project-layout">Project layout</a>
-    </li>
-    </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about-mkdocs/">About the documentation generator</a>
                 </li>
               </ul>
       </div>
@@ -88,9 +78,9 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>About the documentation generator</li>
+      <li>Interactive dev tools</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/concord-consortium/lara-interactive-api/edit/master/docs/about-mkdocs.md" class="icon icon-github"> Edit on Github</a>
+          <a href="https://github.com/concord-consortium/lara-interactive-api/edit/master/docs/interactive-dev-tools.md" class="icon icon-github"> Edit on Github</a>
     </li>
   </ul>
   <hr/>
@@ -98,31 +88,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="welcome-to-mkdocs">Welcome to MkDocs<a class="headerlink" href="#welcome-to-mkdocs" title="Permanent link"></a></h1>
-<p>For full documentation visit <a href="http://mkdocs.org">mkdocs.org</a>.</p>
-<h2 id="requirements">Requirements:<a class="headerlink" href="#requirements" title="Permanent link"></a></h2>
-<p>You must install mkdocs to build the documentation. <code>pip install mkdocs</code></p>
-<h2 id="build">Build<a class="headerlink" href="#build" title="Permanent link"></a></h2>
-<p>When you have <code>mkdocs</code> installed, <code>build.sh</code> will invoke <code>mkdocs</code> to build the project documentation as part of the gh-pages.</p>
-<h2 id="other-commands">Other Commands<a class="headerlink" href="#other-commands" title="Permanent link"></a></h2>
-<ul>
-<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
-<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
-<li><code>mkdocs build</code> - Build the documentation site.</li>
-<li><code>mkdocs help</code> - Print this help message.</li>
-</ul>
-<h2 id="project-layout">Project layout<a class="headerlink" href="#project-layout" title="Permanent link"></a></h2>
-<pre><code>mkdocs.yml    # The configuration file.
-docs/
-    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
-</code></pre>
+                <p>There is a mock interactive that developers can add to LARA to see how things work:
+https://concord-consortium.github.io/lara-interactive-api/iframe.html</p>
+<p>There is a page in which a interactive URL can be added and then the page lets the developer send messages to the interactive:
+https://concord-consortium.github.io/lara-interactive-api/</p>
+<p>These current tools could be much better.</p>
+<p>Currently it shows a set of buttons for sending specific messages to the interactive. The data sent along with the can be set, and the result can be seen.</p>
+<ol>
+<li>Not all messages are supported.</li>
+<li>This doesn't explain how LARA is actually going to communicate with the interactive. A developer would need to look at the documentation to see how to construct the order the messages are being sent, and the data being sent with each message.</li>
+<li>The set of messages is not complete.</li>
+<li>There isn't a way to easily reload the interactive after a developer has changed it. If the developer is using live reload this wouldn't be a problem. But not all devs will be doing that.  The browser seems to cache the content in an iframe differently.</li>
+</ol>
+<p>Ideas for improvements:
+- split the tool into two parts: a generic iframe-phone message sender. This would let the dev send any message to the interactive and then see any responses. Some message names could be provided, but the dev should also be able to type in the messages. A second part would emulate what happens when the interactive is embedded in LARA. See below.
+- add a reload button so it is easier to reload the interactive, this might take some testing on different browsers. It might not be possible to get the browser to clear the cache.
+- The LARA tool, would need at least three modes: runtime, authoring, and reporting.  And it would also need a authoring UI that would let the dev set the same options an author can set in LARA: saves state, has_report_url, ...  Then the dev would need to able to see and change the runtime state, the authoring state, and the linked state.  There should be some log of what is happening so when multiple messages go by the dev can see the data of each. And ideally there would be a step, play, pause control. So the dev could step through the series of messages LARA sends to the interactive. In runtime mode there would need to be a button that would simulate the 'next' button in LARA. This button requires a save state interactive to return some state before moving on. And it would also be an indication of the interactive allowing LARA to move on, if the interactive is blocking forward navigation.
+- it would be useful to have a test iframe that would show the messages lara is sending to it. I'm pretty sure we had this already somewhere...</p>
               
             </div>
           </div><footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../safari-cookies-redirects/" class="btn btn-neutral float-left" title="Safari / IE, cookies and iframe redirects"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-    </div>
 
   <hr/>
 
@@ -143,8 +128,6 @@ docs/
   <div class="rst-versions" role="note" aria-label="Versions">
   <span class="rst-current-version" data-toggle="rst-current-version">
     
-    
-      <span><a href="../safari-cookies-redirects/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
   </span>

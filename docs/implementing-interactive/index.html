@@ -1,148 +1,122 @@
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  
-  <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Implementing Interactive - LARA Interactive API</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
-  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="../css/highlight.css">
-  
-  <script>
-    // Current page data
-    var mkdocs_page_name = "Implementing Interactive";
-    var mkdocs_page_input_path = "implementing-interactive.md";
-    var mkdocs_page_url = "/implementing-interactive/";
-  </script>
-  
-  <script src="../js/jquery-2.1.1.min.js"></script>
-  <script src="../js/modernizr-2.8.3.min.js"></script>
-  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
-  
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="http://concord-consortium.github.io/lara-interactive-api/implementing-interactive/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Implementing Interactive - LARA Interactive API</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Implementing Interactive";
+        var mkdocs_page_input_path = "implementing-interactive.md";
+        var mkdocs_page_url = "/lara-interactive-api/implementing-interactive/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
 
   <div class="wy-grid-for-nav">
-
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href="./" class="icon icon-home"> LARA Interactive API</a>
-        <div role="search">
+          <a href=".." class="icon icon-home"> LARA Interactive API
+        </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1 current">
-		
-    <a class="current" href="./">Implementing Interactive</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#implementing-interactive">Implementing Interactive</a></li>
-    
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Implementing Interactive</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#iframe-phone-setup">iframe-phone setup</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#handling-the-initinteractive-message">Handling the initInteractive message</a>
         <ul>
-        
-            <li><a class="toctree-l3" href="#iframe-phone-setup">iframe-phone setup</a></li>
-        
-            <li><a class="toctree-l3" href="#handling-the-initinteractive-message">Handling the initInteractive message</a></li>
-        
-            <li><a class="toctree-l3" href="#interactive-customization">Interactive customization</a></li>
-        
-            <li><a class="toctree-l3" href="#saving-student-progress">Saving student progress</a></li>
-        
-            <li><a class="toctree-l3" href="#custom-learner-url">Custom learner URL</a></li>
-        
-            <li><a class="toctree-l3" href="#global-interactive-state">Global interactive state</a></li>
-        
-            <li><a class="toctree-l3" href="#logging">Logging</a></li>
-        
-            <li><a class="toctree-l3" href="#auth-info">Auth info</a></li>
-        
-            <li><a class="toctree-l3" href="#getextendedsupport">getExtendedSupport</a></li>
-        
-            <li><a class="toctree-l3" href="#linked-interactives">Linked interactives</a></li>
-        
-            <li><a class="toctree-l3" href="#accessing-interactive-state-with-http">Accessing Interactive State with HTTP</a></li>
-        
+    <li class="toctree-l3"><a class="reference internal" href="#data-passed-to-initinteractive">Data passed to initInteractive</a>
+    </li>
         </ul>
-    
-
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#interactive-customization">Interactive customization</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#saving-student-progress">Saving student progress</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#interactive-aspectratio">Interactive aspectRatio</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#custom-learner-url">Custom learner URL</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#global-interactive-state">Global interactive state</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#auth-info">Auth info</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#getextendedsupport">getExtendedSupport</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#linked-interactives">Linked interactives</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#accessing-interactive-state-with-http">Accessing Interactive State with HTTP</a>
+    </li>
     </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="..">LARA Interactive API</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../shutterbug/">Shutterbug API</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../using-iframe-phone/">Using iFramePhone</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../safari-cookies-redirects/">Safari / IE, cookies and iframe redirects</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../about-mkdocs/">About the documentation generator</a>
-	    </li>
-          
-        </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">LARA Interactive API</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../shutterbug/">Shutterbug API</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../using-iframe-phone/">Using iFramePhone</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../safari-cookies-redirects/">Safari / IE, cookies and iframe redirects</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about-mkdocs/">About the documentation generator</a>
+                </li>
+              </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="./">LARA Interactive API</a>
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">LARA Interactive API</a>
+        
       </nav>
-
-      
       <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="./">Docs</a> &raquo;</li>
-    
-      
-    
-    <li>Implementing Interactive</li>
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Implementing Interactive</li>
     <li class="wy-breadcrumbs-aside">
-      
-        <a href="https://github.com/concord-consortium/lara-interactive-api/edit/master/docs/implementing-interactive.md"
-          class="icon icon-github"> Edit on Github</a>
-      
+          <a href="https://github.com/concord-consortium/lara-interactive-api/edit/master/docs/implementing-interactive.md" class="icon icon-github"> Edit on Github</a>
     </li>
   </ul>
   <hr/>
 </div>
-          <div role="main">
-            <div class="section">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
               
                 <h1 id="implementing-interactive">Implementing Interactive<a class="headerlink" href="#implementing-interactive" title="Permanent link"></a></h1>
 <p>LARA embeds interactives using iframe and provides LARA Interactive API. This API can be used e.g. to customize interactive,
@@ -152,7 +126,7 @@ happens through <a href="https://github.com/concord-consortium/iframe-phone">iFr
 readme to see how to include it in your project (npm, RequireJS or via script tag). Once <code>iframePhone</code> library is
 available, Interactive needs to setup communication:</p>
 <h2 id="iframe-phone-setup">iframe-phone setup<a class="headerlink" href="#iframe-phone-setup" title="Permanent link"></a></h2>
-<pre><code class="javascript">var phone = iframePhone.getIFrameEndpoint();
+<pre><code class="language-javascript">var phone = iframePhone.getIFrameEndpoint();
 phone.addListener('initInteractive', function (data) {
   // handle initInteractive call
 });
@@ -173,24 +147,22 @@ phone.post('supportedFeatures', {
   }
 });
 </code></pre>
-
 <h2 id="handling-the-initinteractive-message">Handling the <code>initInteractive</code> message<a class="headerlink" href="#handling-the-initinteractive-message" title="Permanent link"></a></h2>
 <p>This is one of the most important messages sent by LARA. It provides most of the information stored by LARA.
-It tells the interactive what is the current API version, mode (<code>runtime</code> or <code>authoring</code>), <code>authoredState</code>
+It tells the interactive what is the current API version, mode (<code>runtime</code>, <code>authoring</code> or <code>report</code>), <code>authoredState</code>
 (state defined by author), <code>interactiveState</code> (state based on student work) and so on. Interactive should
 add <code>initInteractive</code> handler that reads values stored in <code>data</code> Object / hash:</p>
-<pre><code class="javascript">phone.addListener('initInteractive', function (data) {
+<pre><code class="language-javascript">phone.addListener('initInteractive', function (data) {
   // process data object, e.g.:
   initializeMode(data.mode);
   loadAuthoredState(data.authoredState);
   loadStudentWork(data.interactiveState);
 });
 </code></pre>
-
 <h3 id="data-passed-to-initinteractive">Data passed to initInteractive<a class="headerlink" href="#data-passed-to-initinteractive" title="Permanent link"></a></h3>
 <ul>
 <li><strong>error</strong> - <code>null</code> if everything is okay, error message otherwise (e.g. data fetching might fail).</li>
-<li><strong>mode</strong> - <code>"authoring"</code> or <code>"runtime"</code>. Interactive can be displayed in one of those two modes, but it's up to interactive whether it supports authoring mode. Runtime is basic mode which is presented to students. Authoring mode can be used by authors to customize interactive.</li>
+<li><strong>mode</strong> - <code>"authoring"</code>, <code>"runtime"</code> or <code>"report"</code>. Interactive can be displayed in one of those three modes, but it's up to interactive whether it supports authoring mode. Runtime is basic mode which is presented to students. Authoring mode can be used by authors to customize interactive.  Report mode is used when embedding the interactive in a report.</li>
 <li><strong>authoredState [optional]</strong> - JSON that has been saved by interactive earlier in authoring mode using <code>authoredState</code> message (described below in other section). If it's not defined, it would be falsy value (null or empty string).</li>
 <li><strong>interactiveState [optional]</strong> - JSON that has been saved by interactive earlier in runtime mode using <code>interactiveState</code> message. More detail in <a href="#saving-student-progress">Saving Student Progress section</a>. Provided only in runtime mode. If it's not defined, it would be falsy value (null or empty string).</li>
 <li><strong>globalInteractiveState [optional]</strong> - JSON that has been saved by any interactive in the same activity earlier in runtime mode using <a href="#global-interactive-state">globalInteractiveState message</a>. Provided only in runtime mode. If it's not defined, it would be falsy value (null or empty string).</li>
@@ -198,10 +170,21 @@ add <code>initInteractive</code> handler that reads values stored in <code>data<
 <li><strong>linkedState [optional]</strong> - JSON that has been saved by the linked interactive. If no state has been saved this will be falsy.</li>
 <li><strong>interactiveStateUrl [optional]</strong> - Fully qualified URL to access the interactive state externally. See <a href="#accessing-interactive-state-with-http">Accessing Interactive State with HTTP</a> for more information.</li>
 <li><strong>collaboratorUrls [optional]</strong> - Fully qualified URL to access the interactive state of each collaborator working with the current student. These URLs can be used to save a copy of the work into each collaborator's interactive state.</li>
+<li><strong>classInfoUrl</strong> - URL to request more information about the class of the student that is running the interactive. When run as a student in the portal this URL is of form: <code>https://learn.staging.concord.org/api/v1/classes/[class_id]</code> it provides information about the teachers and students of the class. As well as a class_hash that can be used to store info about the class in a external system (like Firebase). The URL is protected by cookie based authentication. withCredentials should be used to access it. TODO: what happens when the activity is run without a class? For example when it is run anonymously.</li>
+<li><strong>interactive</strong> - The value of this is</li>
 </ul>
+<pre><code>   {id: [id of interactive in LARA], name: [name of interactive in LARA]}
+</code></pre>
+<ul>
+<li><strong>authInfo</strong> - The value of this is</li>
+</ul>
+<pre><code>   {provider: [domain of authentication provider],
+    loggedIn: [whether the current user is logged in],
+    email:    [email address for the current user]}
+</code></pre>
 <h2 id="interactive-customization">Interactive customization<a class="headerlink" href="#interactive-customization" title="Permanent link"></a></h2>
 <p>If interactive wants to support customization, it should inform LARA about it using <code>supportedFeatures</code> message:</p>
-<pre><code class="javascript">phone.post('supportedFeatures', {
+<pre><code class="language-javascript">phone.post('supportedFeatures', {
   apiVersion: 1,
   features: {
     authoredState: true
@@ -209,15 +192,13 @@ add <code>initInteractive</code> handler that reads values stored in <code>data<
   }
 });
 </code></pre>
-
 <p><code>initInteractive</code> message provides <code>mode</code> property. Interactive can display authoring interface when mode value is equal to <code>"authoring"</code>. Every customization made by author should be sent back to LARA using <code>authoredState</code> message:</p>
-<pre><code class="javascript">phone.post('authoredState', data);
+<pre><code class="language-javascript">phone.post('authoredState', data);
 </code></pre>
-
 <p>The authoredState data should be a JSON compatible object, that is the only requirement. Next time the interactive is loaded either in authoring or runtime mode, <code>initInteractive</code> will provide this state to the interactive in <code>authoredState</code> property. Note that it's recommended that <code>authoredState</code> should be sent to LARA immediately after every change. LARA provides its own "Save" button that would actually save this state to the DB and "Reset" which would set it back to null.</p>
 <h2 id="saving-student-progress">Saving student progress<a class="headerlink" href="#saving-student-progress" title="Permanent link"></a></h2>
 <p>If interactive wants to support student progress saving, it should inform LARA about it using <code>supportedFeatures</code> message:</p>
-<pre><code class="javascript">phone.post('supportedFeatures', {
+<pre><code class="language-javascript">phone.post('supportedFeatures', {
   apiVersion: 1,
   features: {
     interactiveState: true
@@ -225,14 +206,12 @@ add <code>initInteractive</code> handler that reads values stored in <code>data<
   }
 });
 </code></pre>
-
 <p>Currently, LARA is not paying attention to this interactiveState supportedFeature, but it will do so in the future.</p>
 <p>When this interactive is added to a LARA page the author needs to check the "save state" checkbox.</p>
 <p><code>initInteractive</code> provides <code>mode</code> property. <code>"runtime"</code> mode means that Interactive is viewed by student. Interactive
  can save student progress using <code>interactiveState</code> message:</p>
-<pre><code class="javascript">phone.post('interactiveState', data);
+<pre><code class="language-javascript">phone.post('interactiveState', data);
 </code></pre>
-
 <p>Normally the interactiveState data should be a JSON compatible object, that is the only requirement. Next time the interactive is loaded in runtime mode, <code>initInteractive</code> will provide this state to the interactive in <code>interactiveState</code> property.</p>
 <p>LARA will send the interactive a <code>getInteractiveState</code> periodically:</p>
 <ul>
@@ -242,51 +221,55 @@ add <code>initInteractive</code> handler that reads values stored in <code>data<
 <li>when the student tries to leave the page containing the interactive</li>
 </ul>
 <p>The interactive should add a listener for <code>getInteractiveState</code>. To be safe, remember to add the listener before calling <code>phone.initialize();</code>. Here is an example listener:</p>
-<pre><code class="javascript">phone.addListener('getInteractiveState', function () {
+<pre><code class="language-javascript">phone.addListener('getInteractiveState', function () {
   phone.post('interactiveState', interactiveState);
 });
 </code></pre>
-
 <p><strong>IMPORTANT</strong> When the student tries to leave the page with the interactive, the interactive needs to respond with an <code>interactiveState</code> message. LARA will not changes pages until it receives this message.</p>
 <p>There is a special value <code>"nochange"</code>, that can be sent as the interactiveState data. This tells LARA the interactiveState has not changed since the last time. This is useful when responding to getInteractiveState</p>
+<h2 id="interactive-aspectratio">Interactive aspectRatio<a class="headerlink" href="#interactive-aspectratio" title="Permanent link"></a></h2>
+<p>If interactive wants to tell LARA what aspect ratio use, it should inform LARA about it using <code>supportedFeatures</code> message:</p>
+<pre><code class="language-javascript">phone.post('supportedFeatures', {
+  apiVersion: 1,
+  features: {
+    aspectRatio: 1.67
+    // + other supported features
+  }
+});
+</code></pre>
+<p>The LARA author needs to select "Default aspect ratio, or set by interactive" in the interactive authoring dialog box, otherwise this setting will be ignored. More info about the interactive sizing can be found in the <a href="https://docs.google.com/document/d/1d-06qDtpxi-l9eOc1wfYGZzY93Pww32IfZxBJaBXlWM/edit#heading=h.gh1cimnir3mk">LARA Authoring User Manual</a>.</p>
 <h2 id="custom-learner-url">Custom learner URL<a class="headerlink" href="#custom-learner-url" title="Permanent link"></a></h2>
 <p><strong>DEPRECATED</strong> This feature is related to student progress saving. Interactive can provide versioned URL to make sure that the given data format is always supported. Otherwise the interactive might be updated and not be able to open the old state format.</p>
 <p>This is deprecated because it causes more problems than it is worth. We have wanted to remove support for old versions of interactives, and we've had to remember to go through all of the interactive states and these learner urls.  Also the concept of saving a URL that works in this maner is confusing. Sometimes the interactive is loaded with the authored URL sometimes it is loaded with the saved URL. So a set of students or testers might see different versions of what seems like it should be the same interactive. Instead of using this approach to handle old state, the interactive should handle migrating its own old state. If migrating its own state isn't practical then please work with the LARA developers to do a batch migration on the server.</p>
-<pre><code class="javascript">phone.post('setLearnerUrl', 'https://my.example.interactive/version/1');
+<pre><code class="language-javascript">phone.post('setLearnerUrl', 'https://my.example.interactive/version/1');
 </code></pre>
-
 <h2 id="global-interactive-state">Global interactive state<a class="headerlink" href="#global-interactive-state" title="Permanent link"></a></h2>
 <p>A few interactives can share one global state within a single LARA activity. E.g. you can let students work on the same model on different pages of the activity. Interactive can set global state using <code>interactiveStateGlobal</code> message:</p>
-<pre><code class="javascript">phone.post('interactiveStateGlobal', globalState);
+<pre><code class="language-javascript">phone.post('interactiveStateGlobal', globalState);
 </code></pre>
-
 <p>Once this message is received, the server immediately posts <code>loadInteractiveGlobal</code> to all interactives on the same page (except from the sender of the original save message). So, interactives can listen to this message:</p>
-<pre><code class="javascript">phone.addListener('loadInteraciveGlobal', function (globalState) {
+<pre><code class="language-javascript">phone.addListener('loadInteraciveGlobal', function (globalState) {
   // Process global state, e.g.:
   loadState(globalState);
 });
 </code></pre>
-
 <p>If one of the interactives has sent <code>interactiveStateGlobal</code> message before another interactive is initialized then the global state will be provided in the <code>initInteractive</code> message.</p>
 <p><strong>NOTE</strong> Another way to communicate between two interactives is with
 <a href="#linked-interactives">Linked Interactives</a>.</p>
 <h2 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link"></a></h2>
 <p>This message proxies communication from the interactive → LARA → Logging server. There is only one way communication between the interactive and LARA. The interactive is expected to post following messages using iframe phone:</p>
-<pre><code class="javascript">phone.post('log', {action: 'actionName', data: {someValue: 1, otherValue: 2}});
+<pre><code class="language-javascript">phone.post('log', {action: 'actionName', data: {someValue: 1, otherValue: 2}});
 </code></pre>
-
 <p>LARA listens to these events only when logging is enabled (they will be ignored otherwise). When a <code>log</code> message is received, LARA issues a POST request to the Logging server. LARA uses provided action name and data, but also adds additional information to the event (context that might useful for researchers, e.g. user name, activity name, url, session ID, etc.).</p>
 <h2 id="auth-info">Auth info<a class="headerlink" href="#auth-info" title="Permanent link"></a></h2>
 <p>Interactive can ask LARA about the current users authentication information using <code>getAuthInfo</code> message. It has no payload data:</p>
-<pre><code class="javascript">phone.post('getAuthInfo');
+<pre><code class="language-javascript">phone.post('getAuthInfo');
 </code></pre>
-
 <p>LARA responds using <code>authInfo</code> message:</p>
-<pre><code class="javascript">phone.addListener('authInfo', function (info) {
+<pre><code class="language-javascript">phone.addListener('authInfo', function (info) {
   // ...
-});  
+});
 </code></pre>
-
 <p>The payload is the object <code>{provider: &lt;string&gt;, loggedIn: &lt;boolean&gt;, email: &lt;string&gt;}</code> where <code>provider</code> and <code>loggedIn</code> are always set and <code>email</code> is only set if the user has an email address.</p>
 <h2 id="getextendedsupport">getExtendedSupport<a class="headerlink" href="#getextendedsupport" title="Permanent link"></a></h2>
 <p>This is a message sent by LARA to the interactive. The interactive can respond with a <code>extendedSupport</code> message. The data of the <code>extendedSupport</code> only supports one property <code>reset</code>. The value of reset should be boolean. If the interactive sends <code>reset: true</code> then LARA will show a button below the interactive for clearing the interactive state and reloading the interactive.  If <code>reset: false</code> then LARA will not show this button. By default LARA will show this button.</p>
@@ -321,27 +304,20 @@ message.</p>
 <p>TODO</p>
               
             </div>
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href=".." class="btn btn-neutral float-right" title="LARA Interactive API">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
-      
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <!-- Copyright etc -->
-    
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
-      
+          
         </div>
       </div>
 
@@ -349,19 +325,24 @@ message.</p>
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-      
-        <span style="margin-left: 15px"><a href=".." style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href=".." style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
-    <script src="../js/theme.js"></script>
-      <script src="../search/require.js"></script>
-      <script src="../search/search.js"></script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>
